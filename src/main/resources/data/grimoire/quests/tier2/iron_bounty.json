@@ -1,9 +1,9 @@
 {
   "title": "Iron Will",
   "lore": "The smiths of the lowlands hunger for honest iron. Prove your diligence.",
-  "tier": 1,
+  "tier": 2,
   "required_item": "minecraft:iron_ingot",
   "required_count": 10,
   "reward_item": "minecraft:diamond",
-  "reward_count": 1
+  "reward_count": 3
 }

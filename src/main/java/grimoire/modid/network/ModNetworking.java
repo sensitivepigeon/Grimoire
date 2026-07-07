@@ -66,6 +66,11 @@ public class ModNetworking {
                     player.sendMessage(Text.literal("You have already accepted this bounty."), false);
                     return;
                 }
+                if (progress.getActiveCount() >= BountyBoard.MAX_ACTIVE_BOUNTIES) {
+                    player.sendMessage(Text.literal("The Grimoire refuses — you carry too many unfulfilled oaths. ("
+                            + BountyBoard.MAX_ACTIVE_BOUNTIES + " max)"), false);
+                    return;
+                }
                 if (!progress.isOffered(questId)) {
                     player.sendMessage(Text.literal("The Grimoire does not currently offer this bounty."), false);
                     return;

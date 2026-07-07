@@ -1,0 +1,9 @@
+{
+  "title": "Tribute of the Drowned",
+  "lore": "Something beneath the waves trades in warm-blooded currency. And he's hungry.",
+  "tier": 4,
+  "required_item": "minecraft:golden_apple",
+  "required_count": 8,
+  "reward_item": "minecraft:heart_of_the_sea",
+  "reward_count": 1
+}

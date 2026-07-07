@@ -1,0 +1,9 @@
+{
+  "title": "Back in Black",
+  "lore": "A shepherd is selling off wool too dark for curtains.",
+  "tier": 1,
+  "required_item": "minecraft:emerald",
+  "required_count": 10,
+  "reward_item": "minecraft:black_wool",
+  "reward_count": 5
+}

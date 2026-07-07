@@ -1,6 +1,9 @@
 {
   "tiers": [
-    { "tier": 1, "name": "Novice", "offers_per_rotation": 3, "completions_to_unlock_next": 5 },
-    { "tier": 2, "name": "Apprentice", "offers_per_rotation": 3, "completions_to_unlock_next": 8 }
+    { "tier": 1, "name": "Stranger",     "offers_per_rotation": 3, "completions_to_unlock_next": 5 },
+    { "tier": 2, "name": "Explorer", "offers_per_rotation": 3, "completions_to_unlock_next": 8 },
+    { "tier": 3, "name": "Adventurer", "offers_per_rotation": 3, "completions_to_unlock_next": 12 },
+    { "tier": 4, "name": "Dungeoneer",      "offers_per_rotation": 3, "completions_to_unlock_next": 16 },
+    { "tier": 5, "name": "Hero of the Realm", "offers_per_rotation": 2, "completions_to_unlock_next": 0 }
   ]
 }

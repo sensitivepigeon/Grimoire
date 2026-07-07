@@ -1,0 +1,9 @@
+{
+  "title": "Diamonds for Sale",
+  "lore": "A local village has a diamond vein and is selling off stock.",
+  "tier": 3,
+  "required_item": "minecraft:emerald",
+  "required_count": 20,
+  "reward_item": "minecraft:diamond",
+  "reward_count": 8
+}

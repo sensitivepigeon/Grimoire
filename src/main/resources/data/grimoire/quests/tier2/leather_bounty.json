@@ -1,0 +1,9 @@
+{
+  "title": "Hide Your Hide",
+  "lore": "A leatherworker is paying well for more supplies.",
+  "tier": 2,
+  "required_item": "minecraft:leather",
+  "required_count": 10,
+  "reward_item": "minecraft:iron_ingot",
+  "reward_count": 20
+}

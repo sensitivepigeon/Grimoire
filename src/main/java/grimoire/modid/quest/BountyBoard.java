@@ -12,6 +12,8 @@ import java.util.Random;
 
 public class BountyBoard {
 
+    public static final int MAX_ACTIVE_BOUNTIES = 3;
+
     public static long currentDay(ServerPlayerEntity player) {
         return player.getWorld().getTimeOfDay() / 24000L;
     }

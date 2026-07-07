@@ -1,9 +1,8 @@
 {
   "title": "Rebuild It",
   "lore": "A village needs rebuilding. Provide materials.",
-  "tier": 2,
+  "tier": 1,
   "required_item": "minecraft:stone",
   "required_count": 10,
   "reward_item": "minecraft:rabbit_hide",
-  "reward_count": 3
-}
+  "reward_count": 5

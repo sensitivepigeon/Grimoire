@@ -1,7 +1,7 @@
 {
   "title": "A Needy Scribe",
   "lore": "A scribe needs ink.",
-  "tier": 2,
+  "tier": 1,
   "required_item": "minecraft:ink_sac",
   "required_count": 10,
   "reward_item": "minecraft:emerald",

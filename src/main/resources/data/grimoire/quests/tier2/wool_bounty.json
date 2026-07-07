@@ -1,9 +1,9 @@
 {
   "title": "Gathering Wool",
   "lore": "The villagers grow cold, and need wool for their coats.",
-  "tier": 1,
+  "tier": 2,
   "required_item": "minecraft:white_wool",
   "required_count": 10,
   "reward_item": "minecraft:diamond",
-  "reward_count": 1
+  "reward_count": 3
 }

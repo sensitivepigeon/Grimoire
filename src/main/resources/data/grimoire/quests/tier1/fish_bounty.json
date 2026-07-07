@@ -1,0 +1,9 @@
+{
+  "title": "Gone Fishin'",
+  "lore": "Go fishing. The local chef will pay you well.",
+  "tier": 1,
+  "required_item": "minecraft:raw_cod",
+  "required_count": 6,
+  "reward_item": "minecraft:emerald",
+  "reward_count": 15
+}

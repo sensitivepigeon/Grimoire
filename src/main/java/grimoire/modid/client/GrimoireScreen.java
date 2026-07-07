@@ -128,6 +128,9 @@ public class GrimoireScreen extends Screen {
         boolean done = progress.hasCompleted(id);
         boolean active = progress.isActive(id);
 
+        boolean atCap = !active && !done
+                && progress.getActiveCount() >= 3;
+
         String label;
         if (done) {
             label = "Fulfilled";
@@ -144,7 +147,7 @@ public class GrimoireScreen extends Screen {
             ClientPlayNetworking.send(active ? ModNetworking.TURN_IN_QUEST : ModNetworking.ACCEPT_QUEST, buf);
         }).dimensions(bookLeft + 30, entryTop + 38, 110, 18).build();
 
-        button.active = !done;
+        button.active = !done && !atCap;
         this.addDrawableChild(button);
     }
 
@@ -188,6 +191,10 @@ public class GrimoireScreen extends Screen {
         context.drawCenteredTextWithShadow(this.textRenderer,
                 Text.literal("— " + tierName + " —"),
                 bookLeft + BOOK_WIDTH / 2, bookTop + 10, 0xE0C468);
+
+        context.drawCenteredTextWithShadow(this.textRenderer,
+                Text.literal("Oaths sworn: " + progress.getActiveCount() + "/3"),
+                bookLeft + BOOK_WIDTH / 2, bookTop + BOOK_HEIGHT - 42, 0x9A9186);
 
         if (page.locked()) {
             TierConfig prev = ClientQuestCache.TIERS.get(page.tier() - 1);

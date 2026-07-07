@@ -1,0 +1,9 @@
+{
+  "title": "Ships Passing in the Void",
+  "lore": "A bankrupt Nethership is making a quick deal on clearance. Want in?",
+  "tier": 5,
+  "required_item": "minecraft:netherite_ingot",
+  "required_count": 10,
+  "reward_item": "minecraft:nether_star",
+  "reward_count": 1
+}
