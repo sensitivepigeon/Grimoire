@@ -1,8 +1,10 @@
 package grimoire.modid;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 
 import net.minecraft.util.Identifier;
+import net.minecraft.resource.ResourceType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ public class Grimoire implements ModInitializer {
 	public void onInitialize() {
 		ModItems.register();
 		ModNetworking.registerServerReceivers();
+		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new QuestManager());
 	}
 
 	public static Identifier id(String path) {

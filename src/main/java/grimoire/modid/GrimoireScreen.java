@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 
 public class GrimoireScreen extends Screen {
@@ -15,10 +16,12 @@ public class GrimoireScreen extends Screen {
 
     @Override
     protected void init() {
-        // Turn In button for our hardcoded iron quest
+        // Turn In button for our JSON-loaded iron quest
         this.addDrawableChild(
                 ButtonWidget.builder(Text.literal("Turn In: 10 Iron → 1 Diamond"), button -> {
-                            ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, PacketByteBufs.create());
+                            PacketByteBuf buf = PacketByteBufs.create();
+                            buf.writeString("iron_bounty");
+                            ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
                         })
                         .dimensions(this.width / 2 - 75, 90, 150, 20)
                         .build()

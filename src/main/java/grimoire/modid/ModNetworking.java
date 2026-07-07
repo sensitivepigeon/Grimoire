@@ -12,31 +12,38 @@ public class ModNetworking {
 
     public static void registerServerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(TURN_IN_QUEST, (server, player, handler, buf, responseSender) -> {
+            String questId = buf.readString();
+
             server.execute(() -> {
+                Quest quest = QuestManager.QUESTS.get(questId);
+                if (quest == null) {
+                    player.sendMessage(Text.literal("The Grimoire does not recognize this bounty."), false);
+                    return;
+                }
 
                 QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
 
-                if (progress.hasCompleted("iron_bounty")) {
+                if (progress.hasCompleted(questId)) {
                     player.sendMessage(Text.literal("The Grimoire's pages are dim. This bounty is already fulfilled."), false);
                     return;
                 }
 
-                int ironCount = player.getInventory().count(Items.IRON_INGOT);
+                int count = player.getInventory().count(quest.requiredItem());
 
-                if (ironCount >= 10) {
+                if (count >= quest.requiredCount()) {
                     player.getInventory().remove(
-                            stack -> stack.isOf(Items.IRON_INGOT),
-                            10,
+                            stack -> stack.isOf(quest.requiredItem()),
+                            quest.requiredCount(),
                             player.playerScreenHandler.getCraftingInput()
                     );
 
-                    player.giveItemStack(new ItemStack(Items.DIAMOND, 1));
-                    progress.markCompleted("iron_bounty");
+                    player.giveItemStack(new ItemStack(quest.rewardItem(), quest.rewardCount()));
+                    progress.markCompleted(questId);
                     ModComponents.QUEST_PROGRESS.sync(player);
 
-                    player.sendMessage(Text.literal("Bounty complete! The Grimoire rewards you."), false);
+                    player.sendMessage(Text.literal("Bounty complete: " + quest.title()), false);
                 } else {
-                    player.sendMessage(Text.literal("The Grimoire senses you lack the required iron... (" + ironCount + "/10)"), false);
+                    player.sendMessage(Text.literal("You lack the required items... (" + count + "/" + quest.requiredCount() + ")"), false);
                 }
             });
         });
