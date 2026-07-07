@@ -61,6 +61,7 @@ public class ModNetworking {
 
                     player.giveItemStack(new ItemStack(quest.rewardItem(), quest.rewardCount()));
                     progress.markCompleted(questId);
+                    progress.incrementCompletions(quest.tier());
                     ModComponents.QUEST_PROGRESS.sync(player);
 
                     player.sendMessage(Text.literal("Bounty complete: " + quest.title()), false);
