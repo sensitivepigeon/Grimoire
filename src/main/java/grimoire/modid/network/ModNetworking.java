@@ -6,6 +6,7 @@ import grimoire.modid.data.QuestProgressComponent;
 import grimoire.modid.quest.BountyBoard;
 import grimoire.modid.quest.Quest;
 import grimoire.modid.quest.QuestManager;
+import grimoire.modid.quest.TierConfig;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemStack;
@@ -32,6 +33,14 @@ public class ModNetworking {
             buf.writeInt(quest.requiredCount());
             buf.writeString(Registries.ITEM.getId(quest.rewardItem()).toString());
             buf.writeInt(quest.rewardCount());
+        }
+
+        buf.writeInt(QuestManager.TIERS.size());
+        for (TierConfig tier : QuestManager.TIERS.values()) {
+            buf.writeInt(tier.tier());
+            buf.writeString(tier.name());
+            buf.writeInt(tier.offersPerRotation());
+            buf.writeInt(tier.completionsToUnlockNext());
         }
 
         ServerPlayNetworking.send(player, SYNC_QUESTS, buf);
