@@ -17,6 +17,9 @@
 	"entrypoints": {
 		"main": [
 			"grimoire.modid.Grimoire"
+		],
+		"client": [
+			"grimoire.modid.GrimoireModClient"
 		]
 	},
 	"mixins": [
