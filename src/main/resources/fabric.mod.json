@@ -3,9 +3,9 @@
 	"id": "grimoire",
 	"version": "${version}",
 	"name": "Grimoire",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "Adds bounties via a tome ui for harder to get resources.",
 	"authors": [
-		"Me!"
+		"Pigeon"
 	],
 	"contact": {
 		"homepage": "https://fabricmc.net/",
@@ -20,6 +20,14 @@
 		],
 		"client": [
 			"grimoire.modid.GrimoireModClient"
+		],
+		"cardinal-components": [
+			"grimoire.modid.ModComponents"
+		]
+	},
+	"custom": {
+		"cardinal-components": [
+			"grimoire:quest_progress"
 		]
 	},
 	"mixins": [

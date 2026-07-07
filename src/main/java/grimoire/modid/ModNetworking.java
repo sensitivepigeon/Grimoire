@@ -14,6 +14,13 @@ public class ModNetworking {
         ServerPlayNetworking.registerGlobalReceiver(TURN_IN_QUEST, (server, player, handler, buf, responseSender) -> {
             server.execute(() -> {
 
+                QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
+
+                if (progress.hasCompleted("iron_bounty")) {
+                    player.sendMessage(Text.literal("The Grimoire's pages are dim. This bounty is already fulfilled."), false);
+                    return;
+                }
+
                 int ironCount = player.getInventory().count(Items.IRON_INGOT);
 
                 if (ironCount >= 10) {
@@ -24,6 +31,8 @@ public class ModNetworking {
                     );
 
                     player.giveItemStack(new ItemStack(Items.DIAMOND, 1));
+                    progress.markCompleted("iron_bounty");
+                    ModComponents.QUEST_PROGRESS.sync(player);
 
                     player.sendMessage(Text.literal("Bounty complete! The Grimoire rewards you."), false);
                 } else {
