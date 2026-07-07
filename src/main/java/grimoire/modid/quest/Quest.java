@@ -1,4 +1,4 @@
-package grimoire.modid;
+package grimoire.modid.quest;
 
 import net.minecraft.item.Item;
 

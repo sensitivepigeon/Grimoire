@@ -1,5 +1,7 @@
-package grimoire.modid;
+package grimoire.modid.client;
 
+import grimoire.modid.network.ModNetworking;
+import grimoire.modid.quest.Quest;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;

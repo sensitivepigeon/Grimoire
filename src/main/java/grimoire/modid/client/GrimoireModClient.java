@@ -1,4 +1,4 @@
-package grimoire.modid;
+package grimoire.modid.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;

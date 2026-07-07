@@ -1,4 +1,4 @@
-package grimoire.modid;
+package grimoire.modid.data;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentV3;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -98,6 +98,20 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
 
     public void markManualReroll(long currentDay) {
         manualRerollDay = currentDay;
+    }
+
+    // ---- State Changes ----
+
+    public int getActiveCount() {
+        return activeQuests.size();
+    }
+
+    public int getOfferedTotal() {
+        int total = 0;
+        for (List<String> list : offeredQuests.values()) {
+            total += list.size();
+        }
+        return total;
     }
 
     // ---- NBT ----

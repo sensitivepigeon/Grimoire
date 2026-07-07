@@ -19,10 +19,10 @@
 			"grimoire.modid.Grimoire"
 		],
 		"client": [
-			"grimoire.modid.GrimoireModClient"
+			"grimoire.modid.client.GrimoireModClient"
 		],
 		"cardinal-components": [
-			"grimoire.modid.ModComponents"
+			"grimoire.modid.data.ModComponents"
 		]
 	},
 	"custom": {

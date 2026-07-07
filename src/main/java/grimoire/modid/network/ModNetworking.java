@@ -1,9 +1,14 @@
-package grimoire.modid;
+package grimoire.modid.network;
 
+import grimoire.modid.Grimoire;
+import grimoire.modid.data.ModComponents;
+import grimoire.modid.data.QuestProgressComponent;
+import grimoire.modid.quest.BountyBoard;
+import grimoire.modid.quest.Quest;
+import grimoire.modid.quest.QuestManager;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -12,6 +17,8 @@ import net.minecraft.util.Identifier;
 
 public class ModNetworking {
     public static final Identifier SYNC_QUESTS = new Identifier(Grimoire.MOD_ID, "sync_quests");
+    public static final Identifier ACCEPT_QUEST = new Identifier(Grimoire.MOD_ID, "accept_quest");
+    public static final Identifier REROLL = new Identifier(Grimoire.MOD_ID, "reroll");
     public static void syncQuestsTo(ServerPlayerEntity player) {
         PacketByteBuf buf = PacketByteBufs.create();
 
@@ -33,6 +40,38 @@ public class ModNetworking {
     public static final Identifier TURN_IN_QUEST = new Identifier(Grimoire.MOD_ID, "turn_in_quest");
 
     public static void registerServerReceivers() {
+        ServerPlayNetworking.registerGlobalReceiver(ACCEPT_QUEST, (server, player, handler, buf, responseSender) -> {
+            String questId = buf.readString();
+
+            server.execute(() -> {
+                Quest quest = QuestManager.QUESTS.get(questId);
+                if (quest == null) return;
+
+                QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
+
+                if (progress.hasCompleted(questId)) {
+                    player.sendMessage(Text.literal("That bargain is already struck today."), false);
+                    return;
+                }
+                if (progress.isActive(questId)) {
+                    player.sendMessage(Text.literal("You have already accepted this bounty."), false);
+                    return;
+                }
+                if (!progress.isOffered(questId)) {
+                    player.sendMessage(Text.literal("The Grimoire does not currently offer this bounty."), false);
+                    return;
+                }
+
+                progress.accept(questId);
+                ModComponents.QUEST_PROGRESS.sync(player);
+                player.sendMessage(Text.literal("Bounty accepted: " + quest.title()), false);
+            });
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(REROLL, (server, player, handler, buf, responseSender) -> {
+            server.execute(() -> BountyBoard.manualReroll(player));
+        });
+
         ServerPlayNetworking.registerGlobalReceiver(TURN_IN_QUEST, (server, player, handler, buf, responseSender) -> {
             String questId = buf.readString();
 
@@ -50,6 +89,11 @@ public class ModNetworking {
                     return;
                 }
 
+                if (!progress.isActive(questId)) {
+                    player.sendMessage(Text.literal("You must accept this bounty before fulfilling it."), false);
+                    return;
+                }
+
                 int count = player.getInventory().count(quest.requiredItem());
 
                 if (count >= quest.requiredCount()) {
@@ -60,6 +104,7 @@ public class ModNetworking {
                     );
 
                     player.giveItemStack(new ItemStack(quest.rewardItem(), quest.rewardCount()));
+                    progress.removeActive(questId);
                     progress.markCompleted(questId);
                     progress.incrementCompletions(quest.tier());
                     ModComponents.QUEST_PROGRESS.sync(player);

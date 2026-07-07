@@ -1,5 +1,9 @@
-package grimoire.modid;
+package grimoire.modid.client;
 
+import grimoire.modid.data.ModComponents;
+import grimoire.modid.data.QuestProgressComponent;
+import grimoire.modid.network.ModNetworking;
+import grimoire.modid.quest.Quest;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.DrawContext;
@@ -20,54 +24,64 @@ public class GrimoireScreen extends Screen {
     public GrimoireScreen() {
         super(Text.literal("Grimoire"));
     }
+    private int stateSnapshot;
 
     @Override
     protected void init() {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(this.client.player);
-        this.completedAtInit = progress.getCompletedCount();
+        this.stateSnapshot = snapshot(progress);
 
-        int questCount = ClientQuestCache.QUESTS.size();
-        this.panelHeight = 60 + questCount * 24 + 40;
-        this.panelLeft = (this.width - PANEL_WIDTH) / 2;
-        this.panelTop = (this.height - panelHeight) / 2;
-
-        int y = panelTop + 40;
+        int y = 40;
 
         for (Quest quest : ClientQuestCache.QUESTS) {
-            boolean done = progress.hasCompleted(quest.id());
+            String id = quest.id();
+            boolean done = progress.hasCompleted(id);
+            boolean active = progress.isActive(id);
+            boolean offered = progress.isOffered(id);
 
-            String label = (done ? "✔ " : "") + quest.title() + ": "
-                    + quest.requiredCount() + " " + quest.requiredItem().getName().getString()
-                    + " → "
-                    + quest.rewardCount() + " " + quest.rewardItem().getName().getString();
+            if (!done && !active && !offered) continue;
 
-            final String questId = quest.id();
+            String prefix = done ? "✔ " : (active ? "Turn In: " : "Accept: ");
+            String label = prefix + quest.title() + " (" + quest.requiredCount() + " "
+                    + quest.requiredItem().getName().getString() + ")";
 
             ButtonWidget button = ButtonWidget.builder(Text.literal(label), b -> {
                         PacketByteBuf buf = PacketByteBufs.create();
-                        buf.writeString(questId);
-                        ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
+                        buf.writeString(id);
+                        ClientPlayNetworking.send(active ? ModNetworking.TURN_IN_QUEST : ModNetworking.ACCEPT_QUEST, buf);
                     })
-                    .dimensions(panelLeft + 10, y, PANEL_WIDTH - 20, 20)
+                    .dimensions(this.width / 2 - 150, y, 300, 20)
                     .build();
 
             button.active = !done;
-
             this.addDrawableChild(button);
             y += 24;
         }
 
         this.addDrawableChild(
-                ButtonWidget.builder(Text.literal("Close"), b -> this.close())
-                        .dimensions(this.width / 2 - 50, panelTop + panelHeight - 30, 100, 20)
+                ButtonWidget.builder(Text.literal("Reroll"), b ->
+                                ClientPlayNetworking.send(ModNetworking.REROLL, PacketByteBufs.create()))
+                        .dimensions(this.width / 2 - 105, this.height - 40, 100, 20)
                         .build()
         );
+
+        this.addDrawableChild(
+                ButtonWidget.builder(Text.literal("Close"), b -> this.close())
+                        .dimensions(this.width / 2 + 5, this.height - 40, 100, 20)
+                        .build()
+        );
+    }
+
+    private int snapshot(QuestProgressComponent progress) {
+        return progress.getCompletedCount() * 10000
+                + progress.getActiveCount() * 100
+                + progress.getOfferedTotal();
     }
 
     @Override
     public void tick() {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(this.client.player);
-        if (progress.getCompletedCount() != this.completedAtInit) {
+        if (snapshot(progress) != this.stateSnapshot) {
             this.clearAndInit();
         }
     }

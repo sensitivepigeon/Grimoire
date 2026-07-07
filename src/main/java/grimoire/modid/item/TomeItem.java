@@ -1,8 +1,11 @@
-package grimoire.modid;
+package grimoire.modid.item;
 
+import grimoire.modid.quest.BountyBoard;
+import grimoire.modid.client.GrimoireModClient;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -19,6 +22,8 @@ public class TomeItem extends Item {
 
         if (world.isClient) {
             GrimoireModClient.openGrimoireScreen();
+        } else {
+            BountyBoard.ensureFreshRotation((ServerPlayerEntity) user);
         }
 
         return TypedActionResult.success(stack, world.isClient);
