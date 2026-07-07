@@ -1,12 +1,32 @@
 package grimoire.modid;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 public class ModNetworking {
+    public static final Identifier SYNC_QUESTS = new Identifier(Grimoire.MOD_ID, "sync_quests");
+    public static void syncQuestsTo(ServerPlayerEntity player) {
+        PacketByteBuf buf = PacketByteBufs.create();
+
+        buf.writeInt(QuestManager.QUESTS.size());
+        for (Quest quest : QuestManager.QUESTS.values()) {
+            buf.writeString(quest.id());
+            buf.writeString(quest.title());
+            buf.writeString(Registries.ITEM.getId(quest.requiredItem()).toString());
+            buf.writeInt(quest.requiredCount());
+            buf.writeString(Registries.ITEM.getId(quest.rewardItem()).toString());
+            buf.writeInt(quest.rewardCount());
+        }
+
+        ServerPlayNetworking.send(player, SYNC_QUESTS, buf);
+    }
 
     public static final Identifier TURN_IN_QUEST = new Identifier(Grimoire.MOD_ID, "turn_in_quest");
 

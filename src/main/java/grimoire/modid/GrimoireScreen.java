@@ -16,18 +16,29 @@ public class GrimoireScreen extends Screen {
 
     @Override
     protected void init() {
-        // Turn In button for our JSON-loaded iron quest
-        this.addDrawableChild(
-                ButtonWidget.builder(Text.literal("Turn In: 10 Iron → 1 Diamond"), button -> {
-                            PacketByteBuf buf = PacketByteBufs.create();
-                            buf.writeString("iron_bounty");
-                            ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
-                        })
-                        .dimensions(this.width / 2 - 75, 90, 150, 20)
-                        .build()
-        );
+        int y = 40;
 
-        // Close button
+        for (Quest quest : ClientQuestCache.QUESTS) {
+            String label = quest.title() + ": "
+                    + quest.requiredCount() + " " + quest.requiredItem().getName().getString()
+                    + " → "
+                    + quest.rewardCount() + " " + quest.rewardItem().getName().getString();
+
+            final String questId = quest.id();
+
+            this.addDrawableChild(
+                    ButtonWidget.builder(Text.literal(label), button -> {
+                                PacketByteBuf buf = PacketByteBufs.create();
+                                buf.writeString(questId);
+                                ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
+                            })
+                            .dimensions(this.width / 2 - 150, y, 300, 20)
+                            .build()
+            );
+
+            y += 24;
+        }
+
         this.addDrawableChild(
                 ButtonWidget.builder(Text.literal("Close"), button -> this.close())
                         .dimensions(this.width / 2 - 50, this.height - 40, 100, 20)

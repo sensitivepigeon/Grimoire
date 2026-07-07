@@ -1,6 +1,7 @@
 package grimoire.modid;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 
 import net.minecraft.util.Identifier;
@@ -22,6 +23,9 @@ public class Grimoire implements ModInitializer {
 		ModItems.register();
 		ModNetworking.registerServerReceivers();
 		ResourceManagerHelper.get(ResourceType.SERVER_DATA).registerReloadListener(new QuestManager());
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+				ModNetworking.syncQuestsTo(handler.player)
+		);
 	}
 
 	public static Identifier id(String path) {
