@@ -18,6 +18,7 @@ public class Grimoire implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ModItems.register();
+		ModNetworking.registerServerReceivers();
 	}
 
 	public static Identifier id(String path) {
