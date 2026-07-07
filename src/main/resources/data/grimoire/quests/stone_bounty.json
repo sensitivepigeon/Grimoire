@@ -1,7 +1,9 @@
 {
-  "title": "Apprentice's Errand Two",
+  "title": "Apprentice's Errand",
+  "lore": "A village needs rebuilding. Provide materials.",
+  "tier": 2,
   "required_item": "minecraft:stone",
-  "required_count": 3,
-  "reward_item": "minecraft:netherite_ingot",
-  "reward_count": 1
+  "required_count": 10,
+  "reward_item": "minecraft:rabbit_hide",
+  "reward_count": 3
 }

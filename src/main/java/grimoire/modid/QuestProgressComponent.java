@@ -20,6 +20,10 @@ public class QuestProgressComponent implements ComponentV3 {
         completedQuests.add(questId);
     }
 
+    public int getCompletedCount() {
+        return completedQuests.size();
+    }
+
     @Override
     public void readFromNbt(NbtCompound tag) {
         completedQuests.clear();

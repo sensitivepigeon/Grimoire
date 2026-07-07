@@ -19,6 +19,8 @@ public class ModNetworking {
         for (Quest quest : QuestManager.QUESTS.values()) {
             buf.writeString(quest.id());
             buf.writeString(quest.title());
+            buf.writeString(quest.lore());
+            buf.writeInt(quest.tier());
             buf.writeString(Registries.ITEM.getId(quest.requiredItem()).toString());
             buf.writeInt(quest.requiredCount());
             buf.writeString(Registries.ITEM.getId(quest.rewardItem()).toString());

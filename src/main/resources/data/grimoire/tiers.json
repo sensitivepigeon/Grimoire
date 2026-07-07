@@ -1,0 +1,6 @@
+{
+  "tiers": [
+    { "tier": 1, "name": "Novice", "offers_per_rotation": 3, "completions_to_unlock_next": 5 },
+    { "tier": 2, "name": "Apprentice", "offers_per_rotation": 3, "completions_to_unlock_next": 8 }
+  ]
+}

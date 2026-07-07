@@ -21,11 +21,13 @@ public class ClientQuestCache {
             for (int i = 0; i < count; i++) {
                 String id = buf.readString();
                 String title = buf.readString();
+                String lore = buf.readString();
+                int tier = buf.readInt();
                 Item requiredItem = Registries.ITEM.get(new Identifier(buf.readString()));
                 int requiredCount = buf.readInt();
                 Item rewardItem = Registries.ITEM.get(new Identifier(buf.readString()));
                 int rewardCount = buf.readInt();
-                received.add(new Quest(id, title, requiredItem, requiredCount, rewardItem, rewardCount));
+                received.add(new Quest(id, title, lore, tier, requiredItem, requiredCount, rewardItem, rewardCount));
             }
 
             client.execute(() -> {
