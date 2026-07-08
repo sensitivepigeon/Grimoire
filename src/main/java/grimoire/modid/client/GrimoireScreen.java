@@ -42,7 +42,7 @@ public class GrimoireScreen extends Screen {
     }
 
     public GrimoireScreen() {
-        super(Text.literal("Grimoire"));
+        super(Text.literal("Grimoire of Bargains"));
     }
 
     private int oathCardY(int index) {
@@ -202,9 +202,9 @@ public class GrimoireScreen extends Screen {
 
     private void drawLeftPage(DrawContext context) {
         context.drawCenteredTextWithShadow(this.textRenderer,
-                Text.literal("Sworn oaths"), leftPageCenter, bookTop + 8, 0xE0C468);
+                Text.literal("Accepted Bargains"), leftPageCenter, bookTop + 8, 0xE0C468);
         context.drawCenteredTextWithShadow(this.textRenderer,
-                Text.literal(actives.size() + " of " + MAX_OATHS + " sworn"),
+                Text.literal(actives.size() + " of " + MAX_OATHS + " accepted"),
                 leftPageCenter, bookTop + 20, 0x888888);
 
         for (int i = 0; i < MAX_OATHS; i++) {
@@ -214,7 +214,7 @@ public class GrimoireScreen extends Screen {
                 drawOathCard(context, actives.get(i), y);
             } else {
                 context.fill(bookLeft + 12, y, bookLeft + PAGE_WIDTH - 12, y + OATH_CARD_HEIGHT, 0x22000000);
-                drawScaledText(context, "— an unsworn oath —", true,
+                drawScaledText(context, "-- empty bargain --", true,
                         bookLeft + 44, y + 22, PAGE_WIDTH - 88, 0x555555);
             }
         }
@@ -298,7 +298,7 @@ public class GrimoireScreen extends Screen {
         drawScaledText(context, quest.title(), false, x, y + 3, 122, titleColor);
 
         if (sworn) {
-            drawScaledText(context, "sworn", true, rightPageLeft + 148, y + 4, 40, 0xE0C468);
+            drawScaledText(context, "accepted", true, rightPageLeft + 148, y + 4, 40, 0xE0C468);
         }
 
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));

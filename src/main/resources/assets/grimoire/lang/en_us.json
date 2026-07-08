@@ -1,3 +1,4 @@
 {
-  "item.grimoire.grimoire_tome": "Grimoire of Bargains"
+  "item.grimoire.grimoire_tome": "Grimoire of Bargains",
+  "item.grimoire.grimoire_tome.tooltip": "Right-Click to Open"
 }
