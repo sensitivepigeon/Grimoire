@@ -22,7 +22,7 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
 - **Tier Progression:** Five ranks! I-V ranks that offer rarities adjacent to the difficulty. Fulfilling bounties of your tier counts toward unsealing the next: locked tier pages will show you how many you need to complete. Lower tiers never close, so end-game players can still grab those niche items they might need later on. Tier IV only offers two bounties a day, and Tier V only offers one due to their exclusive nature.
 
 ### For Modders!!
-- This resource was designed for YOU to edit and adjust for your modpacks, include custom items and adjust balancing for grinds!! you can also include lore!
+- This resource was designed for YOU to edit and adjust for your modpacks, include custom items and adjust balancing for grinds!! You can also include lore!
 - Quests are a JSON file! Easy structure, easy to copy and add your quests for custom content in the quests directory. Tier directories are organizational. Drop a file into your datapack and you can /reload for live adjustments!
 - Progression lives in one file, the tiers.json! Override if you want to tune stuff like tiers or limits.
 - Override model follows vanilla conventions: quests are per-file (which can be tedious sorry), config is one file (please be careful overriding it!) A malformed Quest JSON logs and error and skips it, doesn't disrupt the whole system so your typos are forgivable...
@@ -33,6 +33,7 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
  - Adding in art/design commissioned from actual artists
  - adding new quest types
  - a little bit more lore availability, perhaps a cover page?
+ - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one.
 
 ### Important Notes
 AI assistance was used for first code iterations but I decided I hate that so I rewrote stuff and I'm doing it myself... if it's broken, it's **human-broken** now! 
