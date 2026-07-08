@@ -1,6 +1,8 @@
 package grimoire.modid.client;
 
 import grimoire.modid.data.ModComponents;
+import grimoire.modid.Grimoire;
+import net.minecraft.util.Identifier;
 import grimoire.modid.data.QuestProgressComponent;
 import grimoire.modid.network.ModNetworking;
 import grimoire.modid.quest.Quest;
@@ -26,6 +28,9 @@ public class GrimoireScreen extends Screen {
     private static final int MAX_OATHS = 3;
     private static final int OATH_CARD_HEIGHT = 52;
     private static final int OFFER_ENTRY_HEIGHT = 52;
+    private static final Identifier BOOK_TEXTURE =
+            new Identifier(Grimoire.MOD_ID, "textures/gui/grimoire_book.png");
+    private static final boolean USE_TEXTURE = true;   // flip false to fall back to the fills
 
     private int bookLeft;
     private int bookTop;
@@ -355,6 +360,14 @@ public class GrimoireScreen extends Screen {
     }
 
     private void drawBookBackground(DrawContext context) {
+        if (USE_TEXTURE) {
+            // args: texture, x, y, u, v, drawWidth, drawHeight, textureFileWidth, textureFileHeight
+            context.drawTexture(BOOK_TEXTURE, bookLeft, bookTop, 0, 0,
+                    BOOK_WIDTH, BOOK_HEIGHT, BOOK_WIDTH, BOOK_HEIGHT);
+            return;
+        }
+
+        // fallback: original placeholder fills
         context.fill(bookLeft, bookTop, bookLeft + BOOK_WIDTH, bookTop + BOOK_HEIGHT, 0xF2211A14);
         context.fill(bookLeft + 4, bookTop + 4, bookLeft + BOOK_WIDTH - 4, bookTop + BOOK_HEIGHT - 4, 0xFF2E2620);
         context.fill(rightPageLeft - 1, bookTop + 4, rightPageLeft + 1, bookTop + BOOK_HEIGHT - 4, 0x66000000);
