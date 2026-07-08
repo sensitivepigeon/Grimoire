@@ -173,10 +173,22 @@ public class GrimoireScreen extends Screen {
         return tier;
     }
 
+    // live reroll snapshot
+
     private int snapshot(QuestProgressComponent progress) {
-        return progress.getCompletedCount() * 10000
-                + progress.getActiveCount() * 100
-                + progress.getOfferedTotal();
+        int snap = 0;
+
+        // fold counts to preserve detection here's stupid math idk
+        snap = snap * 31 + progress.getCompletedCount();
+        snap = snap * 31 + progress.getActiveCount();
+
+        // folding identities yeehaw !!!
+        for (int tier: ClientQuestCache.TIERS.keySet()) {
+            snap = snap * 31 + progress.getOffered(tier).hashCode();
+        }
+
+
+        return snap;
     }
 
     @Override

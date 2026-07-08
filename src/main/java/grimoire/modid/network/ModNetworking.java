@@ -63,22 +63,22 @@ public class ModNetworking {
                     return;
                 }
                 if (progress.isActive(questId)) {
-                    player.sendMessage(Text.literal("You have already accepted this bounty."), false);
+                    player.sendMessage(Text.literal("You have already accepted this bargain."), false);
                     return;
                 }
                 if (progress.getActiveCount() >= BountyBoard.MAX_ACTIVE_BOUNTIES) {
-                    player.sendMessage(Text.literal("The Grimoire refuses — you carry too many unfulfilled oaths. ("
+                    player.sendMessage(Text.literal("The Grimoire refuses - try completing more bargains. ("
                             + BountyBoard.MAX_ACTIVE_BOUNTIES + " max)"), false);
                     return;
                 }
                 if (!progress.isOffered(questId)) {
-                    player.sendMessage(Text.literal("The Grimoire does not currently offer this bounty."), false);
+                    player.sendMessage(Text.literal("The Grimoire does not currently offer this bargain."), false);
                     return;
                 }
 
                 progress.accept(questId);
                 ModComponents.QUEST_PROGRESS.sync(player);
-                player.sendMessage(Text.literal("Bounty accepted: " + quest.title()), false);
+                player.sendMessage(Text.literal("Bargain accepted: " + quest.title()), false);
             });
         });
 
@@ -92,19 +92,19 @@ public class ModNetworking {
             server.execute(() -> {
                 Quest quest = QuestManager.QUESTS.get(questId);
                 if (quest == null) {
-                    player.sendMessage(Text.literal("The Grimoire does not recognize this bounty."), false);
+                    player.sendMessage(Text.literal("The Grimoire does not recognize this bargain."), false);
                     return;
                 }
 
                 QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
 
                 if (progress.hasCompleted(questId)) {
-                    player.sendMessage(Text.literal("The Grimoire's pages are dim. This bounty is already fulfilled."), false);
+                    player.sendMessage(Text.literal("The Grimoire's pages are dim. This bargain is already fulfilled."), false);
                     return;
                 }
 
                 if (!progress.isActive(questId)) {
-                    player.sendMessage(Text.literal("You must accept this bounty before fulfilling it."), false);
+                    player.sendMessage(Text.literal("You must accept this bargain before fulfilling it."), false);
                     return;
                 }
 
@@ -123,7 +123,7 @@ public class ModNetworking {
                     progress.incrementCompletions(quest.tier());
                     ModComponents.QUEST_PROGRESS.sync(player);
 
-                    player.sendMessage(Text.literal("Bounty complete: " + quest.title()), false);
+                    player.sendMessage(Text.literal("Bargain complete: " + quest.title()), false);
                 } else {
                     player.sendMessage(Text.literal("You lack the required items... (" + count + "/" + quest.requiredCount() + ")"), false);
                 }
