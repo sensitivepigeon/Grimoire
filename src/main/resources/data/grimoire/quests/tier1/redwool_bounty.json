@@ -1,0 +1,9 @@
+{
+  "title": "Colorful",
+  "lore": "A shepherd is selling off wool too red for curtains.",
+  "tier": 1,
+  "required_item": "minecraft:emerald",
+  "required_count": 10,
+  "reward_item": "minecraft:red_wool",
+  "reward_count": 5
+}

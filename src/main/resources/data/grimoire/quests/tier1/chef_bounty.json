@@ -1,0 +1,9 @@
+{
+  "title": "Fresh Bread",
+  "lore": "Grow some wheat for the local chef.",
+  "tier": 1,
+  "required_item": "minecraft:wheat",
+  "required_count": 6,
+  "reward_item": "minecraft:emerald",
+  "reward_count": 10
+}

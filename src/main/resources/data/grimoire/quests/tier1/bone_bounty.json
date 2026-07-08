@@ -1,6 +1,6 @@
 {
   "title": "Bad to the Bone",
-  "lore": "A village composter needs more bonemeal. A lot of it.",
+  "lore": "A village composter needs more bonemeal.",
   "tier": 1,
   "required_item": "minecraft:bone_meal",
   "required_count": 30,
