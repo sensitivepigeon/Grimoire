@@ -1,5 +1,6 @@
 package grimoire.modid.quest;
 
+import grimoire.modid.Grimoire;
 import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -63,7 +64,7 @@ public class BountyBoard {
         boolean changed = progress.removeUnknownQuests(QuestManager.QUESTS.keySet());
 
         if (changed) {
-            System.out.println("[QuestTome] Evicted orphaned quest IDs for " + player.getName().getString());
+            Grimoire.LOGGER.info("Evicted orphaned quest IDs for {}", player.getName().getString());
             ModComponents.QUEST_PROGRESS.sync(player);
         }
 
@@ -98,5 +99,10 @@ public class BountyBoard {
         rollOffers(progress);
         ModComponents.QUEST_PROGRESS.sync(player);
         player.sendMessage(Text.literal("[QuestTome] The Grimoire's pages flutter and rearrange..."), false);
+    }
+    // this one was super easy but i almost broke everything here lol. this is a public front door for player quest sweeps
+    public static void sweepOrphansFor(ServerPlayerEntity player) {
+        QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
+        sweepOrphans(player, progress);
     }
 }
