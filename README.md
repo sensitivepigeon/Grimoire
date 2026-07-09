@@ -8,14 +8,14 @@ Not ready!! Do not attempt to install...
 
 ***QuestTome*** is a fantasy questing mod for getting those harder to farm resources, built for custom mod pack makers and servers in mind!
 
-It adds the **Grimoire of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
+It adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
 
 The mod is designed more for assistance in getting those harder-to-acquire niche resources you may not want to dive into the ocean or kill a bunch of rabbits for. This adds an alternative method of acquisition, perfect for mod makers who want to add a stop-gap to delayed progression and players who value their time!
 
 
 ### Player Features
 
-- **The  Grimoire of Bargains:** A modeled, held book item that opens your Bargains UI on right click. The left page will hold your *accepted bargains,* up to three at a time from any mix of available tiers. Each show the required item as a handy icon and have a live "gathered" count in your inventory in real time! The right page will display available bounties for that tier and allows for paging through tiers to see what's on offer for that day.
+- **The Book of Bargains:** A modeled, held book item that opens your Bargains UI on right click. The left page will hold your *accepted bargains,* up to three at a time from any mix of available tiers. Each show the required item as a handy icon and have a live "gathered" count in your inventory in real time! The right page will display available bounties for that tier and allows for paging through tiers to see what's on offer for that day.
 
 - **The Daily Bounty Economy**: Offers a reroll each Minecraft day per player and also shuffles all offers each day! Different offers for each player. Anything you don't accept can vanish in the shuffle, so re-roll carefully. Anything you accepted is yours to fulfill and you remain committed no matter how many days pass. Careful, you can only pick 3 bargains at a time maximum! Each bounty is once-daily to complete, and can show back up later.
 

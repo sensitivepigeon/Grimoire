@@ -7,12 +7,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtString;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent {
 
@@ -25,7 +20,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
     private final Map<Integer, Integer> tierCompletions = new HashMap<>();
     private long manualRerollDay = -1;
 
-    // ---- rotation ----
+    // rotation stuff
 
     public boolean needsRoll(long currentDay) {
         return currentDay != lastRollDay;
@@ -41,6 +36,17 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         offeredQuests.put(tier, new ArrayList<>(questIds));
     }
 
+    // removing unknown quests it should be in bountyboard.sweeporphans now
+    public boolean removeUnknownQuests(Set<String> knownIds){
+        boolean changed = activeQuests.removeIf(id -> !knownIds.contains(id));
+        changed |= completedThisRotation.removeIf(id -> !knownIds.contains(id));
+
+                for (List<String> offered : offeredQuests.values()){
+                    changed |= offered.removeIf(id -> !knownIds.contains(id));
+                }
+       return changed;
+    }
+
     public List<String> getOffered(int tier) {
         return offeredQuests.getOrDefault(tier, List.of());
     }
@@ -52,7 +58,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         return false;
     }
 
-    // ---- accepted bounties ----
+    // accepted bounties
 
     public boolean isActive(String questId) {
         return activeQuests.contains(questId);
@@ -66,7 +72,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         activeQuests.remove(questId);
     }
 
-    // ---- daily lockout (old method names, new meaning) ----
+    // daily lockout
 
     public boolean hasCompleted(String questId) {
         return completedThisRotation.contains(questId);
@@ -80,7 +86,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         return completedThisRotation.size();
     }
 
-    // ---- lifetime progression ----
+    // lifetime progress
 
     public void incrementCompletions(int tier) {
         tierCompletions.merge(tier, 1, Integer::sum);
@@ -90,7 +96,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         return tierCompletions.getOrDefault(tier, 0);
     }
 
-    // ---- manual reroll ----
+    // manual reroll
 
     public boolean canManualReroll(long currentDay) {
         return currentDay != manualRerollDay;
@@ -100,7 +106,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         manualRerollDay = currentDay;
     }
 
-    // ---- State Changes ----
+    // state changes i sure hope it does
 
     public int getActiveCount() {
         return activeQuests.size();
@@ -114,7 +120,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         return total;
     }
 
-    // ---- NBT ----
+    // NBT
 
     @Override
     public void readFromNbt(NbtCompound tag) {

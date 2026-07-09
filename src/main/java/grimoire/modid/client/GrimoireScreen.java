@@ -30,7 +30,7 @@ public class GrimoireScreen extends Screen {
     private static final int OFFER_ENTRY_HEIGHT = 52;
     private static final Identifier BOOK_TEXTURE =
             new Identifier(Grimoire.MOD_ID, "textures/gui/grimoire_book.png");
-    private static final boolean USE_TEXTURE = true;   // flip false to fall back to the fills
+    private static final boolean USE_TEXTURE = true;   // use texture
 
     private int bookLeft;
     private int bookTop;
@@ -47,7 +47,7 @@ public class GrimoireScreen extends Screen {
     }
 
     public GrimoireScreen() {
-        super(Text.literal("Grimoire of Bargains"));
+        super(Text.literal("Book of Bargains"));
     }
 
     private int oathCardY(int index) {
@@ -84,7 +84,7 @@ public class GrimoireScreen extends Screen {
 
         BookPage page = pages.get(pageIndex);
         if (!page.locked()) {
-            boolean atCap = actives.size() >= MAX_OATHS;
+            boolean atCap = progress.getActiveCount() >= MAX_OATHS;
 
             for (int i = 0; i < page.entries().size(); i++) {
                 Quest quest = page.entries().get(i);

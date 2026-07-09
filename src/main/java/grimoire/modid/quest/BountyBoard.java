@@ -12,12 +12,15 @@ import java.util.Random;
 
 public class BountyBoard {
 
+    // if you change this please change mirror in GrimoireScreen check
     public static final int MAX_ACTIVE_BOUNTIES = 3;
 
+    // current day tick check yknow
     public static long currentDay(ServerPlayerEntity player) {
         return player.getWorld().getTimeOfDay() / 24000L;
     }
 
+    // ladder rules, mirrored in GrimoireScreen
     public static int highestUnlockedTier(QuestProgressComponent progress) {
         int tier = 1;
         while (QuestManager.TIERS.containsKey(tier + 1)) {
@@ -31,6 +34,7 @@ public class BountyBoard {
         return tier;
     }
 
+    // gross code for a filter that excludes actives and today's completions
     public static void rollOffers(QuestProgressComponent progress) {
         int maxTier = highestUnlockedTier(progress);
         Random random = new Random();
@@ -54,9 +58,23 @@ public class BountyBoard {
         }
     }
 
+    // evicting quests that no longer exist in data and fixing ghost slots. syncs only if something is removed
+    private static void sweepOrphans(ServerPlayerEntity player, QuestProgressComponent progress){
+        boolean changed = progress.removeUnknownQuests(QuestManager.QUESTS.keySet());
+
+        if (changed) {
+            System.out.println("[QuestTome] Evicted orphaned quest IDs for " + player.getName().getString());
+            ModComponents.QUEST_PROGRESS.sync(player);
+        }
+
+    }
+
+    // this makes rotations sync with join and tome open and only then and sweeps orphan
     public static void ensureFreshRotation(ServerPlayerEntity player) {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
         long day = currentDay(player);
+
+        sweepOrphans(player, progress);
 
         if (progress.needsRoll(day)) {
             progress.startNewRotation(day);
@@ -65,18 +83,20 @@ public class BountyBoard {
         }
     }
 
+
+    // just manual reroll things hashtag girlboss also no new rotation for daily lockout
     public static void manualReroll(ServerPlayerEntity player) {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
         long day = currentDay(player);
 
         if (!progress.canManualReroll(day)) {
-            player.sendMessage(Text.literal("The pages refuse to shuffle again today."), false);
+            player.sendMessage(Text.literal("[QuestTome] The pages refuse to shuffle again today."), false);
             return;
         }
 
         progress.markManualReroll(day);
         rollOffers(progress);
         ModComponents.QUEST_PROGRESS.sync(player);
-        player.sendMessage(Text.literal("The Grimoire's pages flutter and rearrange..."), false);
+        player.sendMessage(Text.literal("[QuestTome] The Grimoire's pages flutter and rearrange..."), false);
     }
 }
