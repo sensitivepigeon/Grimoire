@@ -1,12 +1,9 @@
-# QuestTome (Fabric)
+# QuestTome (Fabric 1.20.1)
 
-## Setup
-
-Not ready!! Do not attempt to install...
 
 ## Features
 
-***QuestTome*** is a fantasy questing mod for getting those harder to farm resources, built for custom mod pack makers and servers in mind!
+***QuestTome*** is a fantasy questing/bounty mod for getting those harder to farm resources, built for custom mod pack makers and servers in mind!
 
 It adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
 
@@ -14,10 +11,11 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
 
 
 ### Player Features
+- **The Book of Bargains**: An ethereal book that is crafted using an ender pearl and a writable book, which enables you to access the "Bargains" system. A mysterious entity inhabits the book, offering you bargains from across the realms from various patrons to fulfill for rewards. Greater rewards await for the diligent... but be careful: you never know who or what might be hiding their intentions from you, no matter their promised rewards.
 
-- **The Book of Bargains:** A modeled, held book item that opens your Bargains UI on right click. The left page will hold your *accepted bargains,* up to three at a time from any mix of available tiers. Each show the required item as a handy icon and have a live "gathered" count in your inventory in real time! The right page will display available bounties for that tier and allows for paging through tiers to see what's on offer for that day.
+- **How the Book Works:** A modeled, held book item that opens your Bargains UI on right click. The left page will hold your *accepted bargains,* up to three at a time from any mix of available tiers. Each show the required item as a handy icon and have a live "gathered" count in your inventory in real time! The right page will display available bounties for that tier and allows for paging through tiers to see what's on offer for that day.
 
-- **The Daily Bounty Economy**: Offers a reroll each Minecraft day per player and also shuffles all offers each day! Different offers for each player. Anything you don't accept can vanish in the shuffle, so re-roll carefully. Anything you accepted is yours to fulfill and you remain committed no matter how many days pass. Careful, you can only pick 3 bargains at a time maximum! Each bounty is once-daily to complete, and can show back up later.
+- **Daily Rolls**: Offers a reroll each Minecraft day per player and also shuffles all offers each day! Different offers for each player. Anything you don't accept can vanish in the shuffle, so re-roll carefully. Anything you accepted is yours to fulfill and you remain committed no matter how many days pass. Careful, you can only pick 3 bargains at a time maximum! Each bounty is once-daily to complete, and can show back up later.
 
 - **Tier Progression:** Five ranks! I-V ranks that offer rarities adjacent to the difficulty. Fulfilling bounties of your tier counts toward unsealing the next: locked tier pages will show you how many you need to complete. Lower tiers never close, so end-game players can still grab those niche items they might need later on. Tier IV only offers two bounties a day, and Tier V only offers one due to their exclusive nature.
 
@@ -30,13 +28,32 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
 
 
 ### Future Stuff
- - Adding in art/design commissioned from actual artists
- - adding new quest types
- - a little bit more lore availability, perhaps a cover page?
+ - art/design commissioned from actual artists. current icon/model I hand-made and looks bad
+ - multiple item reward bundles
+ - new quest types and chain quests across tiers with story
+ - new ability to click on bargain and see full write up (optional)
+ - The Codex that keeps past quest info 
  - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one.
+ - first quest pack of handwritten quests with lore flavor
+ - datapacks for popular modpacks
 
-### Important Notes
-AI assistance was used for first code iterations but I decided I hate that so I rewrote stuff and I'm doing it myself... if it's broken, it's **human-broken** now! 
+### Known Issues
+- 1.0 was NOT validated to work with multiple players on the same server yet, but WAS validated to work *on* servers.
+
+
+## Installation
+
+***Requires Fabric loader for Minecraft 1.20.1***
+
+Grab the jar from build/libs and drop in your mods folder. Make sure you have FabricAPI and correct minecraft version..
+
+**Servers**: same config, same jar + dependencies. Drop in server's mod folder.
+
+**QuestTome is required on both client and server.**
+
+
+## Important Notes About AI
+Transparency: AI assistance was used for first code iterations but I decided _I hate that_ so I rewrote stuff and I'm doing it myself... if it's broken, it's **human-broken** now!
 
 **NO AI** was ever used for writing or art design and **NEVER** will be!!
 
@@ -44,3 +61,4 @@ Please do not use AI if you attempt to touch this project including feedback! Pl
 
 ## License
 creative commons! please make edits, distribute, have fun. Please credit me for baseline stuff I'd appreciate it.
+Artist credit goes here.
