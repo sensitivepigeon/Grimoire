@@ -1,6 +1,7 @@
 {
   "title": "Colorful",
   "lore": "A shepherd is selling off wool too red for curtains.",
+  "description": "Help! I need more red wool. Lots of detail here.",
   "tier": 1,
   "required_item": "minecraft:emerald",
   "required_count": 10,

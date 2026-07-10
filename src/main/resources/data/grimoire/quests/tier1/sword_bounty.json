@@ -1,6 +1,7 @@
 {
   "title": "The Best Defense",
   "lore": "A village guard needs a new sword.",
+  "description": "Help! I need a new sword. Lots of detail here.",
   "tier": 1,
   "required_item": "minecraft:iron_sword",
   "required_count": 1,

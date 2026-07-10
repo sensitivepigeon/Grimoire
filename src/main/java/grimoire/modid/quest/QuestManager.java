@@ -48,13 +48,14 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
 
                 String title = json.get("title").getAsString();
                 String lore = getStringOr(json, "lore", "");
+                String description = getStringOr(json, "description", "");
                 int tier = getIntOr(json, "tier", 1);
                 Item requiredItem = Registries.ITEM.get(new Identifier(json.get("required_item").getAsString()));
                 int requiredCount = json.get("required_count").getAsInt();
                 Item rewardItem = Registries.ITEM.get(new Identifier(json.get("reward_item").getAsString()));
                 int rewardCount = json.get("reward_count").getAsInt();
 
-                QUESTS.put(questId, new Quest(questId, title, lore, tier,
+                QUESTS.put(questId, new Quest(questId, title, lore, description, tier,
                         requiredItem, requiredCount, rewardItem, rewardCount));
 
             } catch (Exception e) {

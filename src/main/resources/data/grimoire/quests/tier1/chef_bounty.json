@@ -1,6 +1,7 @@
 {
   "title": "Fresh Bread",
   "lore": "Grow some wheat for the local chef.",
+  "description": "Help! I need more wheat. Lots of detail here.",
   "tier": 1,
   "required_item": "minecraft:wheat",
   "required_count": 6,

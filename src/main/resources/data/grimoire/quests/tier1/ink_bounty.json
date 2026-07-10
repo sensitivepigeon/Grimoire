@@ -1,6 +1,7 @@
 {
   "title": "Write More",
   "lore": "A scribe needs ink.",
+  "description": "Help! I need more ink. Lots of detail here.",
   "tier": 1,
   "required_item": "minecraft:ink_sac",
   "required_count": 10,

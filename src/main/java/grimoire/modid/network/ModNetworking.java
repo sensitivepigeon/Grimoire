@@ -28,6 +28,7 @@ public class ModNetworking {
             buf.writeString(quest.id());
             buf.writeString(quest.title());
             buf.writeString(quest.lore());
+            buf.writeString(quest.description());
             buf.writeInt(quest.tier());
             buf.writeString(Registries.ITEM.getId(quest.requiredItem()).toString());
             buf.writeInt(quest.requiredCount());
@@ -67,12 +68,12 @@ public class ModNetworking {
                     return;
                 }
                 if (progress.getActiveCount() >= BountyBoard.MAX_ACTIVE_BOUNTIES) {
-                    player.sendMessage(Text.literal("The Grimoire refuses - try completing more bargains. ("
+                    player.sendMessage(Text.literal("The Book refuses - try completing more bargains. ("
                             + BountyBoard.MAX_ACTIVE_BOUNTIES + " max)"), false);
                     return;
                 }
                 if (!progress.isOffered(questId)) {
-                    player.sendMessage(Text.literal("The Grimoire does not currently offer this bargain."), false);
+                    player.sendMessage(Text.literal("The Book does not currently offer this bargain."), false);
                     return;
                 }
 
@@ -92,14 +93,14 @@ public class ModNetworking {
             server.execute(() -> {
                 Quest quest = QuestManager.QUESTS.get(questId);
                 if (quest == null) {
-                    player.sendMessage(Text.literal("The Grimoire does not recognize this bargain."), false);
+                    player.sendMessage(Text.literal("The Book does not recognize this bargain."), false);
                     return;
                 }
 
                 QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
 
                 if (progress.hasCompleted(questId)) {
-                    player.sendMessage(Text.literal("The Grimoire's pages are dim. This bargain is already fulfilled."), false);
+                    player.sendMessage(Text.literal("The Book's pages are dim. This bargain is already fulfilled."), false);
                     return;
                 }
 

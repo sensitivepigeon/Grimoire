@@ -1,6 +1,7 @@
 {
   "title": "Rebuild It",
   "lore": "A village needs rebuilding. Provide materials.",
+  "description": "Help! I need more stone. Lots of detail here.",
   "tier": 1,
   "required_item": "minecraft:stone",
   "required_count": 10,

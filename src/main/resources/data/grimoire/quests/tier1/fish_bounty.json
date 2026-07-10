@@ -1,6 +1,7 @@
 {
   "title": "Gone Fishin'",
   "lore": "Go fishing. The local chef will pay you well.",
+  "description": "Help! I need more cod. Lots of detail here.",
   "tier": 1,
   "required_item": "minecraft:cod",
   "required_count": 6,

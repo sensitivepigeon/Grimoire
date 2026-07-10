@@ -1,4 +1,6 @@
-# QuestTome (Fabric 1.20.1)
+# QuestTome (Fabric)
+
+## For Minecraft 1.20.1
 
 
 ## Features
@@ -28,15 +30,14 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
 
 
 ### Future Stuff
- - art/design commissioned from actual artists. current icon/model I hand-made and looks bad
+ 
  - multiple item reward bundles
  - new quest types and chain quests across tiers with story
- - new ability to click on bargain and see full write up (optional)
- - The Codex that keeps past quest info 
+ - The Codex that keeps past quest info and completed quests
  - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one.
  - first quest pack of handwritten quests with lore flavor
  - datapacks for popular modpacks
- - flavor packs for quests, such as Culinary
+ - flavor packs for quests, such as Culinary quest pack
 
 ### Known Issues
 - 1.0 was NOT validated to work with multiple players on the same server yet, but WAS validated to work *on* servers.
@@ -44,22 +45,27 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
 
 ## Installation
 
-***Requires Fabric loader for Minecraft 1.20.1***
+***Requires Fabric loader (0.18.4 or higher) for Minecraft 1.20.1***
 
 Grab the jar from build/libs and drop in your mods folder. Make sure you have FabricAPI and correct minecraft version..
 
-**Servers**: same config, same jar + dependencies. Drop in server's mod folder.
+**Servers**: same config, same jar + dependency. Drop in server's mod folder.
 
 **QuestTome is required on both client and server.**
+
+## Artist Credit
+All writing done by me.
+
+Amazing GUI / 3D Model by [Matija](https://matijasworkshop.framer.website/)! Linked to their workshop. Definitely commission them!
 
 
 ## Important Notes About AI
 Transparency: AI assistance was used for first code iterations but I decided _I hate that_ so I rewrote stuff and I'm doing it myself... if it's broken, it's **human-broken** now!
 
-**NO AI** was ever used for writing or art design and **NEVER** will be!!
+**NO AI** was ever used for writing or art design and **NEVER** will be!
 
 Please do not use AI if you attempt to touch this project including feedback! Please be human or I can't help you...
 
-## License
-creative commons! please make edits, distribute, have fun. Please credit me for baseline stuff I'd appreciate it.
-Artist credit goes here.
+# Discord
+
+here when it's open. For now find me in the Fabric modder's discord.
