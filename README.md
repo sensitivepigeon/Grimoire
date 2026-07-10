@@ -41,6 +41,9 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
 
 ### Known Issues
 - 1.0 was NOT validated to work with multiple players on the same server yet, but WAS validated to work *on* servers.
+- Don't try to load a quest pack without the required mods for that pack... I don't think my code could withstand that.
+- Sleeping resets roll but that's intended
+- No roll announcement in chat when the daily reset happens.
 
 
 ## Installation

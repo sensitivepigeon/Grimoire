@@ -117,7 +117,10 @@ public class GrimoireScreen extends Screen {
     private static final int HELP_HEADER_CX = 109, HELP_HEADER_Y = 44;
     private static final int HELP_L_X = 38, HELP_L_Y = 70, HELP_L_W = 142;
     private static final int HELP_R_X = 241, HELP_R_Y = 28, HELP_R_W = 141;
-
+    private static final int HELP_L_H = 135;
+    private static final int HELP_R_H = 178;
+    private static final float HELP_TEXT_MIN_SCALE = 0.55f;
+    
     private static final int MAX_OATHS = 3;    // mirrored in BountyBoard.MAX_ACTIVE_BOUNTIES
 
     private int bookLeft;
@@ -151,6 +154,17 @@ public class GrimoireScreen extends Screen {
         buildPages(progress);
         if (pageIndex >= pages.size()) pageIndex = pages.size() - 1;
         if (pageIndex < 0) pageIndex = 0;
+
+        if (!showHelp) {
+            this.addDrawableChild(new HitboxButton(
+                    bookLeft + HELP_X, bookTop + HELP_Y, HELP_W, HELP_H,
+                    Text.literal("?"), b -> {
+                this.showHelp = true;
+                this.detailQuest = null;
+                this.clearAndInit();
+            }));
+        }
+
 
         // left page turn in hitboxes
         if (!showHelp) {
@@ -354,6 +368,12 @@ public class GrimoireScreen extends Screen {
         context.drawCenteredTextWithShadow(this.textRenderer,
                 Text.literal(actives.size() + " of " + MAX_OATHS + " accepted"),
                 bookLeft + BANNER_COUNT_CX, bookTop + BANNER_COUNT_Y, BANNER_INK);
+        context.drawText(this.textRenderer,
+                Text.literal("?"),
+                bookLeft + HELP_X + 6,
+                bookTop + HELP_Y + 8,
+                INK_TITLE,
+                false);
 
         for (int i = 0; i < MAX_OATHS; i++) {
             if (i < actives.size()) {
@@ -487,19 +507,28 @@ public class GrimoireScreen extends Screen {
         drawWrappedText(context, quest.description(), x, tradeY + 26, textWidth, INK_BODY);
     }
 
-    // help mode layout for help page
-    private static final String HELP_TEXT_LEFT = "";
-    private static final String HELP_TEXT_RIGHT = "";
+    // help mode layout for help page, use n for breaks. the text scales to the amount written fyi
+    private static final String HELP_TEXT_LEFT = "Hello, you." +
+            "\n" +
+            "I see you've found the Book. No, don't close it -- I am addressing you. Yes, you." +
+            "\n" +
+            "Who am I? I am the notary. The factor. The broker. It's all a matter of language to us bookworms, so feel free to experiment with a little lingo. My job is to manage the requests of valuable patrons. Your job is now to fulfill them, should you choose to accept such a bargain.";
+    private static final String HELP_TEXT_RIGHT = "Each day, I will offer you an array of fitting bargains to how much reputation you've accumulated among the patrons. You have one chance to refresh the offers each of those days, the patrons get stiff if you're too indecisive." +
+            "\n" +
+            "To earn more esteem, merely fulfill the bargains of the patrons you've been offered enough times and you'll be promoted. I will personally recommend you to the next batch of wanting parties." +
+            "\n" +
+            "Let's begin.";
 
     private void drawHelpPage(DrawContext context) {
         // header sits above the painted line at y=58
         drawCenteredNoShadow(context, "The Book of Bargains",
                 bookLeft + HELP_HEADER_CX, bookTop + HELP_HEADER_Y, INK_TITLE);
 
-        drawWrappedText(context, HELP_TEXT_LEFT,
-                bookLeft + HELP_L_X, bookTop + HELP_L_Y, HELP_L_W, INK_BODY);
-        drawWrappedText(context, HELP_TEXT_RIGHT,
-                bookLeft + HELP_R_X, bookTop + HELP_R_Y, HELP_R_W, INK_BODY);
+        drawWrappedTextScaledToFit(context, HELP_TEXT_LEFT,
+                bookLeft + HELP_L_X, bookTop + HELP_L_Y, HELP_L_W, HELP_L_H, INK_BODY);
+
+        drawWrappedTextScaledToFit(context, HELP_TEXT_RIGHT,
+                bookLeft + HELP_R_X, bookTop + HELP_R_Y, HELP_R_W, HELP_R_H, INK_BODY);
     }
 
 
@@ -563,6 +592,50 @@ public class GrimoireScreen extends Screen {
             y += lineHeight / 2;
         }
         return y;
+    }
+
+    private void drawWrappedTextScaledToFit(DrawContext context, String text,
+                                            int x, int y, int maxWidth, int maxHeight, int color) {
+        if (text == null || text.isEmpty()) return;
+
+        int baseLineHeight = 10;
+        int textHeight = measureWrappedTextHeight(text, maxWidth, baseLineHeight);
+
+        float scale = 1.0f;
+        if (textHeight > maxHeight) {
+            scale = Math.max(HELP_TEXT_MIN_SCALE, (float) maxHeight / textHeight);
+        }
+
+        int scaledWidth = Math.max(1, (int) (maxWidth / scale));
+
+        context.getMatrices().push();
+        context.getMatrices().translate(x, y, 0);
+        context.getMatrices().scale(scale, scale, 1.0f);
+
+        drawWrappedText(context, text, 0, 0, scaledWidth, color);
+
+        context.getMatrices().pop();
+    }
+
+    private int measureWrappedTextHeight(String text, int maxWidth, int lineHeight) {
+        int height = 0;
+        String[] paragraphs = text.split("\n");
+
+        for (String paragraph : paragraphs) {
+            if (paragraph.isEmpty()) {
+                height += lineHeight / 2;
+                continue;
+            }
+
+            for (OrderedText ignored : this.textRenderer.wrapLines(
+                    StringVisitable.plain(paragraph), maxWidth)) {
+                height += lineHeight;
+            }
+
+            height += lineHeight / 2;
+        }
+
+        return height;
     }
 
     private void drawBookBackground(DrawContext context) {
