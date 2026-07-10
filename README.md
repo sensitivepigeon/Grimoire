@@ -36,6 +36,7 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
  - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one.
  - first quest pack of handwritten quests with lore flavor
  - datapacks for popular modpacks
+ - flavor packs for quests, such as Culinary
 
 ### Known Issues
 - 1.0 was NOT validated to work with multiple players on the same server yet, but WAS validated to work *on* servers.
