@@ -1,6 +1,6 @@
 # QuestTome (Fabric)
 
-## For Minecraft 1.20.1
+## Version 1.0 For Minecraft 1.20.1
 
 
 ## Features
@@ -21,7 +21,7 @@ Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more.
 
 - **Tier Progression:** Five ranks! I-V ranks that offer rarities adjacent to the difficulty. Fulfilling bounties of your tier counts toward unsealing the next: locked tier pages will show you how many you need to complete. Lower tiers never close, so end-game players can still grab those niche items they might need later on. Tier IV only offers two bounties a day, and Tier V only offers one due to their exclusive nature.
 
-### For Modders!!
+### For Modders!
 - This resource was designed for YOU to edit and adjust for your modpacks, include custom items and adjust balancing for grinds!! You can also include lore!
 - Quests are a JSON file! Easy structure, easy to copy and add your quests for custom content in the quests directory. Tier directories are organizational. Drop a file into your datapack and you can /reload for live adjustments!
 - Progression lives in one file, the tiers.json! Override if you want to tune stuff like tiers or limits.
@@ -34,8 +34,7 @@ Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more.
  - multiple item reward bundles
  - new quest types and chain quests across tiers with story
  - The Codex that keeps past quest info and completed quests over lifetime
- - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one.
- - first quest pack of handwritten quests with lore flavor
+ - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one. (For now, reference wiki)
  - datapacks for popular modpacks
  - flavor packs for quests, such as Culinary quest pack
 
