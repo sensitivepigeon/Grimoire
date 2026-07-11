@@ -2,6 +2,8 @@
   "title": "Bunnies!",
   "lore": "Adorable bunnies need carrots. Surely you'll help.",
   "description": "My rabbits need carrots again. Here's some hides in repayment. Don't worry, they'll be fine. Thanks! - Hoarder Janice",
+  "patron": "Hoarder Janice",
+  "format": 1,
   "tier": 2,
   "required_item": "minecraft:carrot",
   "required_count": 5,

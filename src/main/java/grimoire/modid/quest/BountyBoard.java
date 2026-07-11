@@ -81,6 +81,7 @@ public class BountyBoard {
             progress.startNewRotation(day);
             rollOffers(progress);
             ModComponents.QUEST_PROGRESS.sync(player);
+            player.sendMessage(Text.literal("[QuestTome] The Book is updated with new bargains for the day."), false);
         }
     }
 
@@ -98,7 +99,7 @@ public class BountyBoard {
         progress.markManualReroll(day);
         rollOffers(progress);
         ModComponents.QUEST_PROGRESS.sync(player);
-        player.sendMessage(Text.literal("[QuestTome] The Grimoire's pages flutter and rearrange..."), false);
+        player.sendMessage(Text.literal("[QuestTome] The Book's pages flutter and rearrange..."), false);
     }
     // this one was super easy but i almost broke everything here lol. this is a public front door for player quest sweeps
     public static void sweepOrphansFor(ServerPlayerEntity player) {

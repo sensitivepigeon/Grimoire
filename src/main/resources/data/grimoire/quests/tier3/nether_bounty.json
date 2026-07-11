@@ -2,6 +2,8 @@
   "title": "Nether Ship: The Nether",
   "lore": "The transversal ship has reached the Nether.",
   "description": "We know the patrons wish for these. We have a good deal for them since we have docked here. Send them our regards. - The Nether Ship, Pillar of Truth",
+  "patron": "The Pillar of Truth",
+  "format": 1,
   "tier": 3,
   "required_item": "minecraft:iron_ingot",
   "required_count": 15,

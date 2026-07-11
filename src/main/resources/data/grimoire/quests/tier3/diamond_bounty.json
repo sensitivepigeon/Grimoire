@@ -2,6 +2,8 @@
   "title": "Diamonds for Sale",
   "lore": "A local village has a diamond vein and is selling off stock.",
   "description": "We're RICH! WE'RE RICH! QUICK -- buy some! How did this happen?! We just -- diamonds! In the river! - Mayor Benny",
+  "patron": "Mayor Benny",
+  "format": 1,
   "tier": 3,
   "required_item": "minecraft:emerald",
   "required_count": 15,

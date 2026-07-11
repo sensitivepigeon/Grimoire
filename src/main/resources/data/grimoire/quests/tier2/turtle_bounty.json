@@ -2,6 +2,8 @@
   "title": "Turtle Bounty",
   "lore": "An aquarium needs to be repaired.",
   "description": "My aquarium needs to be repaired again. Need some glass for the build. Thanks! - Fisher Jason",
+  "patron": "Fisher Jason",
+  "format": 1,
   "tier": 2,
   "required_item": "minecraft:glass",
   "required_count": 5,

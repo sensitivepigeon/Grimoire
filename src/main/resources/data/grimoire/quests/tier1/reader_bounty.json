@@ -2,6 +2,8 @@
   "title": "Reading Rainbow",
   "lore": "A reader is seeking her next favorite novel.",
   "description": "I've run out of things to read. Any recommendations? Mysteries, horror, and thriller preferred. - Reader Kaitlyn",
+  "patron": "Reader Kaitlyn",
+  "format": 1,
   "tier": 1,
   "required_item": "minecraft:book",
   "required_count": 5,

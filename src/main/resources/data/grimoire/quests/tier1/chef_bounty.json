@@ -1,7 +1,9 @@
 {
   "title": "Hungry, Hungry Refugees",
   "lore": "Grow some wheat for the local chef.",
-  "description": "After the surge of those seeking refuge, I am at a loss on feeding them all. Please send us something to cook for them. I don't have much to pay you with - Chef Richard",
+  "description": "After the surge of those seeking refuge, I am at a loss on feeding them all. Please send us something to cook for them. I don't have much to pay you with. - Chef Richard",
+  "patron": "Chef Richard",
+  "format": 1,
   "tier": 1,
   "required_item": "minecraft:wheat",
   "required_count": 15,

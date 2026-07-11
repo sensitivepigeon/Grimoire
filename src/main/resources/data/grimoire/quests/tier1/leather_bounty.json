@@ -2,6 +2,8 @@
   "title": "Estate Sale",
   "lore": "A patron is selling off stock.",
   "description": "Found these in the basement. If there's any interest, contact me through the broker. Need to clear some space from my estate. - Robert",
+  "patron": "Robert",
+  "format": 1,
   "tier": 1,
   "required_item": "minecraft:emerald",
   "required_count": 8,

@@ -2,6 +2,8 @@
   "title": "Piece by Piece",
   "lore": "The patron requires stone.",
   "description": "Stone. Quickly. For... reasons. Paying handsomely. - Builder Gregor",
+  "patron": "Builder Gregor",
+  "format": 1,
   "tier": 1,
   "required_item": "minecraft:stone",
   "required_count": 10,

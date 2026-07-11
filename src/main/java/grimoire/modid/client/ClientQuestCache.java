@@ -40,14 +40,20 @@ public class ClientQuestCache {
                 String patron = buf.readString();
                 int format = buf.readInt();
                 int tier = buf.readInt();
-                Item requiredItem = Registries.ITEM.get(new Identifier(buf.readString()));
+
+                String requiredItemId = buf.readString();
+                Item requiredItem = Registries.ITEM.get(new Identifier(requiredItemId));
+
                 int requiredCount = buf.readInt();
-                Item rewardItem = Registries.ITEM.get(new Identifier(buf.readString()));
+                String rewardItemID = buf.readString();
+                Item rewardItem = Registries.ITEM.get(new Identifier(rewardItemID));
+
                 int rewardCount = buf.readInt();
                 received.add(new Quest(id, title, lore, description, tier, format, patron, requiredItem, requiredCount, rewardItem, rewardCount));
             }
 
             int tierCount = buf.readInt();
+
             Map<Integer, TierConfig> receivedTiers = new HashMap<>();
             for (int i = 0; i < tierCount; i++) {
                 int t = buf.readInt();
