@@ -2,17 +2,20 @@
 	"schemaVersion": 1,
 	"id": "grimoire",
 	"version": "${version}",
-	"name": "Grimoire",
-	"description": "Adds bounties via a tome ui for harder to get resources.",
+	"name": "QuestTome",
+	"description": "QuestTome is a fantasy questing/bounty mod for getting those harder to farm resources, built for custom mod pack makers and servers in mind!",
 	"authors": [
-		"Pigeon"
+		"SensitivePigeon"
 	],
+	"contributors": [
+		"Matija"],
+
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://github.com/sensitivepigeon/QuestTome",
+		"sources": "https://github.com/sensitivepigeon/QuestTome"
 	},
-	"license": "CC0-1.0",
-	"icon": "assets/grimoire/icon.png",
+	"license": "CC-BY-4.0",
+	"icon": "assets/grimoire/book.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [

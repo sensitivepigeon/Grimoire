@@ -37,6 +37,7 @@ Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more.
  - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one. (For now, reference wiki)
  - datapacks for popular modpacks
  - flavor packs for quests, such as Culinary quest pack
+- tag system
 
 ### Known Issues
 - 1.0 was NOT validated to work with multiple players on the same server yet, but WAS validated to work *on* servers.
@@ -70,4 +71,4 @@ Please do not use AI if you attempt to touch this project including feedback! Pl
 
 # Discord
 
-here when it's open. For now find me in the Fabric modder's discord.
+here when it's open. For now find me in the Fabric modder's discord as @sensitivepigeon. Ask questions through discord or post issues on github. Thank you!
