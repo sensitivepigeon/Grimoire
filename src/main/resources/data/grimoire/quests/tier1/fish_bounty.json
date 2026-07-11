@@ -1,10 +1,10 @@
 {
-  "title": "Gone Fishin'",
-  "lore": "Go fishing. The local chef will pay you well.",
-  "description": "Help! I need more cod. Lots of detail here.",
+  "title": "Rivers Run Dry",
+  "lore": "Go fishing. The locals need more fish.",
+  "description": "Our river is emptying, slowly. We don't know why. Send us fish! We need to reverse the damage. - Mayor Benny",
   "tier": 1,
   "required_item": "minecraft:cod",
   "required_count": 6,
-  "reward_item": "minecraft:emerald",
-  "reward_count": 15
+  "reward_item": "minecraft:iron_ingot",
+  "reward_count": 12
 }

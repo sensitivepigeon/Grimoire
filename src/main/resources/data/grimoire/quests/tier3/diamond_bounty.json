@@ -1,9 +1,10 @@
 {
   "title": "Diamonds for Sale",
   "lore": "A local village has a diamond vein and is selling off stock.",
+  "description": "We're RICH! WE'RE RICH! QUICK -- buy some! How did this happen?! We just -- diamonds! In the river! - Mayor Benny",
   "tier": 3,
   "required_item": "minecraft:emerald",
-  "required_count": 20,
+  "required_count": 15,
   "reward_item": "minecraft:diamond",
   "reward_count": 8
 }

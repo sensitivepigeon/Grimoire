@@ -1,9 +1,0 @@
-{
-  "title": "Pearls Before Swine",
-  "lore": "A piglin merchant is looking for Overworld currency.",
-  "tier": 3,
-  "required_item": "minecraft:diamond_block",
-  "required_count": 1,
-  "reward_item": "minecraft:netherite_scrap",
-  "reward_count": 8
-}

@@ -1,0 +1,10 @@
+{
+  "title": "Reading Rainbow",
+  "lore": "A reader is seeking her next favorite novel.",
+  "description": "I've run out of things to read. Any recommendations? Mysteries, horror, and thriller preferred. - Reader Kaitlyn",
+  "tier": 1,
+  "required_item": "minecraft:book",
+  "required_count": 5,
+  "reward_item": "minecraft:iron_ingot",
+  "reward_count": 10
+}

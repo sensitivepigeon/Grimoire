@@ -1,6 +1,7 @@
 {
   "title": "Hide Your Hide",
   "lore": "A leatherworker is paying well for more supplies.",
+  "description": "Need some leather for a project I'm working on. Could you spare some? Thanks. - Leatherworker Ruth",
   "tier": 2,
   "required_item": "minecraft:leather",
   "required_count": 10,

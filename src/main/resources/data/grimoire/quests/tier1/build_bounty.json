@@ -1,10 +1,10 @@
 {
-  "title": "Rebuild It",
-  "lore": "A village needs rebuilding. Provide materials.",
-  "description": "Help! I need more stone. Lots of detail here.",
+  "title": "Piece by Piece",
+  "lore": "The patron requires stone.",
+  "description": "Stone. Quickly. For... reasons. Paying handsomely. - Builder Gregor",
   "tier": 1,
   "required_item": "minecraft:stone",
   "required_count": 10,
-  "reward_item": "minecraft:rabbit_hide",
-  "reward_count": 5
+  "reward_item": "minecraft:flint",
+  "reward_count": 15
 }

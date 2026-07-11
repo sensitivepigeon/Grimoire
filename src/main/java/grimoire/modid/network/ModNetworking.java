@@ -29,6 +29,8 @@ public class ModNetworking {
             buf.writeString(quest.title());
             buf.writeString(quest.lore());
             buf.writeString(quest.description());
+            buf.writeString(quest.patron());
+            buf.writeInt(quest.format());
             buf.writeInt(quest.tier());
             buf.writeString(Registries.ITEM.getId(quest.requiredItem()).toString());
             buf.writeInt(quest.requiredCount());

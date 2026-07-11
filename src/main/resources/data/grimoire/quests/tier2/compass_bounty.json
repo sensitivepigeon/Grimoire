@@ -1,0 +1,10 @@
+{
+  "title": "Lost",
+  "lore": "The patron is lost and needs a compass.",
+  "description": "Where am I? Is this.. repeating? This book is all that survived the crash. Send me a compass! - Traveler Eugene",
+  "tier": 2,
+  "required_item": "minecraft:compass",
+  "required_count": 1,
+  "reward_item": "minecraft:amethyst_shard",
+  "reward_count": 16
+}

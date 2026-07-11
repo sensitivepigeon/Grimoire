@@ -1,0 +1,10 @@
+{
+  "title": "Sugary Squids",
+  "lore": "The squids need to be fed.",
+  "description": "Time to feed the squids again. Thanks - Rancher Barbara",
+  "tier": 2,
+  "required_item": "minecraft:sugar",
+  "required_count": 5,
+  "reward_item": "minecraft:ink_sac",
+  "reward_count": 10
+}

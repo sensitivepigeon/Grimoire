@@ -37,12 +37,14 @@ public class ClientQuestCache {
                 String title = buf.readString();
                 String lore = buf.readString();
                 String description = buf.readString();
+                String patron = buf.readString();
+                int format = buf.readInt();
                 int tier = buf.readInt();
                 Item requiredItem = Registries.ITEM.get(new Identifier(buf.readString()));
                 int requiredCount = buf.readInt();
                 Item rewardItem = Registries.ITEM.get(new Identifier(buf.readString()));
                 int rewardCount = buf.readInt();
-                received.add(new Quest(id, title, lore, description, tier, requiredItem, requiredCount, rewardItem, rewardCount));
+                received.add(new Quest(id, title, lore, description, tier, format, patron, requiredItem, requiredCount, rewardItem, rewardCount));
             }
 
             int tierCount = buf.readInt();

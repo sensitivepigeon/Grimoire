@@ -1,10 +1,10 @@
 {
-  "title": "Fresh Bread",
+  "title": "Hungry, Hungry Refugees",
   "lore": "Grow some wheat for the local chef.",
-  "description": "Help! I need more wheat. Lots of detail here.",
+  "description": "After the surge of those seeking refuge, I am at a loss on feeding them all. Please send us something to cook for them. I don't have much to pay you with - Chef Richard",
   "tier": 1,
   "required_item": "minecraft:wheat",
-  "required_count": 6,
-  "reward_item": "minecraft:emerald",
+  "required_count": 15,
+  "reward_item": "minecraft:cobweb",
   "reward_count": 10
 }

@@ -1,0 +1,10 @@
+{
+  "title": "Names Are Important",
+  "lore": "Hello, you. Wouldn't you like some nametags?",
+  "description": "You have a habit of collecting strays, don't you? Surely you'll find this useful. - The Broker",
+  "tier": 2,
+  "required_item": "minecraft:gold_ingot",
+  "required_count": 5,
+  "reward_item": "minecraft:name_tag",
+  "reward_count": 2
+}

@@ -46,24 +46,90 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                 String path = entry.getKey().getPath();
                 String questId = path.substring("quests/".length(), path.length() - ".json".length());
 
-                String title = json.get("title").getAsString();
+                String title = requireString(json, "title", entry.getKey());
+                if (title == null) {
+                    continue;
+                }
+
                 String lore = getStringOr(json, "lore", "");
                 String description = getStringOr(json, "description", "");
+                String patron = getStringOr(json, "patron", "");
+                int format = getIntOr(json, "format", 1);
                 int tier = getIntOr(json, "tier", 1);
-                Item requiredItem = Registries.ITEM.get(new Identifier(json.get("required_item").getAsString()));
-                int requiredCount = json.get("required_count").getAsInt();
-                Item rewardItem = Registries.ITEM.get(new Identifier(json.get("reward_item").getAsString()));
-                int rewardCount = json.get("reward_count").getAsInt();
+                Item requiredItem = resolveItem(json, "required_item", entry.getKey());
+                Item rewardItem = resolveItem(json, "reward_item", entry.getKey());
+                if (requiredItem == null || rewardItem == null) {
+                    Grimoire.LOGGER.warn("Skipping quest {} because one or more item IDs could not be resolved", entry.getKey());
+                    continue;
+                }
 
-                QUESTS.put(questId, new Quest(questId, title, lore, description, tier,
+                Integer requiredCount = requirePositiveInt(json, "required_count", entry.getKey());
+                Integer rewardCount = requirePositiveInt(json, "reward_count", entry.getKey());
+                if (requiredCount == null || rewardCount == null) {
+                    Grimoire.LOGGER.warn("Skipping quest {} because one or more count values are invalid", entry.getKey());
+                    continue;
+                }
+
+                QUESTS.put(questId, new Quest(questId, title, lore, description, tier, format, patron,
                         requiredItem, requiredCount, rewardItem, rewardCount));
 
             } catch (Exception e) {
-                System.err.println("[Grimoire] Failed to load quest " + entry.getKey() + ": " + e);
+                Grimoire.LOGGER.warn("Failed to load quest {}", entry.getKey(), e);
             }
         }
 
-        System.out.println("[Grimoire] Loaded " + QUESTS.size() + " quest(s)");
+        Grimoire.LOGGER.info("Loaded {} quest(s)", QUESTS.size());
+    }
+
+    private static Item resolveItem(JsonObject json, String keyName, Identifier fileName) {
+        String rawId = getStringOr(json, keyName, "");
+        Identifier id = Identifier.tryParse(rawId);
+
+        if (rawId.isEmpty()) {
+            Grimoire.LOGGER.warn("Quest file {} has empty {} item ID", fileName, keyName);
+            return null;
+        }
+
+        if (id == null) {
+            Grimoire.LOGGER.warn("Quest file {} has invalid {} item ID syntax: '{}'", fileName, keyName, rawId);
+            return null;
+        }
+
+        if (!Registries.ITEM.containsId(id)) {
+            Grimoire.LOGGER.warn("Quest file {} references unknown {} item ID: '{}'", fileName, keyName, rawId);
+            return null;
+        }
+
+        return Registries.ITEM.get(id);
+    }
+
+    private static String requireString(JsonObject json, String keyName, Identifier fileName) {
+        if (!json.has(keyName) || json.get(keyName).isJsonNull()) {
+            Grimoire.LOGGER.warn("Quest file {} is missing required key field '{}'", fileName, keyName);
+            return null;
+        }
+
+        return json.get(keyName).getAsString();
+    }
+
+    private static Integer requirePositiveInt(JsonObject json, String keyName, Identifier fileName) {
+        if (!json.has(keyName) || json.get(keyName).isJsonNull()) {
+            Grimoire.LOGGER.warn("Quest file {} is missing required number '{}'", fileName, keyName);
+            return null;
+        }
+
+        if (!json.get(keyName).isJsonPrimitive() || !json.get(keyName).getAsJsonPrimitive().isNumber()) {
+            Grimoire.LOGGER.warn("Quest file {} has a non-numeric value for '{}'", fileName, keyName);
+            return null;
+        }
+
+        int value = json.get(keyName).getAsInt();
+        if (value <= 0) {
+            Grimoire.LOGGER.warn("Quest file {} has a non-positive required number '{}': {}", fileName, keyName, value);
+            return null;
+        }
+
+        return value;
     }
 
     private void loadTiers(ResourceManager manager) {
@@ -86,7 +152,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                     TIERS.put(tier, new TierConfig(tier, name, offers, toUnlock));
                 }
             } catch (Exception e) {
-                System.err.println("[Grimoire] Failed to load tiers.json: " + e);
+                Grimoire.LOGGER.warn("Failed to load tiers.json:", e);
             }
         }
 
@@ -95,7 +161,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                     t -> new TierConfig(t, "Tier " + t, 3, 5));
         }
 
-        System.out.println("[Grimoire] Loaded " + TIERS.size() + " tier(s)");
+        Grimoire.LOGGER.info("Loaded {} tier(s)", TIERS.size());
     }
 
     private static String getStringOr(JsonObject json, String key, String fallback) {

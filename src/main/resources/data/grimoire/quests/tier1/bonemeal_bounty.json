@@ -1,0 +1,10 @@
+{
+  "title": "Wilted Crops",
+  "lore": "The patron wishes for bone meal.",
+  "description": "My farm has been cursed to wither once more. I require further packages of bone meal to fertilize the land, since you refuse to allow me to request 'item redacted'. - Farmer Ariel",
+  "tier": 1,
+  "required_item": "minecraft:bone_meal",
+  "required_count": 5,
+  "reward_item": "minecraft:honeycomb",
+  "reward_count": 10
+}

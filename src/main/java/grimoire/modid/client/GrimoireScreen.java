@@ -517,6 +517,8 @@ public class GrimoireScreen extends Screen {
             "\n" +
             "To earn more esteem, merely fulfill the bargains of the patrons you've been offered enough times and you'll be promoted. I will personally recommend you to the next batch of wanting parties." +
             "\n" +
+            "Oh, and bargains will repeat as if they're the same request sometimes. Don't worry about that. Don't think about it. That's not your job." +
+            "\n" +
             "Let's begin.";
 
     private void drawHelpPage(DrawContext context) {

@@ -1,0 +1,10 @@
+{
+  "title": "Pearls Before Swine",
+  "lore": "A piglin merchant is looking for Overworld currency.",
+  "description": "'untranslated' - 'untranslated'. You can't read their writing, but the intent is clear enough. Trade some emeralds for their goods. - The Broker",
+  "tier": 3,
+  "required_item": "minecraft:emerald",
+  "required_count": 15,
+  "reward_item": "minecraft:ghast_tear",
+  "reward_count": 8
+}

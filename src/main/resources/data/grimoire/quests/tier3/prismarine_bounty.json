@@ -1,0 +1,10 @@
+{
+  "title": "Prismatic",
+  "lore": "A diver has found something interesting.",
+  "description": "I barely escaped with my life again. Is this stuff worth anything? Send me back supplies for water-breathing potions. - Diver Edward",
+  "tier": 3,
+  "required_item": "minecraft:pufferfish",
+  "required_count": 3,
+  "reward_item": "minecraft:prismarine_shard",
+  "reward_count": 15
+}

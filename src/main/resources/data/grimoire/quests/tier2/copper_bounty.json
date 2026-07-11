@@ -1,9 +1,10 @@
 {
   "title": "Useless Metal",
   "lore": "Surely you'd like to offload some copper to a desperate buyer.",
+  "description": "Copper. Copper. Copper. Copper. Need it now. Need lots. Need it all. Thanks. - Unknown Address",
   "tier": 2,
   "required_item": "minecraft:copper_ingot",
   "required_count": 40,
   "reward_item": "minecraft:iron_ingot",
-  "reward_count": 20
+  "reward_count": 25
 }

@@ -1,0 +1,10 @@
+{
+  "title": "Had A Ranch",
+  "lore": "Useless items need to go.",
+  "description": "Don't need these saddles anymore, I guess. Just send me something nice. Please. I don't know how many times I can do this. - Rancher Joe",
+  "tier": 1,
+  "required_item": "minecraft:poppy",
+  "required_count": 1,
+  "reward_item": "minecraft:saddle",
+  "reward_count": 2
+}

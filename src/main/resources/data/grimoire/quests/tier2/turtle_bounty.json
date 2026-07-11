@@ -1,0 +1,10 @@
+{
+  "title": "Turtle Bounty",
+  "lore": "An aquarium needs to be repaired.",
+  "description": "My aquarium needs to be repaired again. Need some glass for the build. Thanks! - Fisher Jason",
+  "tier": 2,
+  "required_item": "minecraft:glass",
+  "required_count": 5,
+  "reward_item": "minecraft:scute",
+  "reward_count": 5
+}

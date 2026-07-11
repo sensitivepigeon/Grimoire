@@ -1,0 +1,10 @@
+{
+  "title": "Vwoop",
+  "lore": "A stranger is asking for blocks.",
+  "description": "Vwoop. Vwoop? That's the translation, you. I think you know who's asking. - The Broker",
+  "tier": 3,
+  "required_item": "minecraft:cobblestone",
+  "required_count": 5,
+  "reward_item": "minecraft:ender_pearl",
+  "reward_count": 8
+}

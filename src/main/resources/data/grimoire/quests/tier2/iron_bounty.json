@@ -1,6 +1,7 @@
 {
   "title": "Iron Will",
-  "lore": "The smiths of the lowlands hunger for honest iron. Prove your diligence.",
+  "lore": "The smiths of the lowlands hunger for honest iron.",
+  "description": "Hi does this thing work I need irone Pleas send for neew picke. - Minor Tristain",
   "tier": 2,
   "required_item": "minecraft:iron_ingot",
   "required_count": 10,

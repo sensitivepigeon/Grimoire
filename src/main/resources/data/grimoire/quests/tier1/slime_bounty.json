@@ -1,0 +1,10 @@
+{
+  "title": "Slime-y Request",
+  "lore": "Hungry slimes need feeding.",
+  "description": "My slimes need feeding. I'll sell you some extra off the top, premium quality full-goop slime at the best price. - Slimer Gabriel",
+  "tier": 1,
+  "required_item": "minecraft:rotten_flesh",
+  "required_count": 8,
+  "reward_item": "minecraft:slime_ball",
+  "reward_count": 16
+}

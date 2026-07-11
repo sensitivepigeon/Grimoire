@@ -1,0 +1,10 @@
+{
+  "title": "Nightmares",
+  "lore": "A sleepless woman needs help.",
+  "description": "I have insomnia. They've been coming for me. Can you send me something to help me sleep? A new bed, maybe? Maybe it'll work this time. - Tormented Susan",
+  "tier": 2,
+  "required_item": "minecraft:red_bed",
+  "required_count": 1,
+  "reward_item": "minecraft:phantom_membrane",
+  "reward_count": 8
+}
