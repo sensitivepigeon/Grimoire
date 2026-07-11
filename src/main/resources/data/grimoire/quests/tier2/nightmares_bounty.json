@@ -2,7 +2,7 @@
   "title": "Nightmares",
   "lore": "A sleepless woman needs help.",
   "description": "I have insomnia. They've been coming for me. Can you send me something to help me sleep? A new bed, maybe? Maybe it'll work this time. - Tormented Susan",
-  "patron": "Tormented Susan",
+  "patron": "torment_susan",
   "format": 1,
   "tier": 2,
   "required_item": "minecraft:red_bed",

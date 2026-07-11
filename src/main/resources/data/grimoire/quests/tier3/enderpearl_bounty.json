@@ -2,7 +2,7 @@
   "title": "Vwoop",
   "lore": "A stranger is asking for blocks.",
   "description": "Vwoop. Vwoop? That's the translation, you. I think you know who's asking. - The Broker",
-  "patron": "The Broker",
+  "patron": "the_broker",
   "format": 1,
   "tier": 3,
   "required_item": "minecraft:cobblestone",

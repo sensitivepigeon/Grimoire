@@ -1,7 +1,7 @@
 {
   "title": "Null and Void",
   "lore": "A bankrupt Nether Ship is making a quick deal on clearance.",
-  "patron": "The Pillar of Truth",
+  "patron": "nether_ship",
   "format": 1,
   "tier": 5,
   "required_item": "minecraft:netherite_ingot",

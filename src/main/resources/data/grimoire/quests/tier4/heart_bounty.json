@@ -1,7 +1,7 @@
 {
   "title": "Tribute of the Drowned",
   "lore": "Something beneath the waves offers you more.",
-  "patron": "The Drowned",
+  "patron": "the_drowned",
   "format": 1,
   "tier": 4,
   "required_item": "minecraft:golden_apple",

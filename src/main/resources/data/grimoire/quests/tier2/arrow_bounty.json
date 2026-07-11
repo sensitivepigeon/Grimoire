@@ -2,7 +2,7 @@
   "title": "Quivering",
   "lore": "A defender needs arrows.",
   "description": "My quiver runs dry. They're at the door again. I don't have much time. - Archer Daniel",
-  "patron": "Archer Daniel",
+  "patron": "archer_daniel",
   "format": 1,
   "tier": 2,
   "required_item": "minecraft:arrow",

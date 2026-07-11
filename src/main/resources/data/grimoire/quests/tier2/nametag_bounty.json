@@ -2,7 +2,7 @@
   "title": "Names Are Important",
   "lore": "Hello, you. Wouldn't you like some nametags?",
   "description": "You have a habit of collecting strays, don't you? Surely you'll find this useful. - The Broker",
-  "patron": "The Broker",
+  "patron": "the_broker",
   "format": 1,
   "tier": 2,
   "required_item": "minecraft:gold_ingot",

@@ -2,7 +2,7 @@
   "title": "Prismatic",
   "lore": "A diver has found something interesting.",
   "description": "I barely escaped with my life again. Is this stuff worth anything? Send me back supplies for water-breathing potions. - Diver Edward",
-  "patron": "Diver Edward",
+  "patron": "diver_ed",
   "format": 1,
   "tier": 3,
   "required_item": "minecraft:pufferfish",

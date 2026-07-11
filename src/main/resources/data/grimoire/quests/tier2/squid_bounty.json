@@ -2,7 +2,7 @@
   "title": "Sugary Squids",
   "lore": "The squids need to be fed.",
   "description": "Time to feed the squids again. Thanks - Rancher Barbara",
-  "patron": "Rancher Barbara",
+  "patron": "rancher_barb",
   "format": 1,
   "tier": 2,
   "required_item": "minecraft:sugar",

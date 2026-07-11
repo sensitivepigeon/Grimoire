@@ -2,7 +2,7 @@
   "title": "Rivers Run Dry",
   "lore": "Go fishing. The locals need more fish.",
   "description": "Our river is emptying, slowly. We don't know why. Send us fish! We need to reverse the damage. - Mayor Benny",
-  "patron": "Mayor Benny",
+  "patron": "mayor_benny",
   "format": 1,
   "tier": 1,
   "required_item": "minecraft:cod",
