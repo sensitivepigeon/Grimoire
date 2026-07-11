@@ -5,7 +5,7 @@ import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
-
+import grimoire.modid.item.ModItems;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -71,6 +71,7 @@ public class BountyBoard {
     }
 
     // this makes rotations sync with join and tome open and only then and sweeps orphan
+    // also posts line of daily update for players with tome within inventory
     public static void ensureFreshRotation(ServerPlayerEntity player) {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
         long day = currentDay(player);
@@ -81,7 +82,10 @@ public class BountyBoard {
             progress.startNewRotation(day);
             rollOffers(progress);
             ModComponents.QUEST_PROGRESS.sync(player);
-            player.sendMessage(Text.literal("[QuestTome] The Book is updated with new bargains for the day."), false);
+
+            if (player.getInventory().count(ModItems.GRIMOIRE_TOME) > 0) {
+                player.sendMessage(Text.literal("[QuestTome] The Book is updated with new bargains for the day."), false);
+            }
         }
     }
 

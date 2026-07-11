@@ -169,6 +169,20 @@ public class GrimoireScreen extends Screen {
         // left page turn in hitboxes
         if (!showHelp) {
             for (int i = 0; i < actives.size(); i++) {
+                Quest quest = actives.get(i);
+
+
+                if (!quest.description().isEmpty()) {
+                    final Quest q = quest;
+                    this.addDrawableChild(new HitboxButton(
+                            bookLeft + OATH_TEXT_X, bookTop + OATH_TITLE_Y[i],
+                            OATH_TEXT_W, 10,
+                            Text.literal("More"), b -> {
+                        this.detailQuest = q;
+                        this.clearAndInit();
+                    }));
+                }
+
                 final String id = actives.get(i).id();
                 this.addDrawableChild(new HitboxButton(
                         bookLeft + CHEVRON_X, bookTop + CHEVRON_Y[i], CHEVRON_W, CHEVRON_H,
@@ -233,6 +247,8 @@ public class GrimoireScreen extends Screen {
                             this.clearAndInit();
                         }));
                     }
+
+
 
                     if (sworn) continue;   // accepted bargains: tag instead of arrow
 
