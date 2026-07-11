@@ -11,11 +11,11 @@ It adds the **Book of Bargains**, an item players use to view available Bargains
 
 The mod is designed more for assistance in getting those harder-to-acquire niche resources you may not want to dive into the ocean or kill a bunch of rabbits for. This adds an alternative method of acquisition, perfect for mod makers who want to add a stop-gap to delayed progression and players who value their time!
 
+Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more.
 
 ### Player Features
-- **The Book of Bargains**: An ethereal book that is crafted using an ender pearl and a writable book, which enables you to access the "Bargains" system. A mysterious entity inhabits the book, offering you bargains from across the realms from various patrons to fulfill for rewards. Greater rewards await for the diligent... but be careful: you never know who or what might be hiding their intentions from you, no matter their promised rewards.
 
-- **How the Book Works:** A modeled, held book item that opens your Bargains UI on right click. The left page will hold your *accepted bargains,* up to three at a time from any mix of available tiers. Each show the required item as a handy icon and have a live "gathered" count in your inventory in real time! The right page will display available bounties for that tier and allows for paging through tiers to see what's on offer for that day.
+- **The Book of Bargains**: An ethereal book that is crafted using a diamond and a writable book, which enables you to access the "Bargains" system. A mysterious entity inhabits the book, offering you bargains from across the realms from various patrons to fulfill for rewards. Greater rewards await for the diligent... but be careful: you never know who or what might be hiding their intentions from you, no matter their promised rewards.
 
 - **Daily Rolls**: Offers a reroll each Minecraft day per player and also shuffles all offers each day! Different offers for each player. Anything you don't accept can vanish in the shuffle, so re-roll carefully. Anything you accepted is yours to fulfill and you remain committed no matter how many days pass. Careful, you can only pick 3 bargains at a time maximum! Each bounty is once-daily to complete, and can show back up later.
 
@@ -33,7 +33,7 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
  
  - multiple item reward bundles
  - new quest types and chain quests across tiers with story
- - The Codex that keeps past quest info and completed quests
+ - The Codex that keeps past quest info and completed quests over lifetime
  - quest making resource for modders and devs to solve tedious nature of inputting quests manually one-by-one.
  - first quest pack of handwritten quests with lore flavor
  - datapacks for popular modpacks
@@ -43,7 +43,7 @@ The mod is designed more for assistance in getting those harder-to-acquire niche
 - 1.0 was NOT validated to work with multiple players on the same server yet, but WAS validated to work *on* servers.
 - Don't try to load a quest pack without the required mods for that pack... I don't think my code could withstand that.
 - Sleeping resets roll but that's intended
-- No roll announcement in chat when the daily reset happens.
+
 
 
 ## Installation
