@@ -43,10 +43,10 @@ public class GrimoireScreen extends Screen {
     private static final int OATH_ICON_CX = 48;
     private static final int[] OATH_ICON_CY = {67, 122, 177};
 
-    // turn-in chevrons (painted art; hitboxes only)
+    // turn-in arrows now use arrow sprite but i misnamed it sorry
     private static final int CHEVRON_X = 132;
-    private static final int CHEVRON_W = 40;
-    private static final int CHEVRON_H = 9;
+    private static final int CHEVRON_W = 44;
+    private static final int CHEVRON_H = 12;
     private static final int[] CHEVRON_Y = {77, 131, 185};
 
     // right page - header
@@ -97,7 +97,7 @@ public class GrimoireScreen extends Screen {
 
     // button sprites
     private static final Identifier SPRITE_TURNIN =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/chevron_turnin.png");
+            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/accept_arrow.png");
     private static final Identifier SPRITE_ACCEPT =
             new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/accept_arrow.png");
     private static final Identifier SPRITE_DICE =
@@ -106,6 +106,8 @@ public class GrimoireScreen extends Screen {
             new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/nav_left.png");
     private static final Identifier SPRITE_NAV_R =
             new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/nav_right.png");
+    private static final Identifier SPRITE_BACK =
+            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/back_arrow.png");
 
     // mode backgrounds
     private static final Identifier TEXTURE_DETAIL =
@@ -113,12 +115,12 @@ public class GrimoireScreen extends Screen {
     private static final Identifier TEXTURE_HELP =
             new Identifier(Grimoire.MOD_ID, "textures/gui/grimoire_book_help.png");
 
-    // help page layout
-    private static final int HELP_HEADER_CX = 109, HELP_HEADER_Y = 44;
-    private static final int HELP_L_X = 38, HELP_L_Y = 70, HELP_L_W = 142;
-    private static final int HELP_R_X = 241, HELP_R_Y = 28, HELP_R_W = 141;
-    private static final int HELP_L_H = 135;
-    private static final int HELP_R_H = 178;
+    // help page layout, text edits in HelpText java
+    private static final int HELP_HEADER_CX = 109, HELP_HEADER_Y = 30;
+    private static final int HELP_L_X = 38, HELP_L_Y = 56, HELP_L_W = 145;
+    private static final int HELP_R_X = 241, HELP_R_Y = 33, HELP_R_W = 145;
+    private static final int HELP_L_H = 145;
+    private static final int HELP_R_H = 210;
     private static final float HELP_TEXT_MIN_SCALE = 0.55f;
     
     private static final int MAX_OATHS = 3;    // mirrored in BountyBoard.MAX_ACTIVE_BOUNTIES
@@ -196,30 +198,35 @@ public class GrimoireScreen extends Screen {
 
         if (showHelp) {
            // help mode
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Back"), b -> {
+            this.addDrawableChild(new HitboxButton(
+                    bookLeft + 30, bookTop + 195, 45, 12,
+                    Text.literal("Back"), b -> {
                 this.showHelp = false;
                 this.clearAndInit();
-            }).dimensions(bookLeft + RIGHT_CX - 26, bookTop + BOOK_HEIGHT - 24, 52, 16).build());
+            }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
 
         } else if (detailQuest != null) {
             // detail mode
-            this.addDrawableChild(ButtonWidget.builder(Text.literal("Back"), b -> {
+            this.addDrawableChild(new HitboxButton(
+                    bookLeft + 234, bookTop + 195, 45, 12,
+                    Text.literal("Back"), b -> {
                 this.detailQuest = null;
                 this.clearAndInit();
-            }).dimensions(bookLeft + RIGHT_CX - 58, bookTop + BOOK_HEIGHT - 24, 52, 16).build());
+            }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
 
             boolean done = progress.hasCompleted(detailQuest.id());
             boolean sworn = progress.isActive(detailQuest.id());
             boolean atCap = progress.getActiveCount() >= MAX_OATHS;
 
-            if (!sworn) {
+            if (!sworn && !done) {
                 final String id = detailQuest.id();
-                ButtonWidget accept = ButtonWidget.builder(
-                        Text.literal(done ? "Done" : "Accept"), b -> {
-                            PacketByteBuf buf = PacketByteBufs.create();
-                            buf.writeString(id);
-                            ClientPlayNetworking.send(ModNetworking.ACCEPT_QUEST, buf);
-                        }).dimensions(bookLeft + RIGHT_CX + 6, bookTop + BOOK_HEIGHT - 24, 52, 16).build();
+                HitboxButton accept = new HitboxButton(
+                        bookLeft + 349, bookTop + 195, 45, 12,
+                        Text.literal("Accept"), b -> {
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    buf.writeString(id);
+                    ClientPlayNetworking.send(ModNetworking.ACCEPT_QUEST, buf);
+                }).withSprite(SPRITE_ACCEPT).withLabel(0xFF2F3D1A);
                 accept.active = !done && !atCap;
                 this.addDrawableChild(accept);
             }
@@ -250,16 +257,16 @@ public class GrimoireScreen extends Screen {
 
 
 
-                    if (sworn) continue;   // accepted bargains: tag instead of arrow
+                    if (sworn || done) continue;   // accepted bargains: tag instead of arrow
 
                     HitboxButton accept = new HitboxButton(
                             bookLeft + ACCEPT_X, bookTop + ACCEPT_Y[i], ACCEPT_W, ACCEPT_H,
-                            Text.literal(done ? "Done" : "Accept"), b -> {
+                            Text.literal("Accept"), b -> {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeString(id);
                         ClientPlayNetworking.send(ModNetworking.ACCEPT_QUEST, buf);
                     }).withSprite(SPRITE_ACCEPT).withLabel(0xFF2F3D1A);
-                    accept.active = !done && !atCap;
+                    accept.active = !atCap;
                     this.addDrawableChild(accept);
                 }
             }
@@ -523,29 +530,17 @@ public class GrimoireScreen extends Screen {
         drawWrappedText(context, quest.description(), x, tradeY + 26, textWidth, INK_BODY);
     }
 
-    // help mode layout for help page, use n for breaks. the text scales to the amount written fyi
-    private static final String HELP_TEXT_LEFT = "Hello, you." +
-            "\n" +
-            "I see you've found the Book. No, don't close it -- I am addressing you. Yes, you." +
-            "\n" +
-            "Who am I? I am the notary. The factor. The broker. It's all a matter of language to us bookworms, so feel free to experiment with a little lingo. My job is to manage the requests of valuable patrons. Your job is now to fulfill them, should you choose to accept such a bargain.";
-    private static final String HELP_TEXT_RIGHT = "Each day, I will offer you an array of fitting bargains to how much reputation you've accumulated among the patrons. You have one chance to refresh the offers each of those days, the patrons get stiff if you're too indecisive." +
-            "\n" +
-            "To earn more esteem, merely fulfill the bargains of the patrons you've been offered enough times and you'll be promoted. I will personally recommend you to the next batch of wanting parties." +
-            "\n" +
-            "Oh, and bargains will repeat as if they're the same request sometimes. Don't worry about that. Don't think about it. That's not your job." +
-            "\n" +
-            "Let's begin.";
 
-    private void drawHelpPage(DrawContext context) {
+
+    public void drawHelpPage(DrawContext context) {
         // header sits above the painted line at y=58
         drawCenteredNoShadow(context, "The Book of Bargains",
                 bookLeft + HELP_HEADER_CX, bookTop + HELP_HEADER_Y, INK_TITLE);
 
-        drawWrappedTextScaledToFit(context, HELP_TEXT_LEFT,
+        drawWrappedTextScaledToFit(context, HelpText.LEFT,
                 bookLeft + HELP_L_X, bookTop + HELP_L_Y, HELP_L_W, HELP_L_H, INK_BODY);
 
-        drawWrappedTextScaledToFit(context, HELP_TEXT_RIGHT,
+        drawWrappedTextScaledToFit(context, HelpText.RIGHT,
                 bookLeft + HELP_R_X, bookTop + HELP_R_Y, HELP_R_W, HELP_R_H, INK_BODY);
     }
 
@@ -625,6 +620,9 @@ public class GrimoireScreen extends Screen {
         }
 
         int scaledWidth = Math.max(1, (int) (maxWidth / scale));
+        int scaledTextHeight = (int) (textHeight * scale);
+        int offset = Math.max(0, (maxHeight - scaledTextHeight) / 2);
+
 
         context.getMatrices().push();
         context.getMatrices().translate(x, y, 0);
