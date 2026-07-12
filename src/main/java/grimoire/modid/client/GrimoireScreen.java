@@ -164,7 +164,7 @@ public class GrimoireScreen extends Screen {
 
     private int bookLeft;
     private int bookTop;
-    private Point origin;                      // (bookLeft, bookTop) - add to a Rect2i/Point to place it on screen
+    private Point bookTopLeft;
     private int pageIndex = 0;
     private Quest detailQuest = null;          // non-null = detail mode
     private boolean showHelp = false;          // true = help mode (beats detail)
@@ -189,7 +189,7 @@ public class GrimoireScreen extends Screen {
         this.stateSnapshot = snapshot(progress);
         this.bookLeft = (this.width - BOOK_WIDTH) / 2;
         this.bookTop = (this.height - BOOK_HEIGHT) / 2;
-        this.origin = new Point(bookLeft, bookTop);
+        this.bookTopLeft = new Point(bookLeft, bookTop);
 
         buildActives(progress);
         buildPages(progress);
@@ -197,9 +197,8 @@ public class GrimoireScreen extends Screen {
         if (pageIndex < 0) pageIndex = 0;
 
         if (!showHelp) {
-            Rect2i helpBtn = origin.plus(HELP);
             this.addDrawableChild(new HitboxButton(
-                    helpBtn.getX(), helpBtn.getY(), helpBtn.getWidth(), helpBtn.getHeight(),
+                    bookTopLeft.plus(HELP),
                     Text.literal("?"), b -> {
                 this.showHelp = true;
                 this.detailQuest = null;
@@ -216,9 +215,8 @@ public class GrimoireScreen extends Screen {
 
                 if (!quest.description().isEmpty()) {
                     final Quest q = quest;
-                    Rect2i more = origin.plus(OATH_TITLE[i]);
                     this.addDrawableChild(new HitboxButton(
-                            more.getX(), more.getY(), more.getWidth(), more.getHeight(),
+                            bookTopLeft.plus(OATH_TITLE[i]),
                             Text.literal("More"), b -> {
                         this.detailQuest = q;
                         this.clearAndInit();
@@ -226,9 +224,8 @@ public class GrimoireScreen extends Screen {
                 }
 
                 final String id = actives.get(i).id();
-                Rect2i chevron = origin.plus(CHEVRON[i]);
                 this.addDrawableChild(new HitboxButton(
-                        chevron.getX(), chevron.getY(), chevron.getWidth(), chevron.getHeight(),
+                        bookTopLeft.plus(CHEVRON[i]),
                         Text.literal("Turn in"), b -> {
                     PacketByteBuf buf = PacketByteBufs.create();
                     buf.writeString(id);
@@ -239,9 +236,8 @@ public class GrimoireScreen extends Screen {
 
         if (showHelp) {
            // help mode
-            Rect2i helpBack = origin.plus(HELP_BACK);
             this.addDrawableChild(new HitboxButton(
-                    helpBack.getX(), helpBack.getY(), helpBack.getWidth(), helpBack.getHeight(),
+                    bookTopLeft.plus(HELP_BACK),
                     Text.literal("Back"), b -> {
                 this.showHelp = false;
                 this.clearAndInit();
@@ -249,9 +245,8 @@ public class GrimoireScreen extends Screen {
 
         } else if (detailQuest != null) {
             // detail mode
-            Rect2i detailBack = origin.plus(DETAIL_BACK);
             this.addDrawableChild(new HitboxButton(
-                    detailBack.getX(), detailBack.getY(), detailBack.getWidth(), detailBack.getHeight(),
+                    bookTopLeft.plus(DETAIL_BACK),
                     Text.literal("Back"), b -> {
                 this.detailQuest = null;
                 this.clearAndInit();
@@ -263,9 +258,8 @@ public class GrimoireScreen extends Screen {
 
             if (!sworn && !done) {
                 final String id = detailQuest.id();
-                Rect2i detailAccept = origin.plus(DETAIL_ACCEPT);
                 HitboxButton accept = new HitboxButton(
-                        detailAccept.getX(), detailAccept.getY(), detailAccept.getWidth(), detailAccept.getHeight(),
+                        bookTopLeft.plus(DETAIL_ACCEPT),
                         Text.literal("Accept"), b -> {
                     PacketByteBuf buf = PacketByteBufs.create();
                     buf.writeString(id);
@@ -290,9 +284,8 @@ public class GrimoireScreen extends Screen {
                     // detail access: invisible hitbox over title
                     if (!quest.description().isEmpty()) {
                         final Quest q = quest;
-                        Rect2i more = origin.plus(OFFER_TITLE[i]);
                         this.addDrawableChild(new HitboxButton(
-                                more.getX(), more.getY(), more.getWidth(), more.getHeight(),
+                                bookTopLeft.plus(OFFER_TITLE[i]),
                                 Text.literal("More"), b -> {
                             this.detailQuest = q;
                             this.clearAndInit();
@@ -303,9 +296,8 @@ public class GrimoireScreen extends Screen {
 
                     if (sworn || done) continue;   // accepted bargains: tag instead of arrow
 
-                    Rect2i acceptRect = origin.plus(ACCEPT[i]);
                     HitboxButton accept = new HitboxButton(
-                            acceptRect.getX(), acceptRect.getY(), acceptRect.getWidth(), acceptRect.getHeight(),
+                            bookTopLeft.plus(ACCEPT[i]),
                             Text.literal("Accept"), b -> {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeString(id);
@@ -317,9 +309,7 @@ public class GrimoireScreen extends Screen {
             }
 
             // page-turn chevrons (painted art)
-            Rect2i navLRect = origin.plus(NAV_L);
-            HitboxButton navL = new HitboxButton(navLRect.getX(), navLRect.getY(),
-                    navLRect.getWidth(), navLRect.getHeight(),
+            HitboxButton navL = new HitboxButton(bookTopLeft.plus(NAV_L),
                     Text.literal("Previous tier"), b -> {
                 pageIndex--;
                 this.clearAndInit();
@@ -327,9 +317,7 @@ public class GrimoireScreen extends Screen {
             navL.active = pageIndex > 0;
             this.addDrawableChild(navL);
 
-            Rect2i navRRect = origin.plus(NAV_R);
-            HitboxButton navR = new HitboxButton(navRRect.getX(), navRRect.getY(),
-                    navRRect.getWidth(), navRRect.getHeight(),
+            HitboxButton navR = new HitboxButton(bookTopLeft.plus(NAV_R),
                     Text.literal("Next tier"), b -> {
                 pageIndex++;
                 this.clearAndInit();
@@ -338,9 +326,7 @@ public class GrimoireScreen extends Screen {
             this.addDrawableChild(navR);
 
             // dice = reroll (sprite)
-            Rect2i dice = origin.plus(DICE);
-            this.addDrawableChild(new HitboxButton(dice.getX(), dice.getY(),
-                    dice.getWidth(), dice.getHeight(),
+            this.addDrawableChild(new HitboxButton(bookTopLeft.plus(DICE),
                     Text.literal("Reroll"), b ->
                     ClientPlayNetworking.send(ModNetworking.REROLL, PacketByteBufs.create()))
                     .withSprite(SPRITE_DICE));
@@ -439,12 +425,12 @@ public class GrimoireScreen extends Screen {
 
     // left page banner and oaths
     private void drawLeftPage(DrawContext context) {
-        Point bannerCount = origin.plus(BANNER_COUNT);
+        Point bannerCount = bookTopLeft.plus(BANNER_COUNT);
         context.drawCenteredTextWithShadow(this.textRenderer,
                 Text.literal(actives.size() + " of " + MAX_OATHS + " accepted"),
                 bannerCount.x(), bannerCount.y(), BANNER_INK);
 
-        Rect2i help = origin.plus(HELP);
+        Rect2i help = bookTopLeft.plus(HELP);
         context.drawText(this.textRenderer,
                 Text.literal("?"),
                 help.getX() + 6,
@@ -456,7 +442,7 @@ public class GrimoireScreen extends Screen {
             if (i < actives.size()) {
                 drawOathCard(context, actives.get(i), i);
             } else {
-                Rect2i info = origin.plus(OATH_INFO[i]);
+                Rect2i info = bookTopLeft.plus(OATH_INFO[i]);
                 drawScaledText(context, "-- empty bargain --", true,
                         info.getX(), info.getY(), info.getWidth(), INK_DIM);
             }
@@ -465,17 +451,17 @@ public class GrimoireScreen extends Screen {
 
     private void drawOathCard(DrawContext context, Quest quest, int i) {
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-        Point icon = origin.plus(OATH_ICON[i]);
+        Point icon = bookTopLeft.plus(OATH_ICON[i]);
         drawItemCentered(context, required, icon.x(), icon.y());
 
-        Rect2i title = origin.plus(OATH_TITLE[i]);
+        Rect2i title = bookTopLeft.plus(OATH_TITLE[i]);
         drawScaledText(context, quest.title() + " · T" + quest.tier(), false,
                 title.getX(), title.getY(), title.getWidth(), INK_TITLE);
 
         int held = this.client.player.getInventory().count(quest.requiredItem());
         int shown = Math.min(held, quest.requiredCount());
         int color = shown >= quest.requiredCount() ? INK_READY : INK_BODY;
-        Rect2i info = origin.plus(OATH_INFO[i]);
+        Rect2i info = bookTopLeft.plus(OATH_INFO[i]);
         drawScaledText(context, shown + "/" + quest.requiredCount() + " gathered", false,
                 info.getX(), info.getY(), info.getWidth(), color);
     }
@@ -544,26 +530,26 @@ public class GrimoireScreen extends Screen {
         int bodyColor = dimmed ? INK_DIM : INK_BODY;
 
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-        Point icon = origin.plus(OFFER_ICON[i]);
+        Point icon = bookTopLeft.plus(OFFER_ICON[i]);
         drawItemCentered(context, required, icon.x(), icon.y());
 
-        Rect2i title = origin.plus(OFFER_TITLE[i]);
+        Rect2i title = bookTopLeft.plus(OFFER_TITLE[i]);
         drawScaledText(context, quest.title(), false,
                 title.getX(), title.getY(), title.getWidth(), titleColor);
 
         if (sworn || done) {
-            Rect2i tag = origin.plus(TAG[i]);
+            Rect2i tag = bookTopLeft.plus(TAG[i]);
             drawScaledText(context, done ? "done" : "accepted", true,
                     tag.getX(), tag.getY(), tag.getWidth(), INK_TAG);
         }
 
-        Rect2i desc = origin.plus(OFFER_DESC[i]);
+        Rect2i desc = bookTopLeft.plus(OFFER_DESC[i]);
         drawScaledText(context, quest.lore(), true,
                 desc.getX(), desc.getY(), desc.getWidth(), bodyColor);
 
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
                 + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
-        Rect2i info = origin.plus(INFO[i]);
+        Rect2i info = bookTopLeft.plus(INFO[i]);
         drawScaledText(context, req, false,
                 info.getX(), info.getY(), info.getWidth(), bodyColor);
     }
@@ -600,15 +586,15 @@ public class GrimoireScreen extends Screen {
 
     public void drawHelpPage(DrawContext context) {
         // header sits above the painted line at y=58
-        Point header = origin.plus(HELP_HEADER);
+        Point header = bookTopLeft.plus(HELP_HEADER);
         drawCenteredNoShadow(context, "The Book of Bargains",
                 header.x(), header.y(), INK_TITLE);
 
-        Rect2i left = origin.plus(HELP_L);
+        Rect2i left = bookTopLeft.plus(HELP_L);
         drawWrappedTextScaledToFit(context, HelpText.LEFT,
                 left.getX(), left.getY(), left.getWidth(), left.getHeight(), INK_BODY);
 
-        Rect2i right = origin.plus(HELP_R);
+        Rect2i right = bookTopLeft.plus(HELP_R);
         drawWrappedTextScaledToFit(context, HelpText.RIGHT,
                 right.getX(), right.getY(), right.getWidth(), right.getHeight(), INK_BODY);
     }
