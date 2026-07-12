@@ -123,6 +123,7 @@ public class ModNetworking {
                     player.giveItemStack(new ItemStack(quest.rewardItem(), quest.rewardCount()));
                     progress.removeActive(questId);
                     progress.markCompleted(questId);
+                    progress.recordLifetimeCompletion(questId);
                     progress.incrementCompletions(quest.tier());
                     ModComponents.QUEST_PROGRESS.sync(player);
 
