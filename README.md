@@ -1,5 +1,6 @@
 # QuestTome (Fabric)
 
+<img width="1540" height="894" alt="java_l8psx0djsm-png" src="https://github.com/user-attachments/assets/b61bd48b-463a-4777-96fb-3f3166204fa1" />
 
 ## Features
 *Beta version 1.0 for Minecraft 1.20.1.*
