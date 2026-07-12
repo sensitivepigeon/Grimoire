@@ -27,7 +27,7 @@ Post issues on Github [here.](https://github.com/sensitivepigeon/QuestTome/issue
 - Quests are a JSON file! Easy structure, easy to copy and add your quests for custom content in the quests directory. Tier directories are organizational. Drop a file into your datapack and you can /reload for live adjustments!
 - Progression lives in one file, the tiers.json! Override if you want to tune stuff like tiers or limits.
 - Override model follows vanilla conventions: quests are per-file (which can be tedious sorry), config is one file (please be careful overriding it!) A malformed Quest JSON logs and error and skips it, doesn't disrupt the whole system so your typos are forgivable...
--  Multiplayer safe by construction. This was built for modpacks and servers. All states are server authoritative. Turn-ins, accepts, rerolls, tiers unlock - it's all on server side, quest data is synced on join. Everything is per-player!
+-  Multiplayer safe by construction. This was built for modpacks and servers. Turn-ins, accepts, rerolls, tiers unlock - it's all on server side, quest data is synced on player join. Everything is per-player!
 
 
 ## Installation
