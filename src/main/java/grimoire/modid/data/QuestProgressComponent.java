@@ -17,6 +17,8 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
     private final Set<String> activeQuests = new HashSet<>();
     private final Set<String> completedThisRotation = new HashSet<>();
 
+    private final List<String> lifetimeCompletedQuests = new ArrayList<>();
+
     private final Map<Integer, Integer> tierCompletions = new HashMap<>();
     private long manualRerollDay = -1;
 
@@ -37,6 +39,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
     }
 
     // removing unknown quests it should be in bountyboard.sweeporphans now
+    // does not sweep the codex as intended
     public boolean removeUnknownQuests(Set<String> knownIds){
         boolean changed = activeQuests.removeIf(id -> !knownIds.contains(id));
         changed |= completedThisRotation.removeIf(id -> !knownIds.contains(id));
@@ -86,7 +89,7 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         return completedThisRotation.size();
     }
 
-    // lifetime progress
+    // lifetime progress to tiers
 
     public void incrementCompletions(int tier) {
         tierCompletions.merge(tier, 1, Integer::sum);
@@ -95,6 +98,19 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
     public int getCompletions(int tier) {
         return tierCompletions.getOrDefault(tier, 0);
     }
+
+    // this is for lifetime completions for quests
+
+    public boolean recordLifetimeCompletion(String questId) {
+        if (lifetimeCompletedQuests.contains(questId)) {
+            return false;
+        }
+
+        lifetimeCompletedQuests.add(questId);
+        return true;
+
+
+}
 
     // manual reroll
 
@@ -128,12 +144,17 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         activeQuests.clear();
         completedThisRotation.clear();
         tierCompletions.clear();
+        lifetimeCompletedQuests.clear();
 
         lastRollDay = tag.getLong("LastRollDay");
         manualRerollDay = tag.getLong("ManualRerollDay");
 
         readStringList(tag.getList("ActiveQuests", NbtElement.STRING_TYPE), activeQuests);
         readStringList(tag.getList("CompletedThisRotation", NbtElement.STRING_TYPE), completedThisRotation);
+
+        if (tag.contains("LifetimeCompletedQuests", NbtElement.LIST_TYPE)) {
+            readStringList(tag.getList("LifetimeCompletedQuests", NbtElement.STRING_TYPE), lifetimeCompletedQuests);
+        }
 
         NbtCompound offered = tag.getCompound("OfferedQuests");
         for (String key : offered.getKeys()) {
@@ -158,6 +179,8 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
 
         tag.put("ActiveQuests", writeStringList(activeQuests));
         tag.put("CompletedThisRotation", writeStringList(completedThisRotation));
+        tag.put("LifetimeCompletedQuests", writeStringList(lifetimeCompletedQuests));
+
 
         NbtCompound offered = new NbtCompound();
         for (Map.Entry<Integer, List<String>> entry : offeredQuests.entrySet()) {
@@ -177,6 +200,12 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
             into.add(list.getString(i));
         }
     }
+    private static void readStringList(NbtList list, List<String> into) {
+        for (int i = 0; i < list.size(); i++) {
+            into.add(list.getString(i));
+        }
+    }
+
 
     private static NbtList writeStringList(Iterable<String> strings) {
         NbtList list = new NbtList();

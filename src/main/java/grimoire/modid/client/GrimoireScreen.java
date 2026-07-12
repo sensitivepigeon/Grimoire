@@ -24,6 +24,7 @@ import java.util.List;
 
 public class GrimoireScreen extends Screen {
 
+// this file is a battlefield, brace yourself
 
     // ART LAYOUT - coords for sprites and text on 420x234 canvas.
 
@@ -36,10 +37,10 @@ public class GrimoireScreen extends Screen {
     private static final int BANNER_COUNT_Y = 19;
 
     // left page - bargain cards, still called oath in code. habits hard to break
-    private static final int OATH_TEXT_X = 66;
+    private static final int OATH_TEXT_X = 68;
     private static final int OATH_TEXT_W = 108;                    // to x=174
-    private static final int[] OATH_TITLE_Y = {52, 106, 161};
-    private static final int[] OATH_INFO_Y = {65, 120, 175};
+    private static final int[] OATH_TITLE_Y = {54, 108, 163};
+    private static final int[] OATH_INFO_Y = {67, 122, 177};
     private static final int OATH_ICON_CX = 48;
     private static final int[] OATH_ICON_CY = {67, 122, 177};
 
@@ -58,7 +59,7 @@ public class GrimoireScreen extends Screen {
     // right page - offer cards
     private static final int OFFER_ICON_CX = 254;
     private static final int[] OFFER_ICON_CY = {66, 120, 175};
-    private static final int OFFER_TEXT_X = 268;
+    private static final int OFFER_TEXT_X = 270;
     private static final int OFFER_TITLE_W = 82;
     private static final int[] OFFER_TITLE_Y = {55, 108, 163};
     private static final int OFFER_DESC_W = 125;
