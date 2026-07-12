@@ -1,6 +1,6 @@
 # QuestTome (Fabric)
 
-## Version 1.0 For Minecraft 1.20.1
+## Beta Version 1.0 For Minecraft 1.20.1
 
 
 ## Features
@@ -50,7 +50,7 @@ Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more.
 
 ***Requires Fabric loader (0.18.4 or higher) for Minecraft 1.20.1***
 
-Grab the jar from build/libs and drop in your mods folder. Make sure you have FabricAPI and correct minecraft version..
+Grab off Curseforge or Modrinth. Make sure you have FabricAPI and correct minecraft version..
 
 **Servers**: same config, same jar + dependency. Drop in server's mod folder.
 
