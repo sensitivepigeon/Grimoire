@@ -24,10 +24,8 @@ Post issues on Github [here.](https://github.com/sensitivepigeon/QuestTome/issue
 - **Tier Progression:** Five ranks! I-V ranks that offer rarities adjacent to the difficulty. Fulfilling bounties of your tier counts toward unsealing the next: locked tier pages will show you how many you need to complete.  Tier IV only offers two bounties a day, and Tier V only offers one due to their exclusive nature.
 
 ### For Modders!
-- This resource was designed for YOU to edit and adjust for your modpacks, include custom items and adjust balancing for grinds!! You can also include lore!
-- Quests are a JSON file! Easy structure, easy to copy and add your quests for custom content in the quests directory. Tier directories are organizational. Drop a file into your datapack and you can /reload for live adjustments!
-- Progression lives in one file, the tiers.json! Override if you want to tune stuff like tiers or limits.
-- Override model follows vanilla conventions: quests are per-file (which can be tedious sorry), config is one file (please be careful overriding it!) A malformed Quest JSON logs and error and skips it, doesn't disrupt the whole system so your typos are forgivable...
+- This resource was designed for YOU to edit and adjust for your modpacks, include custom items and adjust balancing for grinds! You can also include lore!
+- Please read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki/%5BDevs%5D-Quests---Packs) for instructions on making custom quests and datapacks for the mod!
 -  Multiplayer safe by construction. This was built for modpacks and servers. Turn-ins, accepts, rerolls, tiers unlock - it's all on server side, quest data is synced on player join. Everything is per-player!
 
 
