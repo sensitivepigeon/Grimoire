@@ -38,23 +38,6 @@ public class GrimoireScreen extends Screen {
         }
     }
 
-    // builds one Rect2i per y, sharing x/width/height - for the repeating per-slot columns below
-    private static Rect2i[] column(int x, int width, int height, int... ys) {
-        Rect2i[] rects = new Rect2i[ys.length];
-        for (int i = 0; i < ys.length; i++) {
-            rects[i] = new Rect2i(x, ys[i], width, height);
-        }
-        return rects;
-    }
-
-    private static Point[] points(int x, int... ys) {
-        Point[] pts = new Point[ys.length];
-        for (int i = 0; i < ys.length; i++) {
-            pts[i] = new Point(x, ys[i]);
-        }
-        return pts;
-    }
-
     private static final int BOOK_WIDTH = 420;
     private static final int BOOK_HEIGHT = 234;
     private static final int PAGE_SPLIT = 210;
@@ -63,12 +46,28 @@ public class GrimoireScreen extends Screen {
     private static final Point BANNER_COUNT = new Point(109, 19);
 
     // left page - bargain cards, still called oath in code. habits hard to break
-    private static final Rect2i[] OATH_TITLE = column(66, 108, 10, 52, 106, 161);   // x=66..174
-    private static final Rect2i[] OATH_INFO = column(66, 108, 10, 65, 120, 175);
-    private static final Point[] OATH_ICON = points(48, 67, 122, 177);
+    private static final Rect2i[] OATH_TITLE = {   // x=66..174
+            new Rect2i(66, 52, 108, 10),
+            new Rect2i(66, 106, 108, 10),
+            new Rect2i(66, 161, 108, 10),
+    };
+    private static final Rect2i[] OATH_INFO = {
+            new Rect2i(66, 65, 108, 10),
+            new Rect2i(66, 120, 108, 10),
+            new Rect2i(66, 175, 108, 10),
+    };
+    private static final Point[] OATH_ICON = {
+            new Point(48, 67),
+            new Point(48, 122),
+            new Point(48, 177),
+    };
 
     // turn-in arrows now use arrow sprite but i misnamed it sorry
-    private static final Rect2i[] CHEVRON = column(132, 44, 12, 77, 131, 185);
+    private static final Rect2i[] CHEVRON = {
+            new Rect2i(132, 77, 44, 12),
+            new Rect2i(132, 131, 44, 12),
+            new Rect2i(132, 185, 44, 12),
+    };
 
     // right page - header
     private static final int RIGHT_CX = 314;                       // header/title center
@@ -77,14 +76,38 @@ public class GrimoireScreen extends Screen {
     private static final int RIGHT_HEADER_W = 120;                 // safe 251..380
 
     // right page - offer cards
-    private static final Point[] OFFER_ICON = points(254, 66, 120, 175);
-    private static final Rect2i[] OFFER_TITLE = column(268, 82, 10, 55, 108, 163);
-    private static final Rect2i[] OFFER_DESC = column(268, 125, 10, 67, 122, 175);
-    private static final Rect2i[] INFO = column(242, 106, 10, 88, 141, 195);        // trade line; ARTIST-CONFIRM: note cut off; guessed from arrow band
-    private static final Rect2i[] TAG = column(354, 38, 10, 55, 108, 163);
+    private static final Point[] OFFER_ICON = {
+            new Point(254, 66),
+            new Point(254, 120),
+            new Point(254, 175),
+    };
+    private static final Rect2i[] OFFER_TITLE = {
+            new Rect2i(268, 55, 82, 10),
+            new Rect2i(268, 108, 82, 10),
+            new Rect2i(268, 163, 82, 10),
+    };
+    private static final Rect2i[] OFFER_DESC = {
+            new Rect2i(268, 67, 125, 10),
+            new Rect2i(268, 122, 125, 10),
+            new Rect2i(268, 175, 125, 10),
+    };
+    private static final Rect2i[] INFO = {   // trade line; ARTIST-CONFIRM: note cut off; guessed from arrow band
+            new Rect2i(242, 88, 106, 10),
+            new Rect2i(242, 141, 106, 10),
+            new Rect2i(242, 195, 106, 10),
+    };
+    private static final Rect2i[] TAG = {
+            new Rect2i(354, 55, 38, 10),
+            new Rect2i(354, 108, 38, 10),
+            new Rect2i(354, 163, 38, 10),
+    };
 
     // accept arrows (painted art of the design; left is hitboxes only. x351..396)
-    private static final Rect2i[] ACCEPT = column(351, 45, 12, 83, 136, 191);
+    private static final Rect2i[] ACCEPT = {
+            new Rect2i(351, 83, 45, 12),
+            new Rect2i(351, 136, 45, 12),
+            new Rect2i(351, 191, 45, 12),
+    };
 
     // controls for buttons
     private static final Rect2i DICE = new Rect2i(299, 201, 18, 16);      // reroll
