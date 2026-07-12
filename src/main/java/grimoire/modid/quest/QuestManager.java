@@ -38,7 +38,10 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
         QUESTS.clear();
 
         for (Map.Entry<Identifier, Resource> entry :
-                manager.findResources("quests", path -> path.getPath().endsWith(".json")).entrySet()) {
+                manager.findResources("quests", path ->
+                        path.getNamespace().equals(Grimoire.MOD_ID) &&
+                        path.getPath().endsWith(".json")).entrySet()) {
+
 
             try (InputStreamReader reader = new InputStreamReader(entry.getValue().getInputStream())) {
                 JsonObject json = GSON.fromJson(reader, JsonObject.class);
