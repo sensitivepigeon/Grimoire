@@ -1,0 +1,12 @@
+{
+  "title": "Iron Will 2",
+  "lore": "The smiths have a reward.",
+  "description": "Picke worked, here extra irun. thank uh. - Minoer Tristaine",
+  "patron": "miner_trist",
+  "format": 1,
+  "tier": 3,
+  "required_item": "minecraft:emerald",
+  "required_count": 8,
+  "reward_item": "minecraft:iron_ingot",
+  "reward_count": 20
+}

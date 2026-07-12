@@ -1,0 +1,12 @@
+{
+  "title": "The Nether Ship: The End",
+  "lore": "The transversal ship has reached the End",
+  "description": "We know the patrons wish for these. We have a good deal for them since we have docked here. Send them our regards. - The Nether Ship, Pillar of Truth",
+  "patron": "nether_ship",
+  "format": 1,
+  "tier": 4,
+  "required_item": "minecraft:diamond",
+  "required_count": 10,
+  "reward_item": "minecraft:dragon_breath",
+  "reward_count": 2
+}

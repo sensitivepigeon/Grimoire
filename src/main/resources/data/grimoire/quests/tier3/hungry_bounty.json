@@ -1,0 +1,12 @@
+{
+  "title": "BookDash",
+  "lore": "A patron has an order.",
+  "description": "I'll take a number four, large. Actually, double it. I'll take two. I'll tip. -- Hungry Jules",
+  "patron": "hungry_jules",
+  "format": 1,
+  "tier": 3,
+  "required_item": "minecraft:cooked_beef",
+  "required_count": 8,
+  "reward_item": "minecraft:diamond",
+  "reward_count": 8
+}

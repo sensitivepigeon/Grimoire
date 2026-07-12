@@ -1,0 +1,11 @@
+{ "title": "Strange Egg",
+  "lore": "A strange egg was found.",
+  "description": "Hey, I found this weird egg out here. Any chance you want to buy it? - Explorer Karen",
+  "patron": "karen",
+  "format": 1,
+  "tier": 4,
+  "required_item": "minecraft:gold_block",
+  "required_count": 1,
+  "reward_item": "minecraft:sniffer_egg",
+  "reward_count": 1
+}

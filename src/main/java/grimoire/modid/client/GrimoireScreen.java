@@ -443,8 +443,11 @@ public class GrimoireScreen extends Screen {
         if (page.locked()) {
             sub = "Tier " + page.tier() + " · sealed";
         } else if (config != null && ClientQuestCache.TIERS.containsKey(page.tier() + 1)) {
+            int needed = config.completionsToUnlockNext();
+            int shown = Math.min(progress.getCompletions(page.tier()), needed);
+
             sub = "Tier " + page.tier() + " · "
-                    + progress.getCompletions(page.tier()) + "/" + config.completionsToUnlockNext()
+                    + shown + "/" + needed
                     + " to next rank";
         } else {
             sub = "Tier " + page.tier() + " · " + progress.getCompletions(page.tier()) + " fulfilled";

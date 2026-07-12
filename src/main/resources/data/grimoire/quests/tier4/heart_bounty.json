@@ -1,6 +1,7 @@
 {
   "title": "Tribute of the Drowned",
-  "lore": "Something beneath the waves offers you more.",
+  "lore": "Under the waves, something hungers.",
+  "description": "Hungry. So hungry. Take, take. Give food. Take heart. - The Drowned",
   "patron": "the_drowned",
   "format": 1,
   "tier": 4,

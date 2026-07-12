@@ -1,6 +1,6 @@
 {
   "title": "Diamonds for Sale",
-  "lore": "A local village has a diamond vein and is selling off stock.",
+  "lore": "A local village has a diamond vein.",
   "description": "We're RICH! WE'RE RICH! QUICK -- buy some! How did this happen?! We just -- diamonds! In the river! - Mayor Benny",
   "patron": "mayor_benny",
   "format": 1,
@@ -8,5 +8,5 @@
   "required_item": "minecraft:emerald",
   "required_count": 15,
   "reward_item": "minecraft:diamond",
-  "reward_count": 8
+  "reward_count": 10
 }

@@ -1,0 +1,12 @@
+{
+  "title": "Renowned Reward",
+  "lore": "You've done well.",
+  "description": "The patrons are happy with your progress. Here's a bargain, on me. - The Broker",
+  "patron": "the_broker",
+  "format": 1,
+  "tier": 5,
+  "required_item": "minecraft:ink_sac",
+  "required_count": 5,
+  "reward_item": "minecraft:dragon_head",
+  "reward_count": 1
+}

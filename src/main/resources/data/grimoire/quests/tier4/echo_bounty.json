@@ -1,0 +1,11 @@
+{ "title": "In The Dark",
+  "lore": "Doom brings reward.",
+  "description": "Can't remember anything. What happened to us? Take this. Take them. I'm so tired. - Mayor Benny",
+  "patron": "mayor_benny",
+  "format": 1,
+  "tier": 4,
+  "required_item": "minecraft:lantern",
+  "required_count": 3,
+  "reward_item": "minecraft:echo_shard",
+  "reward_count": 8
+}

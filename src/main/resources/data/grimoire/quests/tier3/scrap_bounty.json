@@ -1,0 +1,12 @@
+{
+  "title": "Fine Reward",
+  "lore": "A good deal, just for you.",
+  "description": "Hello, you. You've been steadfast so far. Consider this a reward for your diligence. - The Broker",
+  "patron": "the_broker",
+  "format": 1,
+  "tier": 3,
+  "required_item": "minecraft:ink_sac",
+  "required_count": 5,
+  "reward_item": "minecraft:netherite_scrap",
+  "reward_count": 12
+}

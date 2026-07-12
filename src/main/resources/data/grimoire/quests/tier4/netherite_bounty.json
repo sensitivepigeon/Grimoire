@@ -1,0 +1,12 @@
+{
+  "title": "Pearls Before Swine",
+  "lore": "A piglin trader has an offer.",
+  "description": "I'll translate for you. He wants diamonds, and offers netherite ingots in return. A good deal, don't you think? - The Broker",
+  "patron": "piglin_trader",
+  "format": 1,
+  "tier": 4,
+  "required_item": "minecraft:diamond",
+  "required_count": 15,
+  "reward_item": "minecraft:netherite_ingot",
+  "reward_count": 15
+}

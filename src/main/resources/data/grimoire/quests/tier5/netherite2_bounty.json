@@ -1,0 +1,12 @@
+{
+  "title": "Pearls Before Swine 2",
+  "lore": "An eager trader returns.",
+  "description": "He truly enjoyed those diamonds last time. Here's his next offer for another batch. - The Broker",
+  "patron": "piglin_trader",
+  "format": 1,
+  "tier": 4,
+  "required_item": "minecraft:diamond",
+  "required_count": 15,
+  "reward_item": "minecraft:netherite_ingot",
+  "reward_count": 25
+}
