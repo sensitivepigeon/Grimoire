@@ -49,7 +49,7 @@ public class ClientQuestCache {
                 Item rewardItem = Registries.ITEM.get(new Identifier(rewardItemID));
 
                 int rewardCount = buf.readInt();
-                received.add(new Quest(id, title, lore, description, tier, format, patron, requiredItem, requiredCount, rewardItem, rewardCount));
+                received.add(new Quest(id, title, lore, description, tier, patron, format, requiredItem, requiredCount, rewardItem, rewardCount));
             }
 
             int tierCount = buf.readInt();

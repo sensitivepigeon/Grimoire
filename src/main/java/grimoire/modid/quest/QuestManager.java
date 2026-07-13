@@ -73,7 +73,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                     continue;
                 }
 
-                QUESTS.put(questId, new Quest(questId, title, lore, description, tier, format, patron,
+                QUESTS.put(questId, new Quest(questId, title, lore, description, tier, patron, format,
                         requiredItem, requiredCount, rewardItem, rewardCount));
 
             } catch (Exception e) {
