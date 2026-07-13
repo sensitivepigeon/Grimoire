@@ -90,6 +90,18 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
         }
 
         Grimoire.LOGGER.info("Loaded {} quest(s)", QUESTS.size());
+
+        // this is done after quests load entirely
+        for (Quest quest : QUESTS.values()) {
+            String prereq = quest.requiresQuest();
+            if (prereq.isEmpty()) continue;                 // if it doesnt have a pre-req, it skips the check
+
+            if (prereq.equals(quest.id())) {
+                Grimoire.LOGGER.warn("Quest '{}' requires itself and it can never be offered.", quest.id());
+            } else if (!QUESTS.containsKey(prereq)) {
+                Grimoire.LOGGER.warn("Quest '{}' requires '{}', which does not exist. It will stay hidden until the quest is present.", quest.id(), prereq);
+            }
+        }
     }
 
     private static Item resolveItem(JsonObject json, String keyName, Identifier fileName) {
