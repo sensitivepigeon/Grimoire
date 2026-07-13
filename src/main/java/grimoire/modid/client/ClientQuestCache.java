@@ -51,7 +51,7 @@ public class ClientQuestCache {
 
                 int rewardCount = buf.readInt();
                 boolean repeatable = buf.readBoolean();
-                received.add(new Quest(id, title, lore, description, tier, format, patron, requiredItem, requiredCount, rewardItem, rewardCount, repeatable));
+                received.add(new Quest(id, title, lore, description, tier, patron, format, requiredItem, requiredCount, rewardItem, rewardCount, repeatable, ""));
             }
 
             int tierCount = buf.readInt();

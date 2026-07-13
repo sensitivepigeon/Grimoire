@@ -76,8 +76,13 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                 if (json.has("repeatable")) {
                     repeatable = json.get("repeatable").getAsBoolean();
                 }
-                QUESTS.put(questId, new Quest(questId, title, lore, description, tier, format, patron,
-                        requiredItem, requiredCount, rewardItem, rewardCount, repeatable));
+
+                String requiresQuest = json.has("requires_quest")
+                        ? json.get("requires_quest").getAsString()
+                        : "";
+
+                QUESTS.put(questId, new Quest(questId, title, lore, description, tier, patron, format,
+                        requiredItem, requiredCount, rewardItem, rewardCount, repeatable, requiresQuest));
 
 
             } catch (Exception e) {
