@@ -3,7 +3,7 @@
     { "tier": 1, "name": "Stranger",     "offers_per_rotation": 3, "completions_to_unlock_next": 5 },
     { "tier": 2, "name": "Known", "offers_per_rotation": 3, "completions_to_unlock_next": 8 },
     { "tier": 3, "name": "Trusted", "offers_per_rotation": 3, "completions_to_unlock_next": 12 },
-    { "tier": 4, "name": "Favored",      "offers_per_rotation": 3, "completions_to_unlock_next": 16 },
-    { "tier": 5, "name": "Renowned", "offers_per_rotation": 2, "completions_to_unlock_next": 0 }
+    { "tier": 4, "name": "Favored",      "offers_per_rotation": 2, "completions_to_unlock_next": 16 },
+    { "tier": 5, "name": "Renowned", "offers_per_rotation": 1, "completions_to_unlock_next": 0 }
   ]
 }
