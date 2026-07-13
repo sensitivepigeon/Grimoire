@@ -10,14 +10,10 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.Rect2i;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
@@ -26,7 +22,7 @@ import java.util.List;
 public class GrimoireScreen extends Screen {
 
 
-    // ART LAYOUT - coords for sprites and text on 420x234 canvas.
+    // layout
 
     private record Point(int x, int y) {
         Point plus(Point p) {
@@ -91,7 +87,7 @@ public class GrimoireScreen extends Screen {
             new Rect2i(268, 122, 125, 10),
             new Rect2i(268, 175, 125, 10),
     };
-    private static final Rect2i[] INFO = {   // trade line; ARTIST-CONFIRM: note cut off; guessed from arrow band
+    private static final Rect2i[] INFO = {   // trade line
             new Rect2i(242, 88, 106, 10),
             new Rect2i(242, 141, 106, 10),
             new Rect2i(242, 195, 106, 10),
@@ -102,7 +98,7 @@ public class GrimoireScreen extends Screen {
             new Rect2i(354, 163, 38, 10),
     };
 
-    // accept arrows (painted art of the design; left is hitboxes only. x351..396)
+    // accept arrows
     private static final Rect2i[] ACCEPT = {
             new Rect2i(351, 83, 45, 12),
             new Rect2i(351, 136, 45, 12),
@@ -158,7 +154,6 @@ public class GrimoireScreen extends Screen {
     private static final Point HELP_HEADER = new Point(109, 30);
     private static final Rect2i HELP_L = new Rect2i(38, 56, 145, 145);
     private static final Rect2i HELP_R = new Rect2i(241, 33, 145, 210);
-    private static final float HELP_TEXT_MIN_SCALE = 0.55f;
 
     private static final int MAX_OATHS = 3;    // mirrored in BountyBoard.MAX_ACTIVE_BOUNTIES
 
@@ -235,7 +230,7 @@ public class GrimoireScreen extends Screen {
         }
 
         if (showHelp) {
-           // help mode
+            // help mode
             this.addDrawableChild(new HitboxButton(
                     bookTopLeft.plus(HELP_BACK),
                     Text.literal("Back"), b -> {
@@ -442,9 +437,8 @@ public class GrimoireScreen extends Screen {
             if (i < actives.size()) {
                 drawOathCard(context, actives.get(i), i);
             } else {
-                Rect2i info = bookTopLeft.plus(OATH_INFO[i]);
-                drawScaledText(context, "-- empty bargain --", true,
-                        info.getX(), info.getY(), info.getWidth(), INK_DIM);
+                BookText.drawScaledText(context, this.textRenderer, "-- empty bargain --", true,
+                        bookTopLeft.plus(OATH_INFO[i]), INK_DIM);
             }
         }
     }
@@ -452,18 +446,16 @@ public class GrimoireScreen extends Screen {
     private void drawOathCard(DrawContext context, Quest quest, int i) {
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
         Point icon = bookTopLeft.plus(OATH_ICON[i]);
-        drawItemCentered(context, required, icon.x(), icon.y());
+        BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
 
-        Rect2i title = bookTopLeft.plus(OATH_TITLE[i]);
-        drawScaledText(context, quest.title() + " · T" + quest.tier(), false,
-                title.getX(), title.getY(), title.getWidth(), INK_TITLE);
+        BookText.drawScaledText(context, this.textRenderer, quest.title() + " · T" + quest.tier(), false,
+                bookTopLeft.plus(OATH_TITLE[i]), INK_TITLE);
 
         int held = this.client.player.getInventory().count(quest.requiredItem());
         int shown = Math.min(held, quest.requiredCount());
         int color = shown >= quest.requiredCount() ? INK_READY : INK_BODY;
-        Rect2i info = bookTopLeft.plus(OATH_INFO[i]);
-        drawScaledText(context, shown + "/" + quest.requiredCount() + " gathered", false,
-                info.getX(), info.getY(), info.getWidth(), color);
+        BookText.drawScaledText(context, this.textRenderer, shown + "/" + quest.requiredCount() + " gathered", false,
+                bookTopLeft.plus(OATH_INFO[i]), color);
     }
 
     // right page mode switching
@@ -481,7 +473,8 @@ public class GrimoireScreen extends Screen {
         TierConfig config = ClientQuestCache.TIERS.get(page.tier());
         String tierName = config != null ? config.name() : "Tier " + page.tier();
 
-        drawCenteredNoShadow(context, tierName, bookLeft + RIGHT_CX, bookTop + RIGHT_TITLE_Y, INK_TITLE);
+        BookText.drawCenteredNoShadow(context, this.textRenderer, tierName,
+                bookLeft + RIGHT_CX, bookTop + RIGHT_TITLE_Y, INK_TITLE);
 
         String sub;
         if (page.locked()) {
@@ -496,22 +489,24 @@ public class GrimoireScreen extends Screen {
         } else {
             sub = "Tier " + page.tier() + " · " + progress.getCompletions(page.tier()) + " fulfilled";
         }
-        drawCenteredNoShadow(context, sub, bookLeft + RIGHT_CX, bookTop + RIGHT_SUB_Y, INK_DIM);
+        BookText.drawCenteredNoShadow(context, this.textRenderer, sub,
+                bookLeft + RIGHT_CX, bookTop + RIGHT_SUB_Y, INK_DIM);
 
         if (page.locked()) {
             TierConfig prev = ClientQuestCache.TIERS.get(page.tier() - 1);
             int need = prev != null ? prev.completionsToUnlockNext() : 0;
             int have = progress.getCompletions(page.tier() - 1);
 
-            drawCenteredNoShadow(context, "This page is sealed.",
+            BookText.drawCenteredNoShadow(context, this.textRenderer, "This page is sealed.",
                     bookLeft + RIGHT_CX, bookTop + 100, INK_DIM);
-            drawCenteredNoShadow(context, "Fulfill " + Math.max(0, need - have) + " more of the prior rank.",
+            BookText.drawCenteredNoShadow(context, this.textRenderer,
+                    "Fulfill " + Math.max(0, need - have) + " more of the prior rank.",
                     bookLeft + RIGHT_CX, bookTop + 114, INK_DIM);
             return;
         }
 
         if (page.entries().isEmpty()) {
-            drawCenteredNoShadow(context, "The pages are blank until tomorrow...",
+            BookText.drawCenteredNoShadow(context, this.textRenderer, "The pages are blank until tomorrow...",
                     bookLeft + RIGHT_CX, bookTop + 105, INK_DIM);
             return;
         }
@@ -531,27 +526,23 @@ public class GrimoireScreen extends Screen {
 
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
         Point icon = bookTopLeft.plus(OFFER_ICON[i]);
-        drawItemCentered(context, required, icon.x(), icon.y());
+        BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
 
-        Rect2i title = bookTopLeft.plus(OFFER_TITLE[i]);
-        drawScaledText(context, quest.title(), false,
-                title.getX(), title.getY(), title.getWidth(), titleColor);
+        BookText.drawScaledText(context, this.textRenderer, quest.title(), false,
+                bookTopLeft.plus(OFFER_TITLE[i]), titleColor);
 
         if (sworn || done) {
-            Rect2i tag = bookTopLeft.plus(TAG[i]);
-            drawScaledText(context, done ? "done" : "accepted", true,
-                    tag.getX(), tag.getY(), tag.getWidth(), INK_TAG);
+            BookText.drawScaledText(context, this.textRenderer, done ? "done" : "accepted", true,
+                    bookTopLeft.plus(TAG[i]), INK_TAG);
         }
 
-        Rect2i desc = bookTopLeft.plus(OFFER_DESC[i]);
-        drawScaledText(context, quest.lore(), true,
-                desc.getX(), desc.getY(), desc.getWidth(), bodyColor);
+        BookText.drawScaledText(context, this.textRenderer, quest.lore(), true,
+                bookTopLeft.plus(OFFER_DESC[i]), bodyColor);
 
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
                 + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
-        Rect2i info = bookTopLeft.plus(INFO[i]);
-        drawScaledText(context, req, false,
-                info.getX(), info.getY(), info.getWidth(), bodyColor);
+        BookText.drawScaledText(context, this.textRenderer, req, false,
+                bookTopLeft.plus(INFO[i]), bodyColor);
     }
 
     // detail mode layout
@@ -560,13 +551,13 @@ public class GrimoireScreen extends Screen {
         int x = bookLeft + 234;
         int textWidth = 155;
 
-        drawCenteredNoShadow(context, quest.title() + " · T" + quest.tier(),
+        BookText.drawCenteredNoShadow(context, this.textRenderer, quest.title() + " · T" + quest.tier(),
                 bookLeft + RIGHT_CX, bookTop + RIGHT_TITLE_Y, INK_TITLE);
 
         boolean sworn = progress.isActive(quest.id());
         boolean done = progress.hasCompleted(quest.id());
         if (sworn || done) {
-            drawCenteredNoShadow(context, done ? "fulfilled today" : "accepted",
+            BookText.drawCenteredNoShadow(context, this.textRenderer, done ? "fulfilled today" : "accepted",
                     bookLeft + RIGHT_CX, bookTop + RIGHT_SUB_Y, INK_DIM);
         }
 
@@ -577,9 +568,11 @@ public class GrimoireScreen extends Screen {
 
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
                 + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
-        drawScaledText(context, req, false, x + 22, tradeY + 4, textWidth - 22, INK_BODY);
+        BookText.drawScaledText(context, this.textRenderer, req, false,
+                x + 22, tradeY + 4, textWidth - 22, INK_BODY);
 
-        drawWrappedText(context, quest.description(), x, tradeY + 26, textWidth, INK_BODY);
+        BookText.drawWrappedText(context, this.textRenderer, quest.description(),
+                x, tradeY + 26, textWidth, INK_BODY);
     }
 
 
@@ -587,126 +580,16 @@ public class GrimoireScreen extends Screen {
     public void drawHelpPage(DrawContext context) {
         // header sits above the painted line at y=58
         Point header = bookTopLeft.plus(HELP_HEADER);
-        drawCenteredNoShadow(context, "The Book of Bargains",
+        BookText.drawCenteredNoShadow(context, this.textRenderer, "The Book of Bargains",
                 header.x(), header.y(), INK_TITLE);
 
         Rect2i left = bookTopLeft.plus(HELP_L);
-        drawWrappedTextScaledToFit(context, HelpText.LEFT,
+        BookText.drawWrappedTextScaledToFit(context, this.textRenderer, HelpText.LEFT,
                 left.getX(), left.getY(), left.getWidth(), left.getHeight(), INK_BODY);
 
         Rect2i right = bookTopLeft.plus(HELP_R);
-        drawWrappedTextScaledToFit(context, HelpText.RIGHT,
+        BookText.drawWrappedTextScaledToFit(context, this.textRenderer, HelpText.RIGHT,
                 right.getX(), right.getY(), right.getWidth(), right.getHeight(), INK_BODY);
-    }
-
-
-    // draw help
-
-    private void drawItemCentered(DrawContext context, ItemStack stack, int cx, int cy) {
-        context.drawItem(stack, cx - 8, cy - 8);
-        context.drawItemInSlot(this.textRenderer, stack, cx - 8, cy - 8);
-    }
-
-    private void drawCenteredNoShadow(DrawContext context, String text, int cx, int y, int color) {
-        Text t = Text.literal(text);
-        context.drawText(this.textRenderer, t, cx - this.textRenderer.getWidth(t) / 2, y, color, false);
-    }
-
-    // single line: shrink to 0.65x, then ellipsis. shadowless
-    private void drawScaledText(DrawContext context, String text, boolean italic,
-                                int x, int y, int maxWidth, int color) {
-        if (text == null || text.isEmpty()) return;
-
-        Text styled = italic ? Text.literal(text).formatted(Formatting.ITALIC) : Text.literal(text);
-        int width = this.textRenderer.getWidth(styled);
-
-        if (width <= maxWidth) {
-            context.drawText(this.textRenderer, styled, x, y, color, false);
-            return;
-        }
-
-        float scale = Math.max(0.65f, (float) maxWidth / width);
-
-        if (width * scale > maxWidth) {
-            String trimmed = this.textRenderer.trimToWidth(text, (int) (maxWidth / scale) - 8) + "…";
-            styled = italic ? Text.literal(trimmed).formatted(Formatting.ITALIC) : Text.literal(trimmed);
-        }
-
-        context.getMatrices().push();
-        context.getMatrices().translate(x, y, 0);
-        context.getMatrices().scale(scale, scale, 1.0f);
-        context.drawText(this.textRenderer, styled, 0, 0, color, false);
-        context.getMatrices().pop();
-    }
-
-    // long text: wrapped lines, \n = paragraph break. returns y after last line.
-    private int drawWrappedText(DrawContext context, String text,
-                                int x, int y, int maxWidth, int color) {
-        if (text == null || text.isEmpty()) return y;
-
-        int lineHeight = 10;
-        String[] paragraphs = text.split("\n");
-
-        for (String paragraph : paragraphs) {
-            if (paragraph.isEmpty()) {
-                y += lineHeight / 2;
-                continue;
-            }
-            for (OrderedText line : this.textRenderer.wrapLines(
-                    StringVisitable.plain(paragraph), maxWidth)) {
-                context.drawText(this.textRenderer, line, x, y, color, false);
-                y += lineHeight;
-            }
-            y += lineHeight / 2;
-        }
-        return y;
-    }
-
-    private void drawWrappedTextScaledToFit(DrawContext context, String text,
-                                            int x, int y, int maxWidth, int maxHeight, int color) {
-        if (text == null || text.isEmpty()) return;
-
-        int baseLineHeight = 10;
-        int textHeight = measureWrappedTextHeight(text, maxWidth, baseLineHeight);
-
-        float scale = 1.0f;
-        if (textHeight > maxHeight) {
-            scale = Math.max(HELP_TEXT_MIN_SCALE, (float) maxHeight / textHeight);
-        }
-
-        int scaledWidth = Math.max(1, (int) (maxWidth / scale));
-        int scaledTextHeight = (int) (textHeight * scale);
-        int offset = Math.max(0, (maxHeight - scaledTextHeight) / 2);
-
-
-        context.getMatrices().push();
-        context.getMatrices().translate(x, y, 0);
-        context.getMatrices().scale(scale, scale, 1.0f);
-
-        drawWrappedText(context, text, 0, 0, scaledWidth, color);
-
-        context.getMatrices().pop();
-    }
-
-    private int measureWrappedTextHeight(String text, int maxWidth, int lineHeight) {
-        int height = 0;
-        String[] paragraphs = text.split("\n");
-
-        for (String paragraph : paragraphs) {
-            if (paragraph.isEmpty()) {
-                height += lineHeight / 2;
-                continue;
-            }
-
-            for (OrderedText ignored : this.textRenderer.wrapLines(
-                    StringVisitable.plain(paragraph), maxWidth)) {
-                height += lineHeight;
-            }
-
-            height += lineHeight / 2;
-        }
-
-        return height;
     }
 
     private void drawBookBackground(DrawContext context) {
