@@ -37,6 +37,7 @@ public class ModNetworking {
             buf.writeString(Registries.ITEM.getId(quest.rewardItem()).toString());
             buf.writeInt(quest.rewardCount());
             buf.writeBoolean(quest.repeatable());
+            buf.writeString(quest.requiresQuest());
         }
 
         buf.writeInt(QuestManager.TIERS.size());
