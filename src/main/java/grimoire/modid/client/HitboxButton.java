@@ -2,6 +2,7 @@ package grimoire.modid.client;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.Rect2i;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -15,8 +16,8 @@ public class HitboxButton extends ButtonWidget {
     private boolean drawLabel = false;
     private int labelColor = 0xFF2F2A1E;
 
-    public HitboxButton(int x, int y, int width, int height, Text label, PressAction onPress) {
-        super(x, y, width, height, label, onPress, DEFAULT_NARRATION_SUPPLIER);
+    public HitboxButton(Rect2i rect, Text label, PressAction onPress) {
+        super(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(), label, onPress, DEFAULT_NARRATION_SUPPLIER);
     }
 
 
