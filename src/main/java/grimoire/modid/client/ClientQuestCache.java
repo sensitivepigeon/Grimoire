@@ -53,6 +53,7 @@ public class ClientQuestCache {
 
                 boolean repeatable = buf.readBoolean();
                 String requiresQuest = buf.readString();
+
                 received.add(new Quest(id, title, lore, description, tier, patron, format, requiredItem, requiredCount, rewardItem, rewardCount, repeatable, requiresQuest));
             }
 

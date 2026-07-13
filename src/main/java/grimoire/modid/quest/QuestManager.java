@@ -84,7 +84,6 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                 QUESTS.put(questId, new Quest(questId, title, lore, description, tier, patron, format,
                         requiredItem, requiredCount, rewardItem, rewardCount, repeatable, requiresQuest));
 
-
             } catch (Exception e) {
                 Grimoire.LOGGER.warn("Failed to load quest {}", entry.getKey(), e);
             }

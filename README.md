@@ -11,6 +11,7 @@ It works well together with other progression mods, acting as a bridge over diff
 
 It adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
 
+
 Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more and the future features roadmap.
 
 Post issues on Github [here.](https://github.com/sensitivepigeon/QuestTome/issues)
