@@ -49,12 +49,16 @@ public class BountyBoard {
             for (Quest quest : QuestManager.QUESTS.values())
             {
                 boolean lifetimeBlocked = !quest.repeatable() && progress.hasCompletedLifetime(quest.id());
+                boolean prereqBlocked = !quest.requiresQuest().isEmpty()
+                        && !progress.hasCompletedLifetime(quest.requiresQuest());
 
 
                 if (quest.tier() == tier
                         && !lifetimeBlocked
+                        && !prereqBlocked
                         && !progress.isActive(quest.id())
-                        && !progress.hasCompleted(quest.id())) {
+                        && !progress.hasCompleted(quest.id()))
+                {
                     pool.add(quest.id());
 
                 }

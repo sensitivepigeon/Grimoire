@@ -65,11 +65,15 @@ public class ModNetworking {
 
 
                 if (!quest.repeatable() && progress.hasCompletedLifetime(questId)) {
-                    progress.removeActive(questId);
-                    ModComponents.QUEST_PROGRESS.sync(player);
                     player.sendMessage(Text.literal("The Book refuses to reopen an already fulfilled bargain."), false);
                     return;
                 }
+
+                if (!quest.requiresQuest().isEmpty() && !progress.hasCompletedLifetime(quest.requiresQuest())) {
+                    player.sendMessage(Text.literal("The Book requires the prerequisite to be completed first."), false);
+                    return;
+                }
+
                 if (progress.hasCompleted(questId)) {
                     player.sendMessage(Text.literal("That bargain is already struck today."), false);
                     return;
@@ -88,7 +92,9 @@ public class ModNetworking {
                     return;
                 }
 
-                progress.accept(questId);
+
+
+                    progress.accept(questId);
                 ModComponents.QUEST_PROGRESS.sync(player);
                 player.sendMessage(Text.literal("Bargain accepted: " + quest.title()), false);
             });
@@ -115,6 +121,13 @@ public class ModNetworking {
                     progress.removeActive(questId);
                     ModComponents.QUEST_PROGRESS.sync(player);
                     player.sendMessage(Text.literal("The Book removes an already fulfilled bargain from your accepted bargains."), false);
+                    return;
+                }
+
+                if (!quest.requiresQuest().isEmpty() && !progress.hasCompletedLifetime(quest.requiresQuest())) {
+                    progress.removeActive(questId);
+                    ModComponents.QUEST_PROGRESS.sync(player);
+                    player.sendMessage(Text.literal("Not yet, You. The Book won't allow this without the prerequisite."), false);
                     return;
                 }
 
