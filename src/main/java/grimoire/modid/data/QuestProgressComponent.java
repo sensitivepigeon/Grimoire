@@ -81,6 +81,10 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
         return completedThisRotation.contains(questId);
     }
 
+    public boolean hasCompletedLifetime(String questId) {
+        return lifetimeCompletedQuests.contains(questId);
+    }
+
     public void markCompleted(String questId) {
         completedThisRotation.add(questId);
     }

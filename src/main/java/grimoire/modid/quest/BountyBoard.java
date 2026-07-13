@@ -40,16 +40,23 @@ public class BountyBoard {
         int maxTier = highestUnlockedTier(progress);
         Random random = new Random();
 
+
         for (int tier = 1; tier <= maxTier; tier++) {
             TierConfig config = QuestManager.TIERS.get(tier);
             if (config == null) continue;
 
             List<String> pool = new ArrayList<>();
-            for (Quest quest : QuestManager.QUESTS.values()) {
+            for (Quest quest : QuestManager.QUESTS.values())
+            {
+                boolean lifetimeBlocked = !quest.repeatable() && progress.hasCompletedLifetime(quest.id());
+
+
                 if (quest.tier() == tier
+                        && !lifetimeBlocked
                         && !progress.isActive(quest.id())
                         && !progress.hasCompleted(quest.id())) {
                     pool.add(quest.id());
+
                 }
             }
 

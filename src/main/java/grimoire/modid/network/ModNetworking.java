@@ -62,6 +62,13 @@ public class ModNetworking {
 
                 QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
 
+
+                if (!quest.repeatable() && progress.hasCompletedLifetime(questId)) {
+                    progress.removeActive(questId);
+                    ModComponents.QUEST_PROGRESS.sync(player);
+                    player.sendMessage(Text.literal("The Book refuses to reopen an already fulfilled bargain."), false);
+                    return;
+                }
                 if (progress.hasCompleted(questId)) {
                     player.sendMessage(Text.literal("That bargain is already struck today."), false);
                     return;
@@ -100,7 +107,16 @@ public class ModNetworking {
                     return;
                 }
 
+
+
                 QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
+                if (!quest.repeatable() && progress.hasCompletedLifetime(questId)) {
+                    progress.removeActive(questId);
+                    ModComponents.QUEST_PROGRESS.sync(player);
+                    player.sendMessage(Text.literal("The Book removes an already fulfilled bargain from your accepted bargains."), false);
+                    return;
+                }
+
 
                 if (progress.hasCompleted(questId)) {
                     player.sendMessage(Text.literal("The Book's pages are dim. This bargain is already fulfilled."), false);
