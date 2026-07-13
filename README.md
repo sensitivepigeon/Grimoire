@@ -5,11 +5,12 @@
 ## Features
 *Beta version 1.0 for Minecraft 1.20.1.*
 
-***QuestTome*** is a fantasy questing/bounty mod for getting those harder to farm resources, built for custom mod pack makers and servers in mind!
+***QuestTome*** adds a daily bounty book that gives players a repeatable way to earn hard-to-farm resources.
+
+It works well together with other progression mods, acting as a bridge over difficult grinds by offering alternative methods of acquiring items.
 
 It adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
 
-This adds an alternative method of acquisition of resources, perfect for mod makers who want to add a stop-gap to delayed progression and players who value their time!
 
 Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more and the future features roadmap.
 
