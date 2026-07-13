@@ -72,9 +72,13 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                     Grimoire.LOGGER.warn("Skipping quest {} because one or more count values are invalid", entry.getKey());
                     continue;
                 }
-
+                boolean repeatable = true;
+                if (json.has("repeatable")) {
+                    repeatable = json.get("repeatable").getAsBoolean();
+                }
                 QUESTS.put(questId, new Quest(questId, title, lore, description, tier, format, patron,
-                        requiredItem, requiredCount, rewardItem, rewardCount));
+                        requiredItem, requiredCount, rewardItem, rewardCount, repeatable));
+
 
             } catch (Exception e) {
                 Grimoire.LOGGER.warn("Failed to load quest {}", entry.getKey(), e);

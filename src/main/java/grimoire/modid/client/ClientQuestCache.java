@@ -48,8 +48,10 @@ public class ClientQuestCache {
                 String rewardItemID = buf.readString();
                 Item rewardItem = Registries.ITEM.get(new Identifier(rewardItemID));
 
+
                 int rewardCount = buf.readInt();
-                received.add(new Quest(id, title, lore, description, tier, format, patron, requiredItem, requiredCount, rewardItem, rewardCount));
+                boolean repeatable = buf.readBoolean();
+                received.add(new Quest(id, title, lore, description, tier, format, patron, requiredItem, requiredCount, rewardItem, rewardCount, repeatable));
             }
 
             int tierCount = buf.readInt();
