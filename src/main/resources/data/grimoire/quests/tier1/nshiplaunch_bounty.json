@@ -1,0 +1,13 @@
+{
+  "title": "The Nether Ship",
+  "lore": "A ship wishes to begin its voyage.",
+  "description": "This is the Captain speaking. We are requiring fuel to begin our passages through the realms. We will offer our goods in return for investments. Here is your booking ticket. - The Nether Ship, The Pillar of Truth",
+  "patron": "nether_ship",
+  "format": 1,
+  "tier": 1,
+  "required_item": "minecraft:coal",
+  "required_count": 15,
+  "reward_item": "minecraft:paper",
+  "reward_count": 1,
+  "repeatable": false
+}

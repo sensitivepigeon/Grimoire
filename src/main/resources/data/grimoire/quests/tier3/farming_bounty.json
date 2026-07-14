@@ -1,0 +1,15 @@
+{
+  "title": "Farmer's Market",
+  "lore": "A bountiful harvest.",
+  "description": "Wow, whatever you put in the bonemeal really helped! Here's what I need, and I'll send over some of my extra harvest. - The Farmer",
+  "patron": "farmer",
+  "format": 1,
+  "tier": 3,
+  "required_item": "minecraft:iron_hoe",
+  "required_count": 2,
+  "rewards": [
+    { "item": "minecraft:beetroot", "count": 20 },
+    { "item": "minecraft:honey_block", "count": 1 },
+    { "item": "minecraft:melon", "count": 3 }
+  ]
+}

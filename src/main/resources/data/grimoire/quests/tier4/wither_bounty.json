@@ -7,6 +7,6 @@
   "tier": 4,
   "required_item": "minecraft:coal",
   "required_count": 20,
-  "reward_item": "wither_skeleton_skull",
+  "reward_item": "minecraft:wither_skeleton_skull",
   "reward_count": 1
 }

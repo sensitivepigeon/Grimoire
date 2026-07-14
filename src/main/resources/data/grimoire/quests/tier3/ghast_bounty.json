@@ -5,7 +5,7 @@
   "patron": "alchemist",
   "format": 1,
   "tier": 3,
-  "required_item": "minecraft:white_wool",
+  "required_item": "minecraft:blaze_powder",
   "required_count": 5,
   "reward_item": "minecraft:ghast_tear",
   "reward_count": 8

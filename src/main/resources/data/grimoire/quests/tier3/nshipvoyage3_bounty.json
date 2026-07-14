@@ -1,0 +1,17 @@
+{
+  "title": "The Nether Ship: The Nether",
+  "lore": "A ship has goods for you.",
+  "description": "This is the Captain speaking. We have much to sell you in return for your investments. Please hand in a copy of your receipt.- The Nether Ship, The Pillar of Truth",
+  "patron": "nether_ship",
+  "format": 1,
+  "tier": 3,
+  "required_item": "minecraft:paper",
+  "required_count": 1,
+  "rewards": [
+    { "item": "minecraft:netherite_scrap", "count": 30 },
+    { "item": "minecraft:netherite_ingot", "count": 20 },
+    { "item": "minecraft:netherite_upgrade_smithing_template", "count": 1 }
+  ],
+  "requires_quest" : "tier3/nshipdock3_bounty",
+  "repeatable": false
+}

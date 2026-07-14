@@ -4,9 +4,9 @@
   "description": "Diamonds? I'll take fifteen, this bazaar accepts mundane currency. Here, take these ingots I found in the basement in return. - The Esteemed Lord Richard",
   "patron": "lord_richard",
   "format": 1,
-  "tier": 4,
+  "tier": 5,
   "required_item": "minecraft:diamond",
   "required_count": 15,
   "reward_item": "minecraft:netherite_ingot",
-  "reward_count": 25
+  "reward_count": 30
 }
