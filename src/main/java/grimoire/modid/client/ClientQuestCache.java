@@ -2,6 +2,7 @@ package grimoire.modid.client;
 
 import grimoire.modid.network.ModNetworking;
 import grimoire.modid.quest.Quest;
+import grimoire.modid.quest.RewardEntry;
 import grimoire.modid.quest.TierConfig;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.item.Item;
@@ -45,16 +46,20 @@ public class ClientQuestCache {
                 Item requiredItem = Registries.ITEM.get(new Identifier(requiredItemId));
 
                 int requiredCount = buf.readInt();
-                String rewardItemID = buf.readString();
-                Item rewardItem = Registries.ITEM.get(new Identifier(rewardItemID));
 
 
-                int rewardCount = buf.readInt();
+                int rewardNumber = buf.readInt();
+                List<RewardEntry> rewards = new ArrayList<>();
+                for (int r = 0; r < rewardNumber; r++) {
+                    Item rewardItem = Registries.ITEM.get(new Identifier(buf.readString()));
+                    int rewardCount = buf.readInt();
+                    rewards.add(new RewardEntry(rewardItem, rewardCount));
+                }
 
                 boolean repeatable = buf.readBoolean();
                 String requiresQuest = buf.readString();
 
-                received.add(new Quest(id, title, lore, description, tier, patron, format, requiredItem, requiredCount, rewardItem, rewardCount, repeatable, requiresQuest));
+                received.add(new Quest(id, title, lore, description, tier, patron, format, requiredItem, requiredCount, rewards, repeatable, requiresQuest));
             }
 
             int tierCount = buf.readInt();

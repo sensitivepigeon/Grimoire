@@ -2,7 +2,9 @@ package grimoire.modid.quest;
 
 import net.minecraft.item.Item;
 
+import java.util.List;
+
 public record Quest(String id, String title, String lore, String description, int tier, String patron, int format,
                     Item requiredItem, int requiredCount,
-                    Item rewardItem, int rewardCount, boolean repeatable, String requiresQuest) {
+                    List<RewardEntry> rewards, boolean repeatable, String requiresQuest) {
 }

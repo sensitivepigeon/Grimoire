@@ -539,8 +539,9 @@ public class GrimoireScreen extends Screen {
         BookText.drawScaledText(context, this.textRenderer, quest.lore(), true,
                 bookTopLeft.plus(OFFER_DESC[i]), bodyColor);
 
+      // show full reward eventually somehow
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-                + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
+                + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
         BookText.drawScaledText(context, this.textRenderer, req, false,
                 bookTopLeft.plus(INFO[i]), bodyColor);
     }
@@ -566,8 +567,9 @@ public class GrimoireScreen extends Screen {
         context.drawItem(required, x, tradeY);
         context.drawItemInSlot(this.textRenderer, required, x, tradeY);
 
+       // have to show full bundle eventually somehow
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-                + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
+                + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
         BookText.drawScaledText(context, this.textRenderer, req, false,
                 x + 22, tradeY + 4, textWidth - 22, INK_BODY);
 

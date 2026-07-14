@@ -13,9 +13,9 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
+import static net.minecraft.client.realms.util.JsonUtils.getStringOr;
 
 public class QuestManager implements SimpleSynchronousResourceReloadListener {
 
@@ -60,16 +60,20 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                 int format = getIntOr(json, "format", 1);
                 int tier = getIntOr(json, "tier", 1);
                 Item requiredItem = resolveItem(json, "required_item", entry.getKey());
-                Item rewardItem = resolveItem(json, "reward_item", entry.getKey());
-                if (requiredItem == null || rewardItem == null) {
+                if (requiredItem == null ) {
                     Grimoire.LOGGER.warn("Skipping quest {} because one or more item IDs could not be resolved", entry.getKey());
                     continue;
                 }
 
                 Integer requiredCount = requirePositiveInt(json, "required_count", entry.getKey());
-                Integer rewardCount = requirePositiveInt(json, "reward_count", entry.getKey());
-                if (requiredCount == null || rewardCount == null) {
-                    Grimoire.LOGGER.warn("Skipping quest {} because one or more count values are invalid", entry.getKey());
+                if (requiredCount == null) {
+                    Grimoire.LOGGER.warn("Skipping quest {} because the required count is invalid", entry.getKey());
+                    continue;
+                }
+
+                List<RewardEntry> rewards = parseRewards(json, entry.getKey());
+                if (rewards.isEmpty()) {
+                    Grimoire.LOGGER.warn("Skipping quest {} because it has no valid rewards", entry.getKey());
                     continue;
                 }
                 boolean repeatable = true;
@@ -82,7 +86,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                         : "";
 
                 QUESTS.put(questId, new Quest(questId, title, lore, description, tier, patron, format,
-                        requiredItem, requiredCount, rewardItem, rewardCount, repeatable, requiresQuest));
+                        requiredItem, requiredCount, rewards, repeatable, requiresQuest));
 
             } catch (Exception e) {
                 Grimoire.LOGGER.warn("Failed to load quest {}", entry.getKey(), e);
@@ -103,6 +107,46 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
             }
         }
     }
+
+    // rewards array or single reward
+
+    private static List<RewardEntry> parseRewards(JsonObject json, Identifier fileName) {
+        List<RewardEntry> rewards = new ArrayList<>();
+
+        if (json.has("rewards") && json.get("rewards").isJsonArray()) {
+            JsonArray rewardArray = json.getAsJsonArray("rewards");
+
+            for (int i = 0; i < rewardArray.size(); i++) {
+                if (!rewardArray.get(i).isJsonObject()) {
+                    Grimoire.LOGGER.warn("Quest file {} has invalid reward entry at index {}", fileName, i);
+                    continue;
+                }
+
+                JsonObject rewardJson = rewardArray.get(i).getAsJsonObject();
+                Item rewardItem = resolveItem(rewardJson, "item", fileName);
+                Integer rewardCount = requirePositiveInt(rewardJson, "count", fileName);
+
+                if (rewardItem == null || rewardCount == null) {
+                    Grimoire.LOGGER.warn("Quest file {} has invalid reward entry at index {}", fileName, i);
+                    continue;
+                }
+
+                rewards.add(new RewardEntry(rewardItem, rewardCount));
+            }
+
+            return rewards;
+        }
+
+        Item rewardItem = resolveItem(json, "reward_item", fileName);
+        Integer rewardCount = requirePositiveInt(json, "reward_count", fileName);
+
+        if (rewardItem != null && rewardCount != null) {
+            rewards.add(new RewardEntry(rewardItem, rewardCount));
+        }
+
+        return rewards;
+    }
+
 
     private static Item resolveItem(JsonObject json, String keyName, Identifier fileName) {
         String rawId = getStringOr(json, keyName, "");

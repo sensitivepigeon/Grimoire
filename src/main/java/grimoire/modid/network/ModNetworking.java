@@ -6,6 +6,7 @@ import grimoire.modid.data.QuestProgressComponent;
 import grimoire.modid.quest.BountyBoard;
 import grimoire.modid.quest.Quest;
 import grimoire.modid.quest.QuestManager;
+import grimoire.modid.quest.RewardEntry;
 import grimoire.modid.quest.TierConfig;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -34,8 +35,13 @@ public class ModNetworking {
             buf.writeInt(quest.tier());
             buf.writeString(Registries.ITEM.getId(quest.requiredItem()).toString());
             buf.writeInt(quest.requiredCount());
-            buf.writeString(Registries.ITEM.getId(quest.rewardItem()).toString());
-            buf.writeInt(quest.rewardCount());
+
+            buf.writeInt(quest.rewards().size());
+            for (RewardEntry reward : quest.rewards()) {
+                buf.writeString(Registries.ITEM.getId(reward.item()).toString());
+                buf.writeInt(reward.count());
+            }
+
             buf.writeBoolean(quest.repeatable());
             buf.writeString(quest.requiresQuest());
         }
@@ -150,8 +156,10 @@ public class ModNetworking {
                             quest.requiredCount(),
                             player.playerScreenHandler.getCraftingInput()
                     );
+                    for (RewardEntry reward : quest.rewards()) {
+                        player.giveItemStack(new ItemStack(reward.item(), reward.count()));
+                    }
 
-                    player.giveItemStack(new ItemStack(quest.rewardItem(), quest.rewardCount()));
                     progress.removeActive(questId);
                     progress.markCompleted(questId);
                     progress.recordLifetimeCompletion(questId);
