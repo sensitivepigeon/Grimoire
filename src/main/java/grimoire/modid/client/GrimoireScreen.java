@@ -21,8 +21,7 @@ import java.util.List;
 
 public class GrimoireScreen extends Screen {
 
-
-    // layout
+    // shared layout types
 
     private record Point(int x, int y) {
         Point plus(Point p) {
@@ -32,7 +31,72 @@ public class GrimoireScreen extends Screen {
         Rect2i plus(Rect2i r) {
             return new Rect2i(x + r.getX(), y + r.getY(), r.getWidth(), r.getHeight());
         }
+
+        Rect2i rect(Size size) {
+            return new Rect2i(x, y, size.width(), size.height());
+        }
     }
+
+    private record Size(int width, int height) {
+    }
+
+    // turn-in arrows now use arrow sprite but i misnamed it sorry
+    private record Oath(Rect2i title, Rect2i info, Point icon, Rect2i chevron) {
+        private static final Size  TEXT_SIZE      = new Size(108, 10);
+
+        private static final Point INFO_OFFSET    = new Point(0, 14);
+
+        private static final Point ICON_OFFSET    = new Point(-18, 16);
+
+        private static final Point CHEVRON_OFFSET = new Point(66, 25);
+        private static final Size  CHEVRON_SIZE   = new Size(44, 12);
+
+        static Oath at(Point title) {
+            Point info = title.plus(INFO_OFFSET);
+            Point icon = title.plus(ICON_OFFSET);
+            Point chevron = title.plus(CHEVRON_OFFSET);
+            return new Oath(
+                    title.rect(TEXT_SIZE),
+                    info.rect(TEXT_SIZE),
+                    icon,
+                    chevron.rect(CHEVRON_SIZE));
+        }
+    }
+
+    private record Offer(Rect2i title, Rect2i desc, Point icon, Rect2i accept, Rect2i tag, Rect2i info) {
+        private static final Size  TITLE_SIZE   = new Size(82, 10);
+
+        private static final Point DESC_OFFSET  = new Point(0, 12);
+        private static final Size  DESC_SIZE    = new Size(125, 10);
+
+        private static final Point ICON_OFFSET  = new Point(-14, 12);
+
+        private static final Point ACCEPT_OFFSET = new Point(83, 28);
+        private static final Size  ACCEPT_SIZE   = new Size(45, 12);
+
+        private static final Point TAG_OFFSET   = new Point(86, 0);
+        private static final Size  TAG_SIZE     = new Size(38, 10);
+
+        private static final Point INFO_OFFSET  = new Point(-26, 33);
+        private static final Size  INFO_SIZE    = new Size(106, 10);   // trade line
+
+        static Offer at(Point title) {
+            Point desc = title.plus(DESC_OFFSET);
+            Point icon = title.plus(ICON_OFFSET);
+            Point accept = title.plus(ACCEPT_OFFSET);
+            Point tag = title.plus(TAG_OFFSET);
+            Point info = title.plus(INFO_OFFSET);
+            return new Offer(
+                    title.rect(TITLE_SIZE),
+                    desc.rect(DESC_SIZE),
+                    icon,
+                    accept.rect(ACCEPT_SIZE),
+                    tag.rect(TAG_SIZE),
+                    info.rect(INFO_SIZE));
+        }
+    }
+
+    // layout
 
     private static final int BOOK_WIDTH = 420;
     private static final int BOOK_HEIGHT = 234;
@@ -42,27 +106,10 @@ public class GrimoireScreen extends Screen {
     private static final Point BANNER_COUNT = new Point(109, 19);
 
     // left page - bargain cards, still called oath in code. habits hard to break
-    private static final Rect2i[] OATH_TITLE = {   // x=66..174
-            new Rect2i(66, 52, 108, 10),
-            new Rect2i(66, 106, 108, 10),
-            new Rect2i(66, 161, 108, 10),
-    };
-    private static final Rect2i[] OATH_INFO = {
-            new Rect2i(66, 65, 108, 10),
-            new Rect2i(66, 120, 108, 10),
-            new Rect2i(66, 175, 108, 10),
-    };
-    private static final Point[] OATH_ICON = {
-            new Point(48, 67),
-            new Point(48, 122),
-            new Point(48, 177),
-    };
-
-    // turn-in arrows now use arrow sprite but i misnamed it sorry
-    private static final Rect2i[] CHEVRON = {
-            new Rect2i(132, 77, 44, 12),
-            new Rect2i(132, 131, 44, 12),
-            new Rect2i(132, 185, 44, 12),
+    private static final Oath[] OATHS = {   // x=66..174
+            Oath.at(new Point(66, 52)),
+            Oath.at(new Point(66, 106)),
+            Oath.at(new Point(66, 161)),
     };
 
     // right page - header
@@ -72,37 +119,10 @@ public class GrimoireScreen extends Screen {
     private static final int RIGHT_HEADER_W = 120;                 // safe 251..380
 
     // right page - offer cards
-    private static final Point[] OFFER_ICON = {
-            new Point(254, 66),
-            new Point(254, 120),
-            new Point(254, 175),
-    };
-    private static final Rect2i[] OFFER_TITLE = {
-            new Rect2i(268, 55, 82, 10),
-            new Rect2i(268, 108, 82, 10),
-            new Rect2i(268, 163, 82, 10),
-    };
-    private static final Rect2i[] OFFER_DESC = {
-            new Rect2i(268, 67, 125, 10),
-            new Rect2i(268, 122, 125, 10),
-            new Rect2i(268, 175, 125, 10),
-    };
-    private static final Rect2i[] INFO = {   // trade line
-            new Rect2i(242, 88, 106, 10),
-            new Rect2i(242, 141, 106, 10),
-            new Rect2i(242, 195, 106, 10),
-    };
-    private static final Rect2i[] TAG = {
-            new Rect2i(354, 55, 38, 10),
-            new Rect2i(354, 108, 38, 10),
-            new Rect2i(354, 163, 38, 10),
-    };
-
-    // accept arrows
-    private static final Rect2i[] ACCEPT = {
-            new Rect2i(351, 83, 45, 12),
-            new Rect2i(351, 136, 45, 12),
-            new Rect2i(351, 191, 45, 12),
+    private static final Offer[] OFFERS = {
+            Offer.at(new Point(268, 55)),
+            Offer.at(new Point(268, 108)),
+            Offer.at(new Point(268, 163)),
     };
 
     // controls for buttons
@@ -211,7 +231,7 @@ public class GrimoireScreen extends Screen {
                 if (!quest.description().isEmpty()) {
                     final Quest q = quest;
                     this.addDrawableChild(new HitboxButton(
-                            bookTopLeft.plus(OATH_TITLE[i]),
+                            bookTopLeft.plus(OATHS[i].title()),
                             Text.literal("More"), b -> {
                         this.detailQuest = q;
                         this.clearAndInit();
@@ -220,7 +240,7 @@ public class GrimoireScreen extends Screen {
 
                 final String id = actives.get(i).id();
                 this.addDrawableChild(new HitboxButton(
-                        bookTopLeft.plus(CHEVRON[i]),
+                        bookTopLeft.plus(OATHS[i].chevron()),
                         Text.literal("Turn in"), b -> {
                     PacketByteBuf buf = PacketByteBufs.create();
                     buf.writeString(id);
@@ -238,7 +258,8 @@ public class GrimoireScreen extends Screen {
                 this.clearAndInit();
             }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
 
-        } else if (detailQuest != null) {
+        }
+        else if (detailQuest != null) {
             // detail mode
             this.addDrawableChild(new HitboxButton(
                     bookTopLeft.plus(DETAIL_BACK),
@@ -264,7 +285,8 @@ public class GrimoireScreen extends Screen {
                 this.addDrawableChild(accept);
             }
 
-        } else {
+        }
+        else {
             // board mode
             BookPage page = pages.get(pageIndex);
             if (!page.locked()) {
@@ -280,7 +302,7 @@ public class GrimoireScreen extends Screen {
                     if (!quest.description().isEmpty()) {
                         final Quest q = quest;
                         this.addDrawableChild(new HitboxButton(
-                                bookTopLeft.plus(OFFER_TITLE[i]),
+                                bookTopLeft.plus(OFFERS[i].title()),
                                 Text.literal("More"), b -> {
                             this.detailQuest = q;
                             this.clearAndInit();
@@ -292,7 +314,7 @@ public class GrimoireScreen extends Screen {
                     if (sworn || done) continue;   // accepted bargains: tag instead of arrow
 
                     HitboxButton accept = new HitboxButton(
-                            bookTopLeft.plus(ACCEPT[i]),
+                            bookTopLeft.plus(OFFERS[i].accept()),
                             Text.literal("Accept"), b -> {
                         PacketByteBuf buf = PacketByteBufs.create();
                         buf.writeString(id);
@@ -438,24 +460,24 @@ public class GrimoireScreen extends Screen {
                 drawOathCard(context, actives.get(i), i);
             } else {
                 BookText.drawScaledText(context, this.textRenderer, "-- empty bargain --", true,
-                        bookTopLeft.plus(OATH_INFO[i]), INK_DIM);
+                        bookTopLeft.plus(OATHS[i].info()), INK_DIM);
             }
         }
     }
 
     private void drawOathCard(DrawContext context, Quest quest, int i) {
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-        Point icon = bookTopLeft.plus(OATH_ICON[i]);
+        Point icon = bookTopLeft.plus(OATHS[i].icon());
         BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
 
         BookText.drawScaledText(context, this.textRenderer, quest.title() + " · T" + quest.tier(), false,
-                bookTopLeft.plus(OATH_TITLE[i]), INK_TITLE);
+                bookTopLeft.plus(OATHS[i].title()), INK_TITLE);
 
         int held = this.client.player.getInventory().count(quest.requiredItem());
         int shown = Math.min(held, quest.requiredCount());
         int color = shown >= quest.requiredCount() ? INK_READY : INK_BODY;
         BookText.drawScaledText(context, this.textRenderer, shown + "/" + quest.requiredCount() + " gathered", false,
-                bookTopLeft.plus(OATH_INFO[i]), color);
+                bookTopLeft.plus(OATHS[i].info()), color);
     }
 
     // right page mode switching
@@ -525,24 +547,24 @@ public class GrimoireScreen extends Screen {
         int bodyColor = dimmed ? INK_DIM : INK_BODY;
 
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-        Point icon = bookTopLeft.plus(OFFER_ICON[i]);
+        Point icon = bookTopLeft.plus(OFFERS[i].icon());
         BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
 
         BookText.drawScaledText(context, this.textRenderer, quest.title(), false,
-                bookTopLeft.plus(OFFER_TITLE[i]), titleColor);
+                bookTopLeft.plus(OFFERS[i].title()), titleColor);
 
         if (sworn || done) {
             BookText.drawScaledText(context, this.textRenderer, done ? "done" : "accepted", true,
-                    bookTopLeft.plus(TAG[i]), INK_TAG);
+                    bookTopLeft.plus(OFFERS[i].tag()), INK_TAG);
         }
 
         BookText.drawScaledText(context, this.textRenderer, quest.lore(), true,
-                bookTopLeft.plus(OFFER_DESC[i]), bodyColor);
+                bookTopLeft.plus(OFFERS[i].desc()), bodyColor);
 
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
                 + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
         BookText.drawScaledText(context, this.textRenderer, req, false,
-                bookTopLeft.plus(INFO[i]), bodyColor);
+                bookTopLeft.plus(OFFERS[i].info()), bodyColor);
     }
 
     // detail mode layout
