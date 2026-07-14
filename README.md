@@ -3,13 +3,15 @@
 <img width="1540" height="894" alt="java_l8psx0djsm-png" src="https://github.com/user-attachments/assets/b61bd48b-463a-4777-96fb-3f3166204fa1" />
 
 ## Features
-*Beta version 1.0 for Minecraft 1.20.1.*
+*Release version 1.1.0 for Minecraft 1.20.1.*
 
-***QuestTome*** adds a daily bounty book that gives players a repeatable way to earn hard-to-farm resources.
+**Hello, You.** Full Changelog for 1.1 Update HERE. (Wiki Link added on release)
 
-It works well together with other progression mods, acting as a bridge over difficult grinds by offering alternative methods of acquiring items.
+
 
 It adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
+
+It works well together with other progression mods, acting as a bridge over difficult grinds by offering interesting and alternative methods of acquiring items.
 
 
 Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more and the future features roadmap.
@@ -20,10 +22,11 @@ Post issues on Github [here.](https://github.com/sensitivepigeon/QuestTome/issue
 
 - **The Book of Bargains**: An ethereal book that is crafted using a diamond and a writable book, which enables you to access the "Bargains" system. A mysterious entity inhabits the book, offering you bargains from across the realms from various patrons to fulfill for rewards.
 
-- **Daily Rolls**: Careful, you can only accept 3 bargains at a time! Anything else rerolls daily or with the press of a once-daily button. You have unlimited time to complete your bargains.
+- **Unique Quests:** QuestTome ships with an ever-expanding, lore-rich series of base quests. Meet the enigmatic Patrons, achieve their Bargains and please the mysterious Broker, and even encounter unique quest series such as _The Nether Ship's Voyage._
+- **Daily Rolls**: Careful, you can only accept 3 bargains at a time! Anything else rerolls daily or with the press of a once-daily button.
 
-- **Tier Progression:** Five ranks! I-V ranks that offer rarities adjacent to the difficulty. Fulfilling bounties of your tier counts toward unsealing the next: locked tier pages will show you how many you need to complete.  Tier IV only offers two bounties a day, and Tier V only offers one due to their exclusive nature.
-
+- **Tier Progression:** Five ranks! I-V ranks that offer rarities adjacent to the difficulty. Complete bounties of your tier to unlock the next! Tier IV only offers two bounties a day, and Tier V only offers one due to their exclusive nature.
+- **The Codex**: A new view in the Book that records every bargain you've ever completed in order. Page through history and revisit the details of finished bargains. The Codex keeps track!
 ### For Modders!
 - This resource was designed for YOU to edit and adjust for your modpacks, include custom items and adjust balancing for grinds! You can also include lore!
 - Please read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki/%5BDevs%5D-Quests---Packs) for instructions on making custom quests and datapacks for the mod!
