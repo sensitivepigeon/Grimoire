@@ -1,12 +1,12 @@
 {
   "title": "She Sells Seashells",
-  "lore": "A beachcomber has a deal.",
-  "description": "I uncovered these last trip to the beach. Are they worth anything? Here you go! Send me back something good! - Beachcomber Sally",
-  "patron": "beach_sally",
+  "lore": "The ritual didn't work.",
+  "description": "How could I translate 'diamonds' as 'shells'? I have to start again. Help me out, here? - The Summoner",
+  "patron": "summoner",
   "format": 1,
   "tier": 3,
   "required_item": "minecraft:diamond",
-  "required_count": 3,
+  "required_count": 2,
   "reward_item": "minecraft:nautilus_shell",
   "reward_count": 12
 }

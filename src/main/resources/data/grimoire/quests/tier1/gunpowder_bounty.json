@@ -1,8 +1,8 @@
 {
-  "title": "Blow-Out Sale",
-  "lore": "The patron has extra stock.",
-  "description": "Got some extra powder I need to sell. No questions asked. - Demolitionist Dave",
-  "patron": "demo_dave",
+  "title": "The Machine",
+  "lore": "The patron is very hungry.",
+  "description": "HUNGRY. FEED ME. - The Reckoner",
+  "patron": "reckoner",
   "format": 1,
   "tier": 1,
   "required_item": "minecraft:coal",

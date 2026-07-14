@@ -1,12 +1,12 @@
 {
   "title": "Withering Heights",
-  "lore": "A ghost offers a bargain.",
-  "description": "He blocked us in with stone. Take this, one of our skulls. Would rather haunt a friendly face than this place... - The Ghost",
-  "patron": "ghost",
+  "lore": "The patron is hungry... again.",
+  "description": "COAL. MORE COAL. WITHER TASTE BAD. - The Reckoner",
+  "patron": "reckoner",
   "format": 1,
   "tier": 4,
   "required_item": "minecraft:coal",
-  "required_count": 15,
+  "required_count": 20,
   "reward_item": "wither_skeleton_skull",
   "reward_count": 1
 }

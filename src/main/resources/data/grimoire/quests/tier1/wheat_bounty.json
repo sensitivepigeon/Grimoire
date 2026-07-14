@@ -1,0 +1,12 @@
+{
+  "title": "Hungry Alchemist",
+  "lore": "The Alchemist needs a snack.",
+  "description": "Starving! Send over some wheat so I can make a sandwhich. Here's some cobwebs I found in the attic. Good for something, right? - The Alchemist",
+  "patron": "alchemist",
+  "format": 1,
+  "tier": 1,
+  "required_item": "minecraft:wheat",
+  "required_count": 15,
+  "reward_item": "minecraft:cobweb",
+  "reward_count": 10
+}

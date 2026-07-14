@@ -1,12 +1,12 @@
 {
-  "title": "Hide Your Hide",
-  "lore": "A leatherworker needs supplies.",
-  "description": "Need some leather for a project I'm working on. Could you spare some? Thanks. - Leatherworker Ruth",
-  "patron": "lw_ruth",
+  "title": "Witness to the Prosecution",
+  "lore": "The Arbiter needs paper.",
+  "description": "A forty-page summons is required for a criminal in your realm. Assist me with gathering your mundane paper. - The Arbiter",
+  "patron": "arbiter",
   "format": 1,
   "tier": 2,
-  "required_item": "minecraft:leather",
-  "required_count": 10,
+  "required_item": "minecraft:paper",
+  "required_count": 40,
   "reward_item": "minecraft:iron_ingot",
-  "reward_count": 20
+  "reward_count": 28
 }

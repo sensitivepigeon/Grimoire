@@ -1,0 +1,12 @@
+{
+  "title": "Shiny, Shiny",
+  "lore": "A patron has a bet.",
+  "description": "She said I couldn't make anything out of flint. I'll show her this time! Send me some of those sharp little rocks and I'll send you some iron. - The Jeweler",
+  "patron": "jeweler",
+  "format": 1,
+  "tier": 1,
+  "required_item": "minecraft:flint",
+  "required_count": 6,
+  "reward_item": "minecraft:iron_ingot",
+  "reward_count": 12
+}

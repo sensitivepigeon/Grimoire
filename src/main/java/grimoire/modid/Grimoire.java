@@ -1,6 +1,5 @@
 package grimoire.modid;
 
-import grimoire.modid.event.QuestTomeEvents;
 import grimoire.modid.item.ModItems;
 import grimoire.modid.network.ModNetworking;
 import grimoire.modid.quest.BountyBoard;
@@ -39,7 +38,7 @@ public class Grimoire implements ModInitializer {
 
 			});
 
-			// successful reloads only! sweep orphans and push fresh quest data
+		// successful reloads only! sweep orphans and push fresh quest data
 		ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((server, resourceManager, success) -> {
 			if (!success) return;
 

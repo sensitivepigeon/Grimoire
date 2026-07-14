@@ -1,12 +1,12 @@
 {
-  "title": "Iron Will",
-  "lore": "The smiths need iron.",
-  "description": "Hi does this thing work I need irone Pleas send for neew picke. - Minor Tristain",
-  "patron": "miner_trist",
+  "title": "Iron Will Do",
+  "lore": "The jeweler needs iron.",
+  "description": "One of my tools has broken and it needs repairs. I'll send you something beautiful in reward. - The Jeweler",
+  "patron": "jeweler",
   "format": 1,
   "tier": 2,
   "required_item": "minecraft:iron_ingot",
   "required_count": 10,
   "reward_item": "minecraft:diamond",
-  "reward_count": 3
+  "reward_count": 4
 }

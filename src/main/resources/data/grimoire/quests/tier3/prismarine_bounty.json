@@ -1,11 +1,11 @@
 {
   "title": "Prismatic",
-  "lore": "A diver has found something.",
-  "description": "I barely escaped with my life again. Is this stuff worth anything? Send me back supplies for water-breathing potions. - Diver Edward",
-  "patron": "diver_ed",
+  "lore": "The scientist needs redstone.",
+  "description": "New circuits need to be put in. My coolant tanks had a guardian in them. Do you want these? - The Scientist",
+  "patron": "scientist",
   "format": 1,
   "tier": 3,
-  "required_item": "minecraft:pufferfish",
+  "required_item": "minecraft:redstone",
   "required_count": 3,
   "reward_item": "minecraft:prismarine_shard",
   "reward_count": 15

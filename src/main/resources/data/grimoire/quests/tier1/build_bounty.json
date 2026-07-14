@@ -1,8 +1,8 @@
 {
   "title": "Piece by Piece",
   "lore": "The patron requires stone.",
-  "description": "Stone. Quickly. For... reasons. Paying handsomely. - Builder Gregor",
-  "patron": "builder_gregor",
+  "description": "Have you ever tried to build an entire plane by yourself? No? Then assist me, and I will reward you with sharp stones. - The Grand Architect",
+  "patron": "architect",
   "format": 1,
   "tier": 1,
   "required_item": "minecraft:stone",

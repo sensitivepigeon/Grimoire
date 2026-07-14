@@ -1,11 +1,11 @@
 { "title": "In The Dark",
   "lore": "Doom brings reward.",
-  "description": "Can't remember anything. What happened to us? Take this. Take them. I'm so tired. - Mayor Benny",
-  "patron": "mayor_benny",
+  "description": "Hey, turns out you can summon really bad things if you don't have any light sources. Good to know. - The Summoner",
+  "patron": "summoner",
   "format": 1,
   "tier": 4,
   "required_item": "minecraft:lantern",
-  "required_count": 3,
+  "required_count": 6,
   "reward_item": "minecraft:echo_shard",
   "reward_count": 8
 }

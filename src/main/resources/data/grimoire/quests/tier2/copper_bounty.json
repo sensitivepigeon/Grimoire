@@ -1,8 +1,8 @@
 {
   "title": "Useless Metal",
   "lore": "Copper for the eager.",
-  "description": "Copper. Copper. Copper. Copper. Need it now. Need lots. Need it all. Thanks. - Unknown Address",
-  "patron": "unknown_address",
+  "description": "HUNGRY. COPPER, NOW. - The Reckoner",
+  "patron": "reckoner",
   "format": 1,
   "tier": 2,
   "required_item": "minecraft:copper_ingot",

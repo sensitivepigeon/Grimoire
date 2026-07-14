@@ -1,8 +1,8 @@
 {
-  "title": "Iron Will 2",
-  "lore": "The smiths have a reward.",
-  "description": "Picke worked, here extra irun. thank uh. - Minoer Tristaine",
-  "patron": "miner_trist",
+  "title": "Iron Won't Do",
+  "lore": "A patron is picky.",
+  "description": "Ugh! It's ugly! I can't handle this. Give me something green and I'll be happy. - The Jeweler",
+  "patron": "jeweler",
   "format": 1,
   "tier": 3,
   "required_item": "minecraft:emerald",

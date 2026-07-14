@@ -1,8 +1,8 @@
 {
-  "title": "Reading Rainbow",
-  "lore": "A reader is seeking her next favorite novel.",
-  "description": "I've run out of things to read. Any recommendations? Mysteries, horror, and thriller preferred. - Reader Kaitlyn",
-  "patron": "reader_kaitlyn",
+  "title": "Arbitration",
+  "lore": "The patron must study law.",
+  "description": "Cosmic law and order never ceases in its mysteries. Aid me in acquiring some suitable books for my collection. - The Arbiter",
+  "patron": "arbiter",
   "format": 1,
   "tier": 1,
   "required_item": "minecraft:book",

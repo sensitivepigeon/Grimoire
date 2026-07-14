@@ -2,7 +2,7 @@
   "title": "Upgrade Required",
   "lore": "A scientist needs redstone.",
   "description": "I hear you're trusted. Send me some redstone for my project and I'll send you these smithing templates I don't need. - The Scientist",
-  "patron": "the_scientist",
+  "patron": "scientist",
   "format": 1,
   "tier": 5,
   "required_item": "minecraft:redstone_block",

@@ -1,8 +1,8 @@
 {
-  "title": "Aquatics",
-  "lore": "An aquarium needs to be repaired.",
-  "description": "My aquarium needs to be repaired again. Need some glass for the build. Thanks! - Fisher Jason",
-  "patron": "fisher_jason",
+  "title": "Turtle Rings",
+  "lore": "The patron can't use scute.",
+  "description": "What sort of material is this? Useless. Please send me something I can work with. - The Jeweler,",
+  "patron": "jeweler",
   "format": 1,
   "tier": 2,
   "required_item": "minecraft:glass",

@@ -1,0 +1,12 @@
+{
+  "title": "The Summoning",
+  "lore": "The ritual needs supplies",
+  "description": "I bought the wrong ritual supplies. Let's exchange them. Thanks! - The Summoner",
+  "patron": "summoner",
+  "format": 1,
+  "tier": 2,
+  "required_item": "minecraft:bone",
+  "required_count": 5,
+  "reward_item": "minecraft:spider_eye",
+  "reward_count": 10
+}

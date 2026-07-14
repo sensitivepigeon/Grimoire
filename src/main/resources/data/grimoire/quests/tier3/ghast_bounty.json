@@ -1,8 +1,8 @@
 {
   "title": "Tears in Rain",
-  "lore": "A strange request.",
-  "description": "There are tears all over the word comfort. I assume this is a bargain of some kind. Here, for you. -- The Broker",
-  "patron": "ghast",
+  "lore": "The Alchemist has extra supplies.",
+  "description": "Curiously, I've an excess of ghast tears and a lack of Blaze Powder. Let's exchange, shall we? - The Alchemist",
+  "patron": "alchemist",
   "format": 1,
   "tier": 3,
   "required_item": "minecraft:white_wool",

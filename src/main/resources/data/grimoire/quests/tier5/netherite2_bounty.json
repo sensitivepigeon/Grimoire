@@ -1,8 +1,8 @@
 {
-  "title": "Pearls Before Swine 2",
-  "lore": "An eager trader returns.",
-  "description": "He truly enjoyed those diamonds last time. Here's his next offer for another batch. - The Broker",
-  "patron": "piglin_trader",
+  "title": "Pearls Before Swine",
+  "lore": "The Patron needs diamonds.",
+  "description": "Diamonds? I'll take fifteen, this bazaar accepts mundane currency. Here, take these ingots I found in the basement in return. - The Esteemed Lord Richard",
+  "patron": "lord_richard",
   "format": 1,
   "tier": 4,
   "required_item": "minecraft:diamond",

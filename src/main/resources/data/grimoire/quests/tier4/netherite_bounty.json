@@ -1,11 +1,11 @@
 {
-  "title": "Pearls Before Swine",
-  "lore": "A piglin trader has an offer.",
-  "description": "I'll translate for you. He wants diamonds, and offers netherite ingots in return. A good deal, don't you think? - The Broker",
-  "patron": "piglin_trader",
+  "title": "Legally Speaking",
+  "lore": "The defense needs assistance.",
+  "description": "Our defense must do some research for this next trial. Assist us in preparing for the trial, we need your mundane laws for reference. - The Arbiter",
+  "patron": "arbiter",
   "format": 1,
   "tier": 4,
-  "required_item": "minecraft:diamond",
+  "required_item": "minecraft:bookshelf",
   "required_count": 15,
   "reward_item": "minecraft:netherite_ingot",
   "reward_count": 15

@@ -1,8 +1,8 @@
 {
   "title": "Slime-y Request",
   "lore": "Hungry slimes need feeding.",
-  "description": "My slimes need feeding. I'll sell you some extra off the top, premium quality full-goop slime at the best price. - Slimer Gabriel",
-  "patron": "slimer_gabriel",
+  "description": "I summoned some slimes and they're hungry. I'll give you some extra slime for your assistance. - The Summoner",
+  "patron": "summoner",
   "format": 1,
   "tier": 1,
   "required_item": "minecraft:rotten_flesh",

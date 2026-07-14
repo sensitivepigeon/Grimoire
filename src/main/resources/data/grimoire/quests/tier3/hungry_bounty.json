@@ -1,8 +1,8 @@
 {
-  "title": "BookDash",
+  "title": "A Reckoning",
   "lore": "A patron has an order.",
-  "description": "I'll take a number four, large. Actually, double it. I'll take two. I'll tip. -- Hungry Jules",
-  "patron": "hungry_jules",
+  "description": "STEAK? YES. LET US TRY... STEAK. - The Reckoner",
+  "patron": "reckoner",
   "format": 1,
   "tier": 3,
   "required_item": "minecraft:cooked_beef",

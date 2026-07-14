@@ -1,12 +1,12 @@
 {
-  "title": "Fine Reward",
-  "lore": "A good deal, just for you.",
-  "description": "Hello, you. You've been steadfast so far. Consider this a reward for your diligence. - The Broker",
-  "patron": "the_broker",
+  "title": "A Tough Scrap",
+  "lore": "The Farmer ran into an issue.",
+  "description": "How did these end up in the soil? I'm so confused. Here, take them. They seem strange, but useful. Send me iron to repair my plow. - The Farmer",
+  "patron": "farmer",
   "format": 1,
   "tier": 3,
-  "required_item": "minecraft:ink_sac",
-  "required_count": 5,
+  "required_item": "minecraft:iron_ingot",
+  "required_count": 30,
   "reward_item": "minecraft:netherite_scrap",
   "reward_count": 12
 }
