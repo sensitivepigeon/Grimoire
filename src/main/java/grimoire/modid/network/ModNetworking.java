@@ -59,6 +59,7 @@ public class ModNetworking {
     }
 
     public static final Identifier TURN_IN_QUEST = new Identifier(Grimoire.MOD_ID, "turn_in_quest");
+    public static final Identifier CANCEL_QUEST = new Identifier(Grimoire.MOD_ID, "cancel_quest");
 
     public static void registerServerReceivers() {
         ServerPlayNetworking.registerGlobalReceiver(ACCEPT_QUEST, (server, player, handler, buf, responseSender) -> {
@@ -135,7 +136,7 @@ public class ModNetworking {
                 if (!quest.requiresQuest().isEmpty() && !progress.hasCompletedLifetime(quest.requiresQuest())) {
                     progress.removeActive(questId);
                     ModComponents.QUEST_PROGRESS.sync(player);
-                    player.sendMessage(Text.literal("Not yet, You. The Book won't allow this without the prerequisite."), false);
+                    player.sendMessage(Text.literal("The Broker: Not yet, You. The Book won't allow this without the prerequisite."), false);
                     return;
                 }
 
@@ -173,6 +174,37 @@ public class ModNetworking {
                 } else {
                     player.sendMessage(Text.literal("You lack the required items... (" + count + "/" + quest.requiredCount() + ")"), false);
                 }
+            });
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(CANCEL_QUEST, (server, player, handler, buf, responseSender) -> {
+            String questId = buf.readString();
+
+            server.execute(() -> {
+                Quest quest = QuestManager.QUESTS.get(questId);
+                if (quest == null) {
+                    player.sendMessage(Text.literal("The Book does not recognize this bargain."), false);
+                    return;
+                }
+
+                QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(player);
+
+                if (!progress.isActive(questId)) {
+                    player.sendMessage(Text.literal("You have not accepted this bargain."), false);
+                    return;
+                }
+
+                progress.removeActive(questId);
+                ModComponents.QUEST_PROGRESS.sync(player);
+                String line = switch (quest.tier()) {
+                    case 1 -> "The Broker: Oh, alright. I expected some discontent with our bargains initially, You.";
+                    case 2 -> "The Broker: Really? Hm. I thought that one was good for your tastes. Oh, well.";
+                    case 3 -> "The Broker: No? That's not very polite, You. Do better.";
+                    case 4 -> "The Broker: Really! That's quite rude, You. I had that one picked specially for you.";
+                    default -> "The Broker: Soon I won't allow further breaking of our bargains, You. This one was a promise, and you should have kept it.";
+                };
+                player.sendMessage(Text.literal(line), false);
+                QuestTomeEvents.BARGAIN_CANCELLED.invoker().onCancelled(player, questId, quest.tier(), quest.patron());
             });
         });
     }

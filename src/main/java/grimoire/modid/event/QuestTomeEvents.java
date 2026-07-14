@@ -32,6 +32,11 @@ public class QuestTomeEvents {
     }
 
     @FunctionalInterface
+    public interface BargainCancelled {
+        void onCancelled(ServerPlayerEntity player, String questId, int tier, String patron);
+    }
+
+    @FunctionalInterface
     public interface RotationRolled {
         void onRolled(ServerPlayerEntity player);
     }
@@ -47,7 +52,12 @@ public class QuestTomeEvents {
                     listeners -> (player, questId, tier, patron) -> {
                         for (BargainCompleted l : listeners) l.onCompleted(player, questId, tier, patron);
                     });
-// bounty board
+    public static final Event<BargainCancelled> BARGAIN_CANCELLED =
+            EventFactory.createArrayBacked(BargainCancelled.class,
+                    listeners -> (player, questId, tier, patron) -> {
+                        for (BargainCancelled l : listeners) l.onCancelled(player, questId, tier, patron);
+                    });
+    // bounty board
     public static final Event<BargainRerolled> BARGAIN_REROLLED =
             EventFactory.createArrayBacked(BargainRerolled.class,
                     listeners -> (player) -> {
