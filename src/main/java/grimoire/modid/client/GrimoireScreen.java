@@ -211,44 +211,6 @@ public class GrimoireScreen extends Screen {
         if (pageIndex >= pages.size()) pageIndex = pages.size() - 1;
         if (pageIndex < 0) pageIndex = 0;
 
-        if (!showHelp) {
-            this.addDrawableChild(new HitboxButton(
-                    bookTopLeft.plus(HELP),
-                    Text.literal("?"), b -> {
-                this.showHelp = true;
-                this.detailQuest = null;
-                this.clearAndInit();
-            }));
-        }
-
-
-        // left page turn in hitboxes
-        if (!showHelp) {
-            for (int i = 0; i < actives.size(); i++) {
-                Quest quest = actives.get(i);
-
-
-                if (!quest.description().isEmpty()) {
-                    final Quest q = quest;
-                    this.addDrawableChild(new HitboxButton(
-                            bookTopLeft.plus(OATHS[i].title()),
-                            Text.literal("More"), b -> {
-                        this.detailQuest = q;
-                        this.clearAndInit();
-                    }));
-                }
-
-                final String id = actives.get(i).id();
-                this.addDrawableChild(new HitboxButton(
-                        bookTopLeft.plus(OATHS[i].chevron()),
-                        Text.literal("Turn in"), b -> {
-                    PacketByteBuf buf = PacketByteBufs.create();
-                    buf.writeString(id);
-                    ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
-                }).withSprite(SPRITE_TURNIN).withLabel(0xFF2F3D1A));
-            }
-        }
-
         if (showHelp) {
             // help mode
             this.addDrawableChild(new HitboxButton(
@@ -257,9 +219,43 @@ public class GrimoireScreen extends Screen {
                 this.showHelp = false;
                 this.clearAndInit();
             }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
-
+            return;
         }
-        else if (detailQuest != null) {
+
+        this.addDrawableChild(new HitboxButton(
+                bookTopLeft.plus(HELP),
+                Text.literal("?"), b -> {
+            this.showHelp = true;
+            this.detailQuest = null;
+            this.clearAndInit();
+        }));
+
+        // left page turn in hitboxes
+        for (int i = 0; i < actives.size(); i++) {
+            Quest quest = actives.get(i);
+
+
+            if (!quest.description().isEmpty()) {
+                final Quest q = quest;
+                this.addDrawableChild(new HitboxButton(
+                        bookTopLeft.plus(OATHS[i].title()),
+                        Text.literal("More"), b -> {
+                    this.detailQuest = q;
+                    this.clearAndInit();
+                }));
+            }
+
+            final String id = actives.get(i).id();
+            this.addDrawableChild(new HitboxButton(
+                    bookTopLeft.plus(OATHS[i].chevron()),
+                    Text.literal("Turn in"), b -> {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeString(id);
+                ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
+            }).withSprite(SPRITE_TURNIN).withLabel(0xFF2F3D1A));
+        }
+
+        if (detailQuest != null) {
             // detail mode
             this.addDrawableChild(new HitboxButton(
                     bookTopLeft.plus(DETAIL_BACK),
@@ -285,8 +281,7 @@ public class GrimoireScreen extends Screen {
                 this.addDrawableChild(accept);
             }
 
-        }
-        else {
+        } else {
             // board mode
             BookPage page = pages.get(pageIndex);
             if (!page.locked()) {
@@ -308,7 +303,6 @@ public class GrimoireScreen extends Screen {
                             this.clearAndInit();
                         }));
                     }
-
 
 
                     if (sworn || done) continue;   // accepted bargains: tag instead of arrow
