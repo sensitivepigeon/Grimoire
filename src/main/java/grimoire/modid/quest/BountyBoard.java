@@ -3,6 +3,7 @@ package grimoire.modid.quest;
 import grimoire.modid.Grimoire;
 import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
+import grimoire.modid.event.QuestTomeEvents;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import grimoire.modid.item.ModItems;
@@ -93,6 +94,7 @@ public class BountyBoard {
             progress.startNewRotation(day);
             rollOffers(progress);
             ModComponents.QUEST_PROGRESS.sync(player);
+            QuestTomeEvents.ROTATION_ROLLED.invoker().onRolled(player);
 
             if (player.getInventory().count(ModItems.GRIMOIRE_TOME) > 0) {
                 player.sendMessage(Text.literal("[QuestTome] The Book is updated with new bargains for the day."), false);
@@ -114,6 +116,7 @@ public class BountyBoard {
         progress.markManualReroll(day);
         rollOffers(progress);
         ModComponents.QUEST_PROGRESS.sync(player);
+        QuestTomeEvents.BARGAIN_REROLLED.invoker().onRerolled(player);
         player.sendMessage(Text.literal("[QuestTome] The Book's pages flutter and rearrange..."), false);
     }
     // this one was super easy but i almost broke everything here lol. this is a public front door for player quest sweeps

@@ -1,5 +1,6 @@
 package grimoire.modid;
 
+import grimoire.modid.event.QuestTomeEvents;
 import grimoire.modid.item.ModItems;
 import grimoire.modid.network.ModNetworking;
 import grimoire.modid.quest.BountyBoard;
@@ -20,9 +21,9 @@ import org.slf4j.LoggerFactory;
 public class Grimoire implements ModInitializer {
 	public static final String MOD_ID = "grimoire";
 
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
+	// grimoire is the modid for QuestTome, NOT QuestTome
+	// the logger will announce grimoire
+
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
 	@Override
@@ -46,6 +47,7 @@ public class Grimoire implements ModInitializer {
 				BountyBoard.sweepOrphansFor(player);
 				ModNetworking.syncQuestsTo(player);
 			}
+
 
 		})
 ;}

@@ -3,6 +3,7 @@ package grimoire.modid.network;
 import grimoire.modid.Grimoire;
 import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
+import grimoire.modid.event.QuestTomeEvents;
 import grimoire.modid.quest.BountyBoard;
 import grimoire.modid.quest.Quest;
 import grimoire.modid.quest.QuestManager;
@@ -103,6 +104,7 @@ public class ModNetworking {
                     progress.accept(questId);
                 ModComponents.QUEST_PROGRESS.sync(player);
                 player.sendMessage(Text.literal("Bargain accepted: " + quest.title()), false);
+                QuestTomeEvents.BARGAIN_ACCEPTED.invoker().onAccepted(player, questId, quest.tier(), quest.patron());
             });
         });
 
@@ -165,6 +167,7 @@ public class ModNetworking {
                     progress.recordLifetimeCompletion(questId);
                     progress.incrementCompletions(quest.tier());
                     ModComponents.QUEST_PROGRESS.sync(player);
+                    QuestTomeEvents.BARGAIN_COMPLETED.invoker().onCompleted(player, questId, quest.tier(), quest.patron());
 
                     player.sendMessage(Text.literal("Bargain complete: " + quest.title()), false);
                 } else {
