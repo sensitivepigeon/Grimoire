@@ -1,7 +1,7 @@
 {
   "title": "Hungry Alchemist",
   "lore": "The Alchemist needs a snack.",
-  "description": "Starving! Send over some wheat so I can make a sandwhich. Here's some cobwebs I found in the attic. Good for something, right? - The Alchemist",
+  "description": "Starving! Send over some wheat so I can make a sandwhich. Here's some cobwebs I found in the attic. Good for something, right? \n  §n The Alchemist",
   "patron": "alchemist",
   "format": 1,
   "tier": 1,

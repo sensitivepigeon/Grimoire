@@ -1,7 +1,7 @@
 {
   "title": "Upgrade Required",
   "lore": "A scientist needs redstone.",
-  "description": "I hear you're trusted. Send me some redstone for my project and I'll send you these smithing templates I don't need. - The Scientist",
+  "description": "I hear you're trusted. Send me some redstone for my project and I'll send you these smithing templates I don't need. \n  §n The Scientist",
   "patron": "scientist",
   "format": 1,
   "tier": 5,

@@ -1,7 +1,7 @@
 {
   "title": "The Nether Ship 2",
   "lore": "A ship needs a dock.",
-  "description": "This is the Captain speaking. Please send us construction materials for a dock so we can offload our goods. Here is a copy of your receipt in return. - The Nether Ship, The Pillar of Truth",
+  "description": "This is the Captain speaking. Please send us construction materials for a dock so we can offload our goods. Here is a copy of your receipt in return. \n \n  §n The Pillar of Truth",
   "patron": "nether_ship",
   "format": 1,
   "tier": 2,

@@ -1,7 +1,7 @@
 {
   "title": "Turtle Rings",
   "lore": "The patron can't use scute.",
-  "description": "What sort of material is this? Useless. Please send me something I can work with. - The Jeweler,",
+  "description": "What sort of material is this? Useless. Please send me something I can work with. \n  §n The Jeweler,",
   "patron": "jeweler",
   "format": 1,
   "tier": 2,

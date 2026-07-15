@@ -1,7 +1,7 @@
 {
   "title": "Arbitration",
   "lore": "The patron must study law.",
-  "description": "Cosmic law and order never ceases in its mysteries. Aid me in acquiring some suitable books for my collection. - The Arbiter",
+  "description": "Cosmic law and order never ceases in its mysteries. Aid me in acquiring some suitable books for my collection. \n  §n The Arbiter",
   "patron": "arbiter",
   "format": 1,
   "tier": 1,

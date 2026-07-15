@@ -1,7 +1,7 @@
 {
   "title": "Witness to the Prosecution",
   "lore": "The Arbiter needs paper.",
-  "description": "A forty-page summons is required for a criminal in your realm. Assist me with gathering your mundane paper. - The Arbiter",
+  "description": "A forty-page summons is required for a criminal in your realm. Assist me with gathering your mundane paper. \n  §n The Arbiter",
   "patron": "arbiter",
   "format": 1,
   "tier": 2,

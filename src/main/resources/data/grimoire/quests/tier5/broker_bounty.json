@@ -1,7 +1,7 @@
 {
   "title": "Renowned Reward",
   "lore": "You've done well.",
-  "description": "The patrons are happy with your progress. Here's a bargain, on me. - The Broker",
+  "description": "The patrons are happy with your progress. Here's a bargain, on me. \n  §n The Broker",
   "patron": "the_broker",
   "format": 1,
   "tier": 5,

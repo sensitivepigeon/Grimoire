@@ -1,7 +1,7 @@
 {
   "title": "Write More",
   "lore": "I require ink.",
-  "description": "Hello, you. Please provide me some ink sacs, there's been a surge of patrons lately wishing to register and I am running out of ink. - The Broker",
+  "description": "Hello, you. Please provide me some ink sacs, there's been a surge of patrons lately wishing to register and I am running out of ink. \n  §n The Broker",
   "patron": "the_broker",
   "format": 1,
   "tier": 1,

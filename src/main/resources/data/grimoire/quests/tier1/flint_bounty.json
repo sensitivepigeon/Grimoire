@@ -1,7 +1,7 @@
 {
   "title": "Shiny, Shiny",
   "lore": "A patron has a bet.",
-  "description": "She said I couldn't make anything out of flint. I'll show her this time! Send me some of those sharp little rocks and I'll send you some iron. - The Jeweler",
+  "description": "She said I couldn't make anything out of flint. I'll show her this time! Send me some of those sharp little rocks and I'll send you some iron. \n  §n The Jeweler",
   "patron": "jeweler",
   "format": 1,
   "tier": 1,

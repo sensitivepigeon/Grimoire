@@ -1,7 +1,7 @@
 {
   "title": "The Nether Ship: Round Trip",
   "lore": "A ship has goods for you.",
-  "description": "This is the Captain speaking. We're grateful for your continued support. Our engine continues to generate Nether Stars as a byproduct, I understand you would like one. Give us a copy of your receipt, please. - The Nether Ship, The Pillar of Truth",
+  "description": "This is the Captain speaking. We're grateful for your continued support. Our engine continues to generate Nether Stars as a byproduct, I understand you would like one. Give us a copy of your receipt, please. \n \n  §n The Pillar of Truth",
   "patron": "nether_ship",
   "format": 1,
   "tier": 5,

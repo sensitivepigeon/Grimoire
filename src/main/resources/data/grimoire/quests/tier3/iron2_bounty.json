@@ -1,7 +1,7 @@
 {
   "title": "Iron Won't Do",
   "lore": "A patron is picky.",
-  "description": "Ugh! It's ugly! I can't handle this. Give me something green and I'll be happy. - The Jeweler",
+  "description": "Ugh! It's ugly! I can't handle this. Give me something green and I'll be happy. \n  §n The Jeweler",
   "patron": "jeweler",
   "format": 1,
   "tier": 3,

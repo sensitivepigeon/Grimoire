@@ -1,7 +1,7 @@
 {
   "title": "Iron Will Do",
   "lore": "The jeweler needs iron.",
-  "description": "One of my tools has broken and it needs repairs. I'll send you something beautiful in reward. - The Jeweler",
+  "description": "One of my tools has broken and it needs repairs. I'll send you something beautiful in reward. \n  §n The Jeweler",
   "patron": "jeweler",
   "format": 1,
   "tier": 2,

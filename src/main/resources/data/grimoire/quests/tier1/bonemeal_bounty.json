@@ -1,7 +1,7 @@
 {
   "title": "Wilted Crops",
   "lore": "The patron wishes for bone meal.",
-  "description": "My farm has been cursed to wither once more. I require further packages of bone meal to fertilize the land, since you refuse to allow me to request 'item redacted'. - The Farmer",
+  "description": "My farm has been cursed to wither once more. I require further packages of bone meal to fertilize the land, since you refuse to allow me to request 'item redacted'. \n  §n The Farmer",
   "patron": "farmer",
   "format": 1,
   "tier": 1,

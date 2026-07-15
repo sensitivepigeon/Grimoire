@@ -1,7 +1,7 @@
 {
   "title": "Nightmares",
   "lore": "A sleepless scientist needs help.",
-  "description": "I have insomnia. They've been coming for me. Can you send me something to help me sleep? A new bed, maybe? Maybe it'll work this time. - The Scientist",
+  "description": "I have insomnia. They've been coming for me. Can you send me something to help me sleep? A new bed, maybe? Maybe it'll work this time. \n  §n The Scientist",
   "patron": "scientist",
   "format": 1,
   "tier": 2,

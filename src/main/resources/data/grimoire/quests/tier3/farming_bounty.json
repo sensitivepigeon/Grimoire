@@ -1,7 +1,7 @@
 {
   "title": "Farmer's Market",
   "lore": "A bountiful harvest.",
-  "description": "Wow, whatever you put in the bonemeal really helped! Here's what I need, and I'll send over some of my extra harvest. - The Farmer",
+  "description": "Wow, whatever you put in the bonemeal really helped! Here's what I need, and I'll send over some of my extra harvest. \n  §n The Farmer",
   "patron": "farmer",
   "format": 1,
   "tier": 3,

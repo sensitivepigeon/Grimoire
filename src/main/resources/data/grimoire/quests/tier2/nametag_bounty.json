@@ -1,7 +1,7 @@
 {
   "title": "Names Are Important",
   "lore": "Hello, you.",
-  "description": "You have a habit of collecting strays, don't you? Surely you'll find this useful. - The Broker",
+  "description": "You have a habit of collecting strays, don't you? Surely you'll find this useful. \n  §n The Broker",
   "patron": "the_broker",
   "format": 1,
   "tier": 2,

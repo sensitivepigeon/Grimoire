@@ -1,7 +1,7 @@
 {
   "title": "A Tough Scrap",
   "lore": "The Farmer ran into an issue.",
-  "description": "How did these end up in the soil? I'm so confused. Here, take them. They seem strange, but useful. Send me iron to repair my plow. - The Farmer",
+  "description": "How did these end up in the soil? I'm so confused. Here, take them. They seem strange, but useful. Send me iron to repair my plow. \n  §n The Farmer",
   "patron": "farmer",
   "format": 1,
   "tier": 3,

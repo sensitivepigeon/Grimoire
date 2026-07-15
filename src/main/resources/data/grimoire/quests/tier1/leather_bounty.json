@@ -1,7 +1,7 @@
 {
   "title": "Estate Sale",
   "lore": "A patron is selling off stock.",
-  "description": "Found these in the basement. If there's any interest, contact me through the broker. Need to clear some space from my estate. - The Esteemed Lord Richard",
+  "description": "Found these in the basement. If there's any interest, contact me through the broker. Need to clear some space from my estate. \n  §n The Esteemed Lord Richard",
   "patron": "lord_richard",
   "format": 1,
   "tier": 1,

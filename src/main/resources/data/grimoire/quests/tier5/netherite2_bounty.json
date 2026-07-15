@@ -1,7 +1,7 @@
 {
   "title": "Pearls Before Swine",
   "lore": "The Patron needs diamonds.",
-  "description": "Diamonds? I'll take fifteen, this bazaar accepts mundane currency. Here, take these ingots I found in the basement in return. - The Esteemed Lord Richard",
+  "description": "Diamonds? I'll take fifteen, this bazaar accepts mundane currency. Here, take these ingots I found in the basement in return. \n  §n The Esteemed Lord Richard",
   "patron": "lord_richard",
   "format": 1,
   "tier": 5,

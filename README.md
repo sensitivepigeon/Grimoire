@@ -1,4 +1,4 @@
-# QuestTome (Fabric)
+# Grimoire (Fabric)
 
 <img width="1540" height="894" alt="java_l8psx0djsm-png" src="https://github.com/user-attachments/assets/b61bd48b-463a-4777-96fb-3f3166204fa1" />
 
@@ -9,7 +9,7 @@
 
 
 
-QuestTome adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
+Grimoire adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
 
 It works well together with other progression mods, acting as a bridge over difficult grinds by offering interesting and alternative methods of acquiring items.
 
@@ -22,7 +22,7 @@ Post issues on Github [here.](https://github.com/sensitivepigeon/QuestTome/issue
 
 - **The Book of Bargains**: An ethereal book that is crafted using a diamond and a writable book, which enables you to access the "Bargains" system. A mysterious entity inhabits the book, offering you bargains from across the realms from various patrons to fulfill for rewards.
 
-- **Unique Quests:** QuestTome ships with an ever-expanding, lore-rich series of base quests. Meet the enigmatic Patrons, achieve their Bargains and please the mysterious Broker, and even encounter unique quest series such as _The Nether Ship's Voyage._
+- **Unique Quests:** Grimoire ships with an ever-expanding, lore-rich series of base quests. Meet the enigmatic Patrons, achieve their Bargains and please the mysterious Broker, and even encounter unique quest series such as _The Nether Ship's Voyage._
 - **Daily Rolls**: Careful, you can only accept 3 bargains at a time! Anything else rerolls daily or with the press of a once-daily button.
 
 - **Tier Progression:** Five ranks! I-V ranks that offer rarities adjacent to the difficulty. Complete bounties of your tier to unlock the next! Tier IV only offers two bounties a day, and Tier V only offers one due to their exclusive nature.
@@ -41,7 +41,7 @@ Grab off Curseforge or Modrinth. Make sure you have FabricAPI and correct minecr
 
 **Servers**: same config, same jar + dependency. Drop in server's mod folder.
 
-**QuestTome is required on both client and server.**
+**Grimoire is required on both client and server.**
 
 ## Artist Credit
 All writing done by me.
