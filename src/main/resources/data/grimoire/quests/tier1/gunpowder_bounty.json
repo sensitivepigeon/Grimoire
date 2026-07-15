@@ -1,7 +1,7 @@
 {
   "title": "The Machine",
   "lore": "The patron is very hungry.",
-  "description": "HUNGRY. FEED ME. \n  §n The Reckoner",
+  "description": "HUNGRY. FEED ME. \n  §nThe Reckoner",
   "patron": "reckoner",
   "format": 1,
   "tier": 1,

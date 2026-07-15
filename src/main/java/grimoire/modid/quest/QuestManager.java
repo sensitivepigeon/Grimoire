@@ -13,6 +13,7 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                                 path.getPath().endsWith(".json")).entrySet()) {
 
 
-            try (InputStreamReader reader = new InputStreamReader(entry.getValue().getInputStream())) {
+            try (InputStreamReader reader = new InputStreamReader(entry.getValue().getInputStream(), StandardCharsets.UTF_8)) {
                 JsonObject json = GSON.fromJson(reader, JsonObject.class);
 
                 String path = entry.getKey().getPath();
@@ -57,6 +58,9 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
 
                 String lore = getStringOr(json, "lore", "");
                 String description = getStringOr(json, "description", "");
+                Grimoire.LOGGER.warn("Hey bubby description: " + description);
+
+
                 String patron = getStringOr(json, "patron", "");
                 int format = getIntOr(json, "format", 1);
                 int tier = getIntOr(json, "tier", 1);

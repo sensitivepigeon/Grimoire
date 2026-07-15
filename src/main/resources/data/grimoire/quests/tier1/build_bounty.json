@@ -1,7 +1,7 @@
 {
   "title": "Piece by Piece",
   "lore": "The patron requires stone.",
-  "description": "Have you ever tried to build an entire plane by yourself? No? Then assist me, and I will reward you with sharp stones. \n  §n The Grand Architect",
+  "description": "Have you ever tried to build an entire plane by yourself? No? Then assist me, and I will reward you with sharp stones. \n  §nThe Grand Architect",
   "patron": "architect",
   "format": 1,
   "tier": 1,
