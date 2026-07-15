@@ -14,6 +14,7 @@ import net.minecraft.util.Identifier;
 
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.List;
 
 import static net.minecraft.client.realms.util.JsonUtils.getStringOr;
 
@@ -40,7 +41,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
         for (Map.Entry<Identifier, Resource> entry :
                 manager.findResources("quests", path ->
                         path.getNamespace().equals(Grimoire.MOD_ID) &&
-                        path.getPath().endsWith(".json")).entrySet()) {
+                                path.getPath().endsWith(".json")).entrySet()) {
 
 
             try (InputStreamReader reader = new InputStreamReader(entry.getValue().getInputStream())) {
@@ -60,7 +61,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                 int format = getIntOr(json, "format", 1);
                 int tier = getIntOr(json, "tier", 1);
                 Item requiredItem = resolveItem(json, "required_item", entry.getKey());
-                if (requiredItem == null ) {
+                if (requiredItem == null) {
                     Grimoire.LOGGER.warn("Skipping quest {} because one or more item IDs could not be resolved", entry.getKey());
                     continue;
                 }
@@ -81,9 +82,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                     repeatable = json.get("repeatable").getAsBoolean();
                 }
 
-                String requiresQuest = json.has("requires_quest")
-                        ? json.get("requires_quest").getAsString()
-                        : "";
+                List<String> requiresQuest = parseRequiresQuest(json);
 
                 QUESTS.put(questId, new Quest(questId, title, lore, description, tier, patron, format,
                         requiredItem, requiredCount, rewards, repeatable, requiresQuest));
@@ -97,13 +96,12 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
 
         // this is done after quests load entirely
         for (Quest quest : QUESTS.values()) {
-            String prereq = quest.requiresQuest();
-            if (prereq.isEmpty()) continue;                 // if it doesnt have a pre-req, it skips the check
-
-            if (prereq.equals(quest.id())) {
-                Grimoire.LOGGER.warn("Quest '{}' requires itself and it can never be offered.", quest.id());
-            } else if (!QUESTS.containsKey(prereq)) {
-                Grimoire.LOGGER.warn("Quest '{}' requires '{}', which does not exist. It will stay hidden until the quest is present.", quest.id(), prereq);
+            for (String prereq : quest.requiresQuest()) {
+                if (prereq.equals(quest.id())) {
+                    Grimoire.LOGGER.warn("Quest '{}' lists itself as a prerequisite and it can never be offered.", quest.id());
+                } else if (!QUESTS.containsKey(prereq)) {
+                    Grimoire.LOGGER.warn("Quest '{}' requires '{}', which does not exist. It will stay hidden until the quest is present.", quest.id(), prereq);
+                }
             }
         }
     }
@@ -197,6 +195,24 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
         }
 
         return value;
+    }
+
+    private static List<String> parseRequiresQuest(JsonObject json) {
+        List<String> result = new ArrayList<>();
+        if (!json.has("requires_quest")) {
+            return result;                       // absent = no prereq
+        }
+        JsonElement elem = json.get("requires_quest");
+        if (elem.isJsonArray()) {
+            for (JsonElement e : elem.getAsJsonArray()) {
+                String id = e.getAsString();
+                if (!id.isEmpty()) result.add(id);   // skip empty strings defensively
+            }
+        } else {
+            String id = elem.getAsString();
+            if (!id.isEmpty()) result.add(id);       // single string -> length-1 list
+        }
+        return result;
     }
 
     private void loadTiers(ResourceManager manager) {

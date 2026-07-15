@@ -18,6 +18,8 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import static grimoire.modid.quest.BountyBoard.allPrerequisitesMet;
+
 public class ModNetworking {
     public static final Identifier SYNC_QUESTS = new Identifier(Grimoire.MOD_ID, "sync_quests");
     public static final Identifier ACCEPT_QUEST = new Identifier(Grimoire.MOD_ID, "accept_quest");
@@ -44,7 +46,10 @@ public class ModNetworking {
             }
 
             buf.writeBoolean(quest.repeatable());
-            buf.writeString(quest.requiresQuest());
+            buf.writeInt(quest.requiresQuest().size());
+            for (String prereq : quest.requiresQuest()) {
+                buf.writeString(prereq);
+            }
         }
 
         buf.writeInt(QuestManager.TIERS.size());
@@ -77,9 +82,11 @@ public class ModNetworking {
                     return;
                 }
 
-                if (!quest.requiresQuest().isEmpty() && !progress.hasCompletedLifetime(quest.requiresQuest())) {
+
+                if (!allPrerequisitesMet(quest, progress)) {
                     player.sendMessage(Text.literal("The Book requires the prerequisite to be completed first."), false);
                     return;
+
                 }
 
                 if (progress.hasCompleted(questId)) {
@@ -133,7 +140,7 @@ public class ModNetworking {
                     return;
                 }
 
-                if (!quest.requiresQuest().isEmpty() && !progress.hasCompletedLifetime(quest.requiresQuest())) {
+                if (!allPrerequisitesMet(quest, progress)) {
                     progress.removeActive(questId);
                     ModComponents.QUEST_PROGRESS.sync(player);
                     player.sendMessage(Text.literal("The Broker: Not yet, You. The Book won't allow this without the prerequisite."), false);

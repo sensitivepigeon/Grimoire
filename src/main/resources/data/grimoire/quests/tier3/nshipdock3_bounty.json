@@ -9,6 +9,6 @@
   "required_count": 15,
   "reward_item": "minecraft:paper",
   "reward_count": 1,
-  "requires_quest" : "tier1/nshiplaunch_bounty",
+  "requires_quest" : ["tier1/nshiplaunch_bounty", "tier2/nshipvoyage2_bounty"],
   "repeatable": false
 }

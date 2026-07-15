@@ -5,6 +5,7 @@ import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
 import grimoire.modid.network.ModNetworking;
 import grimoire.modid.quest.Quest;
+import grimoire.modid.quest.RewardEntry;
 import grimoire.modid.quest.TierConfig;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -135,8 +136,10 @@ public class GrimoireScreen extends Screen {
             BookText.drawScaledText(context, textRenderer, quest.lore(), true,
                     origin.plus(desc()), bodyColor);
 
+            // show full reward eventually somehow
             String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-                    + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
+            + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
+
             BookText.drawScaledText(context, textRenderer, req, false,
                     origin.plus(info()), bodyColor);
         }
@@ -591,8 +594,9 @@ public class GrimoireScreen extends Screen {
         context.drawItem(required, x, tradeY);
         context.drawItemInSlot(this.textRenderer, required, x, tradeY);
 
+        //show full soon
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-                + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
+                + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
         BookText.drawScaledText(context, this.textRenderer, req, false,
                 x + 22, tradeY + 4, textWidth - 22, INK_BODY);
 

@@ -50,8 +50,7 @@ public class BountyBoard {
             for (Quest quest : QuestManager.QUESTS.values())
             {
                 boolean lifetimeBlocked = !quest.repeatable() && progress.hasCompletedLifetime(quest.id());
-                boolean prereqBlocked = !quest.requiresQuest().isEmpty()
-                        && !progress.hasCompletedLifetime(quest.requiresQuest());
+                boolean prereqBlocked = !allPrerequisitesMet(quest, progress);
 
 
                 if (quest.tier() == tier
@@ -100,6 +99,15 @@ public class BountyBoard {
                 player.sendMessage(Text.literal("[QuestTome] The Book is updated with new bargains for the day."), false);
             }
         }
+    }
+    //this is prereq supporting multiple quests now. empty = still ok
+    public static boolean allPrerequisitesMet(Quest quest, QuestProgressComponent progress) {
+        for (String prereq : quest.requiresQuest()) {
+            if (!progress.hasCompletedLifetime(prereq)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
