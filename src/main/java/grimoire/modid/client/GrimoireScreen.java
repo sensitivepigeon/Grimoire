@@ -8,9 +8,11 @@ import grimoire.modid.quest.Quest;
 import grimoire.modid.quest.TierConfig;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.Rect2i;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
@@ -61,6 +63,21 @@ public class GrimoireScreen extends Screen {
                     icon,
                     chevron.rect(CHEVRON_SIZE));
         }
+
+        void renderCard(DrawContext context, Point origin, TextRenderer textRenderer, PlayerEntity player, Quest quest) {
+            ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
+            Point icon = origin.plus(icon());
+            BookText.drawItemCentered(context, textRenderer, required, icon.x(), icon.y());
+
+            BookText.drawScaledText(context, textRenderer, quest.title() + " · T" + quest.tier(), false,
+                    origin.plus(title()), INK_TITLE);
+
+            int held = player.getInventory().count(quest.requiredItem());
+            int shown = Math.min(held, quest.requiredCount());
+            int color = shown >= quest.requiredCount() ? INK_READY : INK_BODY;
+            BookText.drawScaledText(context, textRenderer, shown + "/" + quest.requiredCount() + " gathered", false,
+                    origin.plus(info()), color);
+        }
     }
 
     private record Offer(Rect2i title, Rect2i desc, Point icon, Rect2i accept, Rect2i tag, Rect2i info) {
@@ -93,6 +110,35 @@ public class GrimoireScreen extends Screen {
                     accept.rect(ACCEPT_SIZE),
                     tag.rect(TAG_SIZE),
                     info.rect(INFO_SIZE));
+        }
+
+        void renderCard(DrawContext context, Point origin, TextRenderer textRenderer, QuestProgressComponent progress, Quest quest) {
+            boolean done = progress.hasCompleted(quest.id());
+            boolean sworn = progress.isActive(quest.id());
+            boolean dimmed = done || sworn;
+
+            int titleColor = dimmed ? INK_DIM : INK_TITLE;
+            int bodyColor = dimmed ? INK_DIM : INK_BODY;
+
+            ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
+            Point icon = origin.plus(icon());
+            BookText.drawItemCentered(context, textRenderer, required, icon.x(), icon.y());
+
+            BookText.drawScaledText(context, textRenderer, quest.title(), false,
+                    origin.plus(title()), titleColor);
+
+            if (sworn || done) {
+                BookText.drawScaledText(context, textRenderer, done ? "done" : "accepted", true,
+                        origin.plus(tag()), INK_TAG);
+            }
+
+            BookText.drawScaledText(context, textRenderer, quest.lore(), true,
+                    origin.plus(desc()), bodyColor);
+
+            String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
+                    + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
+            BookText.drawScaledText(context, textRenderer, req, false,
+                    origin.plus(info()), bodyColor);
         }
     }
 
@@ -458,27 +504,12 @@ public class GrimoireScreen extends Screen {
 
         for (int i = 0; i < OATHS.length; i++) {
             if (i < actives.size()) {
-                drawOathCard(context, actives.get(i), i);
+                OATHS[i].renderCard(context, bookTopLeft, this.textRenderer, this.client.player, actives.get(i));
             } else {
                 BookText.drawScaledText(context, this.textRenderer, "-- empty bargain --", true,
                         bookTopLeft.plus(OATHS[i].info()), INK_DIM);
             }
         }
-    }
-
-    private void drawOathCard(DrawContext context, Quest quest, int i) {
-        ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-        Point icon = bookTopLeft.plus(OATHS[i].icon());
-        BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
-
-        BookText.drawScaledText(context, this.textRenderer, quest.title() + " · T" + quest.tier(), false,
-                bookTopLeft.plus(OATHS[i].title()), INK_TITLE);
-
-        int held = this.client.player.getInventory().count(quest.requiredItem());
-        int shown = Math.min(held, quest.requiredCount());
-        int color = shown >= quest.requiredCount() ? INK_READY : INK_BODY;
-        BookText.drawScaledText(context, this.textRenderer, shown + "/" + quest.requiredCount() + " gathered", false,
-                bookTopLeft.plus(OATHS[i].info()), color);
     }
 
     // right page mode switching
@@ -535,37 +566,8 @@ public class GrimoireScreen extends Screen {
         }
 
         for (int i = 0; i < page.entries().size(); i++) {
-            drawOfferEntry(context, progress, page.entries().get(i), i);
+            OFFERS[i].renderCard(context, bookTopLeft, this.textRenderer, progress, page.entries().get(i));
         }
-    }
-
-    private void drawOfferEntry(DrawContext context, QuestProgressComponent progress, Quest quest, int i) {
-        boolean done = progress.hasCompleted(quest.id());
-        boolean sworn = progress.isActive(quest.id());
-        boolean dimmed = done || sworn;
-
-        int titleColor = dimmed ? INK_DIM : INK_TITLE;
-        int bodyColor = dimmed ? INK_DIM : INK_BODY;
-
-        ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-        Point icon = bookTopLeft.plus(OFFERS[i].icon());
-        BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
-
-        BookText.drawScaledText(context, this.textRenderer, quest.title(), false,
-                bookTopLeft.plus(OFFERS[i].title()), titleColor);
-
-        if (sworn || done) {
-            BookText.drawScaledText(context, this.textRenderer, done ? "done" : "accepted", true,
-                    bookTopLeft.plus(OFFERS[i].tag()), INK_TAG);
-        }
-
-        BookText.drawScaledText(context, this.textRenderer, quest.lore(), true,
-                bookTopLeft.plus(OFFERS[i].desc()), bodyColor);
-
-        String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-                + " → " + quest.rewardCount() + " × " + quest.rewardItem().getName().getString();
-        BookText.drawScaledText(context, this.textRenderer, req, false,
-                bookTopLeft.plus(OFFERS[i].info()), bodyColor);
     }
 
     // detail mode layout
