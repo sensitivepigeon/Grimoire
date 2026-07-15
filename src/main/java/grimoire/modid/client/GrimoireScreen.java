@@ -100,7 +100,7 @@ public class GrimoireScreen extends Screen {
 
     private static final int BOOK_WIDTH = 420;
     private static final int BOOK_HEIGHT = 234;
-    private static final int PAGE_SPLIT = 210;
+    private static final int PAGE_SPLIT = BOOK_WIDTH / 2;
 
     // banner
     private static final Point BANNER_COUNT = new Point(109, 19);
@@ -175,10 +175,6 @@ public class GrimoireScreen extends Screen {
     private static final Rect2i HELP_L = new Rect2i(38, 56, 145, 145);
     private static final Rect2i HELP_R = new Rect2i(241, 33, 145, 210);
 
-    private static final int MAX_OATHS = 3;    // mirrored in BountyBoard.MAX_ACTIVE_BOUNTIES
-
-    private int bookLeft;
-    private int bookTop;
     private Point bookTopLeft;
     private int pageIndex = 0;
     private Quest detailQuest = null;          // non-null = detail mode
@@ -202,9 +198,7 @@ public class GrimoireScreen extends Screen {
     protected void init() {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(this.client.player);
         this.stateSnapshot = snapshot(progress);
-        this.bookLeft = (this.width - BOOK_WIDTH) / 2;
-        this.bookTop = (this.height - BOOK_HEIGHT) / 2;
-        this.bookTopLeft = new Point(bookLeft, bookTop);
+        this.bookTopLeft = new Point((this.width - BOOK_WIDTH) / 2, (this.height - BOOK_HEIGHT) / 2);
 
         buildActives(progress);
         buildPages(progress);
@@ -212,16 +206,30 @@ public class GrimoireScreen extends Screen {
         if (pageIndex < 0) pageIndex = 0;
 
         if (showHelp) {
-            // help mode
-            this.addDrawableChild(new HitboxButton(
-                    bookTopLeft.plus(HELP_BACK),
-                    Text.literal("Back"), b -> {
-                this.showHelp = false;
-                this.clearAndInit();
-            }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
+            initHelpMode();
             return;
         }
 
+        initHelpButton();
+        initOathHitboxes();
+
+        if (detailQuest != null) {
+            initDetailMode(progress);
+        } else {
+            initBoardMode(progress);
+        }
+    }
+
+    private void initHelpMode() {
+        this.addDrawableChild(new HitboxButton(
+                bookTopLeft.plus(HELP_BACK),
+                Text.literal("Back"), b -> {
+            this.showHelp = false;
+            this.clearAndInit();
+        }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
+    }
+
+    private void initHelpButton() {
         this.addDrawableChild(new HitboxButton(
                 bookTopLeft.plus(HELP),
                 Text.literal("?"), b -> {
@@ -229,11 +237,12 @@ public class GrimoireScreen extends Screen {
             this.detailQuest = null;
             this.clearAndInit();
         }));
+    }
 
-        // left page turn in hitboxes
+    // left page turn in hitboxes
+    private void initOathHitboxes() {
         for (int i = 0; i < actives.size(); i++) {
             Quest quest = actives.get(i);
-
 
             if (!quest.description().isEmpty()) {
                 final Quest q = quest;
@@ -254,95 +263,93 @@ public class GrimoireScreen extends Screen {
                 ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
             }).withSprite(SPRITE_TURNIN).withLabel(0xFF2F3D1A));
         }
+    }
 
-        if (detailQuest != null) {
-            // detail mode
-            this.addDrawableChild(new HitboxButton(
-                    bookTopLeft.plus(DETAIL_BACK),
-                    Text.literal("Back"), b -> {
-                this.detailQuest = null;
-                this.clearAndInit();
-            }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
+    private void initDetailMode(QuestProgressComponent progress) {
+        this.addDrawableChild(new HitboxButton(
+                bookTopLeft.plus(DETAIL_BACK),
+                Text.literal("Back"), b -> {
+            this.detailQuest = null;
+            this.clearAndInit();
+        }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
 
-            boolean done = progress.hasCompleted(detailQuest.id());
-            boolean sworn = progress.isActive(detailQuest.id());
-            boolean atCap = progress.getActiveCount() >= MAX_OATHS;
+        boolean done = progress.hasCompleted(detailQuest.id());
+        boolean sworn = progress.isActive(detailQuest.id());
+        boolean atCap = progress.getActiveCount() >= OATHS.length;
 
-            if (!sworn && !done) {
-                final String id = detailQuest.id();
+        if (!sworn && !done) {
+            final String id = detailQuest.id();
+            HitboxButton accept = new HitboxButton(
+                    bookTopLeft.plus(DETAIL_ACCEPT),
+                    Text.literal("Accept"), b -> {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeString(id);
+                ClientPlayNetworking.send(ModNetworking.ACCEPT_QUEST, buf);
+            }).withSprite(SPRITE_ACCEPT).withLabel(0xFF2F3D1A);
+            accept.active = !done && !atCap;
+            this.addDrawableChild(accept);
+        }
+    }
+
+    private void initBoardMode(QuestProgressComponent progress) {
+        BookPage page = pages.get(pageIndex);
+        if (!page.locked()) {
+            boolean atCap = progress.getActiveCount() >= OATHS.length;
+
+            for (int i = 0; i < page.entries().size(); i++) {
+                Quest quest = page.entries().get(i);
+                final String id = quest.id();
+                boolean done = progress.hasCompleted(id);
+                boolean sworn = progress.isActive(id);
+
+                // detail access: invisible hitbox over title
+                if (!quest.description().isEmpty()) {
+                    final Quest q = quest;
+                    this.addDrawableChild(new HitboxButton(
+                            bookTopLeft.plus(OFFERS[i].title()),
+                            Text.literal("More"), b -> {
+                        this.detailQuest = q;
+                        this.clearAndInit();
+                    }));
+                }
+
+
+                if (sworn || done) continue;   // accepted bargains: tag instead of arrow
+
                 HitboxButton accept = new HitboxButton(
-                        bookTopLeft.plus(DETAIL_ACCEPT),
+                        bookTopLeft.plus(OFFERS[i].accept()),
                         Text.literal("Accept"), b -> {
                     PacketByteBuf buf = PacketByteBufs.create();
                     buf.writeString(id);
                     ClientPlayNetworking.send(ModNetworking.ACCEPT_QUEST, buf);
                 }).withSprite(SPRITE_ACCEPT).withLabel(0xFF2F3D1A);
-                accept.active = !done && !atCap;
+                accept.active = !atCap;
                 this.addDrawableChild(accept);
             }
-
-        } else {
-            // board mode
-            BookPage page = pages.get(pageIndex);
-            if (!page.locked()) {
-                boolean atCap = progress.getActiveCount() >= MAX_OATHS;
-
-                for (int i = 0; i < page.entries().size(); i++) {
-                    Quest quest = page.entries().get(i);
-                    final String id = quest.id();
-                    boolean done = progress.hasCompleted(id);
-                    boolean sworn = progress.isActive(id);
-
-                    // detail access: invisible hitbox over title
-                    if (!quest.description().isEmpty()) {
-                        final Quest q = quest;
-                        this.addDrawableChild(new HitboxButton(
-                                bookTopLeft.plus(OFFERS[i].title()),
-                                Text.literal("More"), b -> {
-                            this.detailQuest = q;
-                            this.clearAndInit();
-                        }));
-                    }
-
-
-                    if (sworn || done) continue;   // accepted bargains: tag instead of arrow
-
-                    HitboxButton accept = new HitboxButton(
-                            bookTopLeft.plus(OFFERS[i].accept()),
-                            Text.literal("Accept"), b -> {
-                        PacketByteBuf buf = PacketByteBufs.create();
-                        buf.writeString(id);
-                        ClientPlayNetworking.send(ModNetworking.ACCEPT_QUEST, buf);
-                    }).withSprite(SPRITE_ACCEPT).withLabel(0xFF2F3D1A);
-                    accept.active = !atCap;
-                    this.addDrawableChild(accept);
-                }
-            }
-
-            // page-turn chevrons (painted art)
-            HitboxButton navL = new HitboxButton(bookTopLeft.plus(NAV_L),
-                    Text.literal("Previous tier"), b -> {
-                pageIndex--;
-                this.clearAndInit();
-            }).withSprite(SPRITE_NAV_L);
-            navL.active = pageIndex > 0;
-            this.addDrawableChild(navL);
-
-            HitboxButton navR = new HitboxButton(bookTopLeft.plus(NAV_R),
-                    Text.literal("Next tier"), b -> {
-                pageIndex++;
-                this.clearAndInit();
-            }).withSprite(SPRITE_NAV_R);
-            navR.active = pageIndex < pages.size() - 1;
-            this.addDrawableChild(navR);
-
-            // dice = reroll (sprite)
-            this.addDrawableChild(new HitboxButton(bookTopLeft.plus(DICE),
-                    Text.literal("Reroll"), b ->
-                    ClientPlayNetworking.send(ModNetworking.REROLL, PacketByteBufs.create()))
-                    .withSprite(SPRITE_DICE));
         }
 
+        // page-turn chevrons (painted art)
+        HitboxButton navL = new HitboxButton(bookTopLeft.plus(NAV_L),
+                Text.literal("Previous tier"), b -> {
+            pageIndex--;
+            this.clearAndInit();
+        }).withSprite(SPRITE_NAV_L);
+        navL.active = pageIndex > 0;
+        this.addDrawableChild(navL);
+
+        HitboxButton navR = new HitboxButton(bookTopLeft.plus(NAV_R),
+                Text.literal("Next tier"), b -> {
+            pageIndex++;
+            this.clearAndInit();
+        }).withSprite(SPRITE_NAV_R);
+        navR.active = pageIndex < pages.size() - 1;
+        this.addDrawableChild(navR);
+
+        // dice = reroll (sprite)
+        this.addDrawableChild(new HitboxButton(bookTopLeft.plus(DICE),
+                Text.literal("Reroll"), b ->
+                ClientPlayNetworking.send(ModNetworking.REROLL, PacketByteBufs.create()))
+                .withSprite(SPRITE_DICE));
     }
 
 
@@ -438,7 +445,7 @@ public class GrimoireScreen extends Screen {
     private void drawLeftPage(DrawContext context) {
         Point bannerCount = bookTopLeft.plus(BANNER_COUNT);
         context.drawCenteredTextWithShadow(this.textRenderer,
-                Text.literal(actives.size() + " of " + MAX_OATHS + " accepted"),
+                Text.literal(actives.size() + " of " + OATHS.length + " accepted"),
                 bannerCount.x(), bannerCount.y(), BANNER_INK);
 
         Rect2i help = bookTopLeft.plus(HELP);
@@ -449,7 +456,7 @@ public class GrimoireScreen extends Screen {
                 INK_TITLE,
                 false);
 
-        for (int i = 0; i < MAX_OATHS; i++) {
+        for (int i = 0; i < OATHS.length; i++) {
             if (i < actives.size()) {
                 drawOathCard(context, actives.get(i), i);
             } else {
@@ -490,7 +497,7 @@ public class GrimoireScreen extends Screen {
         String tierName = config != null ? config.name() : "Tier " + page.tier();
 
         BookText.drawCenteredNoShadow(context, this.textRenderer, tierName,
-                bookLeft + RIGHT_CX, bookTop + RIGHT_TITLE_Y, INK_TITLE);
+                bookTopLeft.x() + RIGHT_CX, bookTopLeft.y() + RIGHT_TITLE_Y, INK_TITLE);
 
         String sub;
         if (page.locked()) {
@@ -506,7 +513,7 @@ public class GrimoireScreen extends Screen {
             sub = "Tier " + page.tier() + " · " + progress.getCompletions(page.tier()) + " fulfilled";
         }
         BookText.drawCenteredNoShadow(context, this.textRenderer, sub,
-                bookLeft + RIGHT_CX, bookTop + RIGHT_SUB_Y, INK_DIM);
+                bookTopLeft.x() + RIGHT_CX, bookTopLeft.y() + RIGHT_SUB_Y, INK_DIM);
 
         if (page.locked()) {
             TierConfig prev = ClientQuestCache.TIERS.get(page.tier() - 1);
@@ -514,16 +521,16 @@ public class GrimoireScreen extends Screen {
             int have = progress.getCompletions(page.tier() - 1);
 
             BookText.drawCenteredNoShadow(context, this.textRenderer, "This page is sealed.",
-                    bookLeft + RIGHT_CX, bookTop + 100, INK_DIM);
+                    bookTopLeft.x() + RIGHT_CX, bookTopLeft.y() + 100, INK_DIM);
             BookText.drawCenteredNoShadow(context, this.textRenderer,
                     "Fulfill " + Math.max(0, need - have) + " more of the prior rank.",
-                    bookLeft + RIGHT_CX, bookTop + 114, INK_DIM);
+                    bookTopLeft.x() + RIGHT_CX, bookTopLeft.y() + 114, INK_DIM);
             return;
         }
 
         if (page.entries().isEmpty()) {
             BookText.drawCenteredNoShadow(context, this.textRenderer, "The pages are blank until tomorrow...",
-                    bookLeft + RIGHT_CX, bookTop + 105, INK_DIM);
+                    bookTopLeft.x() + RIGHT_CX, bookTopLeft.y() + 105, INK_DIM);
             return;
         }
 
@@ -564,20 +571,20 @@ public class GrimoireScreen extends Screen {
     // detail mode layout
     private void drawDetailPage(DrawContext context, QuestProgressComponent progress) {
         Quest quest = detailQuest;
-        int x = bookLeft + 234;
+        int x = bookTopLeft.x() + 234;
         int textWidth = 155;
 
         BookText.drawCenteredNoShadow(context, this.textRenderer, quest.title() + " · T" + quest.tier(),
-                bookLeft + RIGHT_CX, bookTop + RIGHT_TITLE_Y, INK_TITLE);
+                bookTopLeft.x() + RIGHT_CX, bookTopLeft.y() + RIGHT_TITLE_Y, INK_TITLE);
 
         boolean sworn = progress.isActive(quest.id());
         boolean done = progress.hasCompleted(quest.id());
         if (sworn || done) {
             BookText.drawCenteredNoShadow(context, this.textRenderer, done ? "fulfilled today" : "accepted",
-                    bookLeft + RIGHT_CX, bookTop + RIGHT_SUB_Y, INK_DIM);
+                    bookTopLeft.x() + RIGHT_CX, bookTopLeft.y() + RIGHT_SUB_Y, INK_DIM);
         }
 
-        int tradeY = bookTop + 46;
+        int tradeY = bookTopLeft.y() + 46;
         ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
         context.drawItem(required, x, tradeY);
         context.drawItemInSlot(this.textRenderer, required, x, tradeY);
@@ -616,15 +623,15 @@ public class GrimoireScreen extends Screen {
             Identifier tex = showHelp ? TEXTURE_HELP
                     : (detailQuest != null || sealedBoard) ? TEXTURE_DETAIL
                       : BOOK_TEXTURE;
-            context.drawTexture(tex, bookLeft, bookTop, 0, 0,
+            context.drawTexture(tex, bookTopLeft.x(), bookTopLeft.y(), 0, 0,
                     BOOK_WIDTH, BOOK_HEIGHT, BOOK_WIDTH, BOOK_HEIGHT);
             return;
         }
 
         // fallback: placeholder fills
-        context.fill(bookLeft, bookTop, bookLeft + BOOK_WIDTH, bookTop + BOOK_HEIGHT, 0xF2211A14);
-        context.fill(bookLeft + 4, bookTop + 4, bookLeft + BOOK_WIDTH - 4, bookTop + BOOK_HEIGHT - 4, 0xFF2E2620);
-        context.fill(bookLeft + PAGE_SPLIT - 1, bookTop + 4, bookLeft + PAGE_SPLIT + 1, bookTop + BOOK_HEIGHT - 4, 0x66000000);
+        context.fill(bookTopLeft.x(), bookTopLeft.y(), bookTopLeft.x() + BOOK_WIDTH, bookTopLeft.y() + BOOK_HEIGHT, 0xF2211A14);
+        context.fill(bookTopLeft.x() + 4, bookTopLeft.y() + 4, bookTopLeft.x() + BOOK_WIDTH - 4, bookTopLeft.y() + BOOK_HEIGHT - 4, 0xFF2E2620);
+        context.fill(bookTopLeft.x() + PAGE_SPLIT - 1, bookTopLeft.y() + 4, bookTopLeft.x() + PAGE_SPLIT + 1, bookTopLeft.y() + BOOK_HEIGHT - 4, 0x66000000);
     }
 
     @Override
