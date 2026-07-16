@@ -5,7 +5,7 @@
 ## Features
 *Release version 1.1.0 for Minecraft 1.20.1.*
 
-**Hello, You.** Full Changelog for 1.1 Update [HERE](https://github.com/sensitivepigeon/QuestTome/wiki/Changelogs-(Updated-1.1))
+**Hello, You.** Full Changelog for 1.1 Update [HERE](https://github.com/sensitivepigeon/grimoire/wiki/Changelogs-(Updated-1.1))
 
 
 
@@ -14,9 +14,9 @@
 It works well together with other progression mods, acting as a bridge over difficult grinds by offering interesting and alternative methods of acquiring items.
 
 
-Read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki) for more and the future features roadmap.
+Read the [wiki](https://github.com/sensitivepigeon/grimoire/wiki) for more and the future features roadmap.
 
-Post issues on Github [here.](https://github.com/sensitivepigeon/QuestTome/issues)
+Post issues on Github [here.](https://github.com/sensitivepigeon/grimoire/issues)
 
 ### Player Features
 
@@ -29,7 +29,7 @@ Post issues on Github [here.](https://github.com/sensitivepigeon/QuestTome/issue
 - **The Codex**: A new view in the Book that records every bargain you've ever completed in order. Page through history and revisit the details of finished bargains. The Codex keeps track!
 ### For Modders!
 - This resource was designed for YOU to edit and adjust for your modpacks, include custom items and adjust balancing for grinds! You can also include lore!
-- Please read the [wiki](https://github.com/sensitivepigeon/QuestTome/wiki/%5BDevs%5D-Quests---Packs) for instructions on making custom quests and datapacks for the mod!
+- Please read the [wiki](https://github.com/sensitivepigeon/grimoire/wiki/%5BDevs%5D-Quests---Packs) for instructions on making custom quests and datapacks for the mod!
 -  Multiplayer safe by construction. This was built for modpacks and servers. Turn-ins, accepts, rerolls, tiers unlock - it's all on server side, quest data is synced on player join. Everything is per-player!
 
 
