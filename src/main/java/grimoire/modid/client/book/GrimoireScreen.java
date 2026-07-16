@@ -27,6 +27,7 @@ public class GrimoireScreen extends Screen {
     private enum Mode { BOARD, DETAIL, HELP, INDEX, CODEX }
     private Point bookTopLeft;
     private int pageIndex = 0;
+    private int codexPage = 0;
     private Mode mode = Mode.BOARD;            // single source of truth for mode
     private Quest detailQuest = null;
     private Mode detailReturn = Mode.BOARD;
@@ -61,6 +62,11 @@ public class GrimoireScreen extends Screen {
             default -> { }   // BOARD or DETAIL continue below
         }
 
+        if (mode == Mode.DETAIL && detailReturn == Mode.CODEX) {
+            initDetailMode(progress);
+            return;
+        }
+
         initHelpButton();
         initOathHitboxes();
 
@@ -91,12 +97,16 @@ public class GrimoireScreen extends Screen {
                 bookTopLeft.plus(INDEX_ROWS[1]),
                 Text.literal("The Codex: Bargains"), b -> {
             this.mode = Mode.CODEX;
+            this.codexPage = 0;
             this.clearAndInit();
         }));
     }
 
     private void initCodexMode(QuestProgressComponent progress) {
         this.codexEntries = BookPages.buildCodex(progress);
+
+        if (codexPage >= codexPageCount()) codexPage = codexPageCount() - 1;
+        if (codexPage < 0) codexPage = 0;
 
         this.addDrawableChild(new HitboxButton(
                 bookTopLeft.plus(HELP_BACK),
@@ -105,9 +115,10 @@ public class GrimoireScreen extends Screen {
             this.clearAndInit();
         }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
 
-        int shown = Math.min(codexEntries.size(), CODEX_ROWS_PER_PAGE);
+        int start = codexPageStart();
+        int shown = Math.min(codexEntries.size() - start, CODEX_ROWS_PER_PAGE);
         for (int i = 0; i < shown; i++) {
-            final Quest q = codexEntries.get(i);
+            final Quest q = codexEntries.get(start + i);
             if (q.description().isEmpty()) continue;
             this.addDrawableChild(new HitboxButton(
                     codexRow(i),
@@ -118,6 +129,31 @@ public class GrimoireScreen extends Screen {
                 this.clearAndInit();
             }));
         }
+        if (codexPage > 0) {
+            this.addDrawableChild(new HitboxButton(
+                    bookTopLeft.plus(CODEX_NAV_L),
+                    Text.literal("Previous page"), b -> {
+                this.codexPage--;
+                this.clearAndInit();
+            }).withSprite(SPRITE_NAV_L));
+        }
+        if (codexPage < codexPageCount() - 1) {
+            this.addDrawableChild(new HitboxButton(
+                    bookTopLeft.plus(CODEX_NAV_R),
+                    Text.literal("Next page"), b -> {
+                this.codexPage++;
+                this.clearAndInit();
+            }).withSprite(SPRITE_NAV_R));
+        }
+
+    }
+
+    private int codexPageCount() {
+        return Math.max(1, (codexEntries.size() + CODEX_ROWS_PER_PAGE - 1) / CODEX_ROWS_PER_PAGE);
+    }
+
+    private int codexPageStart() {
+        return codexPage * CODEX_ROWS_PER_PAGE;
     }
 
     private void initHelpMode() {
@@ -455,14 +491,6 @@ public class GrimoireScreen extends Screen {
 
     private void drawCodexPage(DrawContext context) {
         drawCodexLeft(context);
-        Point header = bookTopLeft.plus(HELP_HEADER);
-        BookText.drawCenteredNoShadow(context, this.textRenderer, "The Codex",
-                header.x(), header.y(), INK_TITLE);
-
-        Rect2i left = bookTopLeft.plus(HELP_L);
-        BookText.drawWrappedTextScaledToFit(context, this.textRenderer, CodexText.LEFT,
-                left.getX(), left.getY(), left.getWidth(), left.getHeight(), INK_BODY);
-
         if (codexEntries.isEmpty()) {
             Rect2i right = bookTopLeft.plus(HELP_R);
             BookText.drawWrappedTextScaledToFit(context, this.textRenderer, CodexText.EMPTY,
@@ -470,12 +498,20 @@ public class GrimoireScreen extends Screen {
             return;
         }
 
-        int shown = Math.min(codexEntries.size(), CODEX_ROWS_PER_PAGE);
+        int start = codexPageStart();
+        int shown = Math.min(codexEntries.size() - start, CODEX_ROWS_PER_PAGE);
         for (int i = 0; i < shown; i++) {
             Rect2i row = codexRow(i);
             BookText.drawScaledText(context, this.textRenderer,
-                    "§l" + (i + 1) + ". " + codexEntries.get(i).title(), false,
+                    "§l" + (start + i + 1) + ". " + codexEntries.get(start + i).title(), false,
                     row.getX(), row.getY(), row.getWidth(), INK_TITLE);
+        }
+
+        if (codexPageCount() > 1) {
+            Point label = bookTopLeft.plus(CODEX_PAGE_LABEL);
+            BookText.drawCenteredNoShadow(context, this.textRenderer,
+                    (codexPage + 1) + " / " + codexPageCount(),
+                    label.x(), label.y(), INK_DIM);
         }
     }
 

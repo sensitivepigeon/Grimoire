@@ -175,6 +175,11 @@ final class BookLayout {
     static final int CODEX_ROW_PITCH = 12;
     static final int CODEX_ROWS_PER_PAGE = 11;
 
+    // codex paging - placeholders
+    static final Rect2i CODEX_NAV_L = new Rect2i(255, 201, 11, 16);
+    static final Rect2i CODEX_NAV_R = new Rect2i(360, 201, 11, 16);
+    static final Point  CODEX_PAGE_LABEL = new Point(313, 205);   // "2 / 5", centered between navs
+
     // help page layout, text edits in HelpText java
     static final Point HELP_HEADER = new Point(109, 30);
     static final Rect2i HELP_L = new Rect2i(38, 56, 145, 145);
