@@ -1,4 +1,4 @@
-package grimoire.modid.client;
+package grimoire.modid.client.book;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;

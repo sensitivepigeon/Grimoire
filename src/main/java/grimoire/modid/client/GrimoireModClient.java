@@ -1,5 +1,6 @@
 package grimoire.modid.client;
 
+import grimoire.modid.client.book.GrimoireScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 

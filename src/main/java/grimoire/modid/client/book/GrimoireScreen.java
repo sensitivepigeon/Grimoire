@@ -1,228 +1,28 @@
-package grimoire.modid.client;
+package grimoire.modid.client.book;
 
-import grimoire.modid.Grimoire;
+import grimoire.modid.client.ClientQuestCache;
 import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
 import grimoire.modid.network.ModNetworking;
 import grimoire.modid.quest.Quest;
-import grimoire.modid.quest.RewardEntry;
 import grimoire.modid.quest.TierConfig;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.Rect2i;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import static grimoire.modid.client.book.BookLayout.*;
+import grimoire.modid.client.book.BookPages.BookPage;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GrimoireScreen extends Screen {
 
-    // shared layout types
-
-    private record Point(int x, int y) {
-        Point plus(Point p) {
-            return new Point(x + p.x, y + p.y);
-        }
-
-        Rect2i plus(Rect2i r) {
-            return new Rect2i(x + r.getX(), y + r.getY(), r.getWidth(), r.getHeight());
-        }
-
-        Rect2i rect(Size size) {
-            return new Rect2i(x, y, size.width(), size.height());
-        }
-    }
-
-    private record Size(int width, int height) {
-    }
-
-    // turn-in arrows now use arrow sprite but i misnamed it sorry
-    private record Oath(Rect2i title, Rect2i info, Point icon, Rect2i chevron) {
-        private static final Size  TEXT_SIZE      = new Size(108, 10);
-
-        private static final Point INFO_OFFSET    = new Point(0, 14);
-
-        private static final Point ICON_OFFSET    = new Point(-18, 16);
-
-        private static final Point CHEVRON_OFFSET = new Point(66, 25);
-        private static final Size  CHEVRON_SIZE   = new Size(44, 12);
-
-        static Oath at(Point title) {
-            Point info = title.plus(INFO_OFFSET);
-            Point icon = title.plus(ICON_OFFSET);
-            Point chevron = title.plus(CHEVRON_OFFSET);
-            return new Oath(
-                    title.rect(TEXT_SIZE),
-                    info.rect(TEXT_SIZE),
-                    icon,
-                    chevron.rect(CHEVRON_SIZE));
-        }
-
-        void renderCard(DrawContext context, Point origin, TextRenderer textRenderer, PlayerEntity player, Quest quest) {
-            ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-            Point icon = origin.plus(icon());
-            BookText.drawItemCentered(context, textRenderer, required, icon.x(), icon.y());
-
-            BookText.drawScaledText(context, textRenderer, quest.title() + " · T" + quest.tier(), false,
-                    origin.plus(title()), INK_TITLE);
-
-            int held = player.getInventory().count(quest.requiredItem());
-            int shown = Math.min(held, quest.requiredCount());
-            int color = shown >= quest.requiredCount() ? INK_READY : INK_BODY;
-            BookText.drawScaledText(context, textRenderer, shown + "/" + quest.requiredCount() + " gathered", false,
-                    origin.plus(info()), color);
-        }
-    }
-
-    private record Offer(Rect2i title, Rect2i desc, Point icon, Rect2i accept, Rect2i tag, Rect2i info) {
-        private static final Size  TITLE_SIZE   = new Size(82, 10);
-
-        private static final Point DESC_OFFSET  = new Point(0, 12);
-        private static final Size  DESC_SIZE    = new Size(125, 10);
-
-        private static final Point ICON_OFFSET  = new Point(-14, 12);
-
-        private static final Point ACCEPT_OFFSET = new Point(83, 28);
-        private static final Size  ACCEPT_SIZE   = new Size(45, 12);
-
-        private static final Point TAG_OFFSET   = new Point(86, 0);
-        private static final Size  TAG_SIZE     = new Size(38, 10);
-
-        private static final Point INFO_OFFSET  = new Point(-26, 33);
-        private static final Size  INFO_SIZE    = new Size(106, 10);   // trade line
-
-        static Offer at(Point title) {
-            Point desc = title.plus(DESC_OFFSET);
-            Point icon = title.plus(ICON_OFFSET);
-            Point accept = title.plus(ACCEPT_OFFSET);
-            Point tag = title.plus(TAG_OFFSET);
-            Point info = title.plus(INFO_OFFSET);
-            return new Offer(
-                    title.rect(TITLE_SIZE),
-                    desc.rect(DESC_SIZE),
-                    icon,
-                    accept.rect(ACCEPT_SIZE),
-                    tag.rect(TAG_SIZE),
-                    info.rect(INFO_SIZE));
-        }
-
-        void renderCard(DrawContext context, Point origin, TextRenderer textRenderer, QuestProgressComponent progress, Quest quest) {
-            boolean done = progress.hasCompleted(quest.id());
-            boolean sworn = progress.isActive(quest.id());
-            boolean dimmed = done || sworn;
-
-            int titleColor = dimmed ? INK_DIM : INK_TITLE;
-            int bodyColor = dimmed ? INK_DIM : INK_BODY;
-
-            ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
-            Point icon = origin.plus(icon());
-            BookText.drawItemCentered(context, textRenderer, required, icon.x(), icon.y());
-
-            BookText.drawScaledText(context, textRenderer, quest.title(), false,
-                    origin.plus(title()), titleColor);
-
-            if (sworn || done) {
-                BookText.drawScaledText(context, textRenderer, done ? "done" : "accepted", true,
-                        origin.plus(tag()), INK_TAG);
-            }
-
-            BookText.drawScaledText(context, textRenderer, quest.lore(), true,
-                    origin.plus(desc()), bodyColor);
-
-            // show full reward eventually somehow
-            String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-            + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
-
-            BookText.drawScaledText(context, textRenderer, req, false,
-                    origin.plus(info()), bodyColor);
-        }
-    }
-
-    // layout
-
-    private static final int BOOK_WIDTH = 420;
-    private static final int BOOK_HEIGHT = 234;
-    private static final int PAGE_SPLIT = BOOK_WIDTH / 2;
-
-    // banner
-    private static final Point BANNER_COUNT = new Point(109, 19);
-
-    // left page - bargain cards, still called oath in code. habits hard to break
-    private static final Oath[] OATHS = {   // x=66..174
-            Oath.at(new Point(66, 52)),
-            Oath.at(new Point(66, 106)),
-            Oath.at(new Point(66, 161)),
-    };
-
-    // right page - header
-    private static final int RIGHT_CX = 314;                       // header/title center
-    private static final int RIGHT_TITLE_Y = 22;
-    private static final int RIGHT_SUB_Y = 30;
-    private static final int RIGHT_HEADER_W = 120;                 // safe 251..380
-
-    // right page - offer cards
-    private static final Offer[] OFFERS = {
-            Offer.at(new Point(268, 55)),
-            Offer.at(new Point(268, 108)),
-            Offer.at(new Point(268, 163)),
-    };
-
-    // controls for buttons
-    private static final Rect2i DICE = new Rect2i(299, 201, 18, 16);      // reroll
-    private static final Rect2i HELP = new Rect2i(164, 17, 18, 26);       // "?" glyph (center 173,30)
-    private static final Rect2i NAV_L = new Rect2i(239, 22, 11, 16);
-    private static final Rect2i NAV_R = new Rect2i(381, 22, 11, 16);
-
-    // back/accept buttons shared by detail and help modes
-    private static final Rect2i DETAIL_BACK = new Rect2i(234, 195, 45, 12);
-    private static final Rect2i DETAIL_ACCEPT = new Rect2i(349, 195, 45, 12);
-    private static final Rect2i HELP_BACK = new Rect2i(30, 195, 45, 12);
-
-
-    // PALETTE - adjust carefully
-
-    private static final int INK_TITLE = 0xFF4A2E1A;
-    private static final int INK_BODY = 0xFF5C4732;
-    private static final int INK_DIM = 0xFF8A785F;
-    private static final int INK_READY = 0xFF2F6B2F;               // gathered-complete green
-    private static final int INK_TAG = 0xFF6E3B1F;                 // accepted tag
-    private static final int BANNER_INK = 0xFFEAF6F6;              // light on blue banner
-
-    private static final Identifier BOOK_TEXTURE =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/grimoire_book.png");
-    private static final boolean USE_TEXTURE = true;
-
-    // button sprites
-    private static final Identifier SPRITE_TURNIN =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/accept_arrow.png");
-    private static final Identifier SPRITE_ACCEPT =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/accept_arrow.png");
-    private static final Identifier SPRITE_DICE =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/dice.png");
-    private static final Identifier SPRITE_NAV_L =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/nav_left.png");
-    private static final Identifier SPRITE_NAV_R =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/nav_right.png");
-    private static final Identifier SPRITE_BACK =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/back_arrow.png");
-
-    // mode backgrounds
-    private static final Identifier TEXTURE_DETAIL =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/grimoire_book_detail.png");
-    private static final Identifier TEXTURE_HELP =
-            new Identifier(Grimoire.MOD_ID, "textures/gui/grimoire_book_help.png");
-
-    // help page layout, text edits in HelpText java
-    private static final Point HELP_HEADER = new Point(109, 30);
-    private static final Rect2i HELP_L = new Rect2i(38, 56, 145, 145);
-    private static final Rect2i HELP_R = new Rect2i(241, 33, 145, 210);
 
     private Point bookTopLeft;
     private int pageIndex = 0;
@@ -230,11 +30,8 @@ public class GrimoireScreen extends Screen {
     private boolean showHelp = false;          // true = help mode (beats detail)
     private int stateSnapshot;
 
-    private final List<BookPage> pages = new ArrayList<>();
-    private final List<Quest> actives = new ArrayList<>();
-
-    private record BookPage(int tier, List<Quest> entries, boolean locked) {
-    }
+    private List<BookPage> pages = new ArrayList<>();
+    private List<Quest> actives = new ArrayList<>();
 
     public GrimoireScreen() {
         super(Text.literal("Book of Bargains"));
@@ -246,11 +43,11 @@ public class GrimoireScreen extends Screen {
     @Override
     protected void init() {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(this.client.player);
-        this.stateSnapshot = snapshot(progress);
+        this.stateSnapshot = BookPages.snapshot(progress);
         this.bookTopLeft = new Point((this.width - BOOK_WIDTH) / 2, (this.height - BOOK_HEIGHT) / 2);
 
-        buildActives(progress);
-        buildPages(progress);
+        this.actives = BookPages.buildActives(progress);
+        this.pages = BookPages.buildPages(progress);
         if (pageIndex >= pages.size()) pageIndex = pages.size() - 1;
         if (pageIndex < 0) pageIndex = 0;
 
@@ -401,78 +198,60 @@ public class GrimoireScreen extends Screen {
                 .withSprite(SPRITE_DICE));
     }
 
-
-    // data builders
-
-    private void buildActives(QuestProgressComponent progress) {
-        actives.clear();
-        for (Quest quest : ClientQuestCache.QUESTS) {
-            if (progress.isActive(quest.id())) {
-                actives.add(quest);
-            }
-        }
-    }
-
-    private void buildPages(QuestProgressComponent progress) {
-        pages.clear();
-        int unlocked = highestUnlockedTier(progress);
-
-        List<Integer> tierNumbers = new ArrayList<>(ClientQuestCache.TIERS.keySet());
-        tierNumbers.sort(Integer::compareTo);
-
-        for (int tier : tierNumbers) {
-            if (tier > unlocked) {
-                pages.add(new BookPage(tier, List.of(), true));
-                continue;
-            }
-            List<Quest> entries = new ArrayList<>();
-            for (String id : progress.getOffered(tier)) {
-                Quest quest = ClientQuestCache.byId(id);
-                if (quest != null) {
-                    entries.add(quest);
-                }
-            }
-            pages.add(new BookPage(tier, entries, false));
-        }
-
-        if (pages.isEmpty()) {
-            pages.add(new BookPage(1, List.of(), false));
-        }
-    }
-
-    private int highestUnlockedTier(QuestProgressComponent progress) {
-        int tier = 1;
-        while (ClientQuestCache.TIERS.containsKey(tier + 1)) {
-            TierConfig config = ClientQuestCache.TIERS.get(tier);
-            if (config != null && progress.getCompletions(tier) >= config.completionsToUnlockNext()) {
-                tier++;
-            } else {
-                break;
-            }
-        }
-        return tier;
-    }
-
     // live reroll snapshot: counts + per-tier offer identities
-    private int snapshot(QuestProgressComponent progress) {
-        int snap = 0;
-        snap = snap * 31 + progress.getCompletedCount();
-        snap = snap * 31 + progress.getActiveCount();
-        for (int tier : ClientQuestCache.TIERS.keySet()) {
-            snap = snap * 31 + progress.getOffered(tier).hashCode();
-        }
-        return snap;
-    }
+
 
     @Override
     public void tick() {
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(this.client.player);
-        if (snapshot(progress) != this.stateSnapshot) {
+        if (BookPages.snapshot(progress) != this.stateSnapshot) {
             this.clearAndInit();
         }
     }
 
+    private void drawOathCard(DrawContext context, Oath oath, Quest quest) {
+        ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
+        Point icon = bookTopLeft.plus(oath.icon());
+        BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
 
+        BookText.drawScaledText(context, this.textRenderer, quest.title() + " · T" + quest.tier(), false,
+                bookTopLeft.plus(oath.title()), INK_TITLE);
+
+        int held = this.client.player.getInventory().count(quest.requiredItem());
+        int shown = Math.min(held, quest.requiredCount());
+        int color = shown >= quest.requiredCount() ? INK_READY : INK_BODY;
+        BookText.drawScaledText(context, this.textRenderer, shown + "/" + quest.requiredCount() + " gathered", false,
+                bookTopLeft.plus(oath.info()), color);
+    }
+
+    private void drawOfferCard(DrawContext context, Offer offer, QuestProgressComponent progress, Quest quest) {
+        boolean done = progress.hasCompleted(quest.id());
+        boolean sworn = progress.isActive(quest.id());
+        boolean dimmed = done || sworn;
+
+        int titleColor = dimmed ? INK_DIM : INK_TITLE;
+        int bodyColor = dimmed ? INK_DIM : INK_BODY;
+
+        ItemStack required = new ItemStack(quest.requiredItem(), Math.min(quest.requiredCount(), 64));
+        Point icon = bookTopLeft.plus(offer.icon());
+        BookText.drawItemCentered(context, this.textRenderer, required, icon.x(), icon.y());
+
+        BookText.drawScaledText(context, this.textRenderer, quest.title(), false,
+                bookTopLeft.plus(offer.title()), titleColor);
+
+        if (sworn || done) {
+            BookText.drawScaledText(context, this.textRenderer, done ? "done" : "accepted", true,
+                    bookTopLeft.plus(offer.tag()), INK_TAG);
+        }
+
+        BookText.drawScaledText(context, this.textRenderer, quest.lore(), true,
+                bookTopLeft.plus(offer.desc()), bodyColor);
+
+        String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
+                + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
+        BookText.drawScaledText(context, this.textRenderer, req, false,
+                bookTopLeft.plus(offer.info()), bodyColor);
+    }
     // render - background, left page, right page (mode-branched)
 
     @Override
@@ -507,7 +286,7 @@ public class GrimoireScreen extends Screen {
 
         for (int i = 0; i < OATHS.length; i++) {
             if (i < actives.size()) {
-                OATHS[i].renderCard(context, bookTopLeft, this.textRenderer, this.client.player, actives.get(i));
+                drawOathCard(context, OATHS[i], actives.get(i));
             } else {
                 BookText.drawScaledText(context, this.textRenderer, "-- empty bargain --", true,
                         bookTopLeft.plus(OATHS[i].info()), INK_DIM);
@@ -569,7 +348,8 @@ public class GrimoireScreen extends Screen {
         }
 
         for (int i = 0; i < page.entries().size(); i++) {
-            OFFERS[i].renderCard(context, bookTopLeft, this.textRenderer, progress, page.entries().get(i));
+            drawOfferCard(context, OFFERS[i], progress, page.entries().get(i));
+
         }
     }
 

@@ -1,4 +1,4 @@
-package grimoire.modid.client;
+package grimoire.modid.client.book;
 
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ButtonWidget;

@@ -1,4 +1,4 @@
-package grimoire.modid.client;
+package grimoire.modid.client.book;
 
 // this is where I edit help text before future me fixes it in 1.1
 public class HelpText {

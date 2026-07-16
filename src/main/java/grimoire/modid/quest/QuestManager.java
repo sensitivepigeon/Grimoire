@@ -58,7 +58,6 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
 
                 String lore = getStringOr(json, "lore", "");
                 String description = getStringOr(json, "description", "");
-                Grimoire.LOGGER.warn("Hey bubby description: " + description);
 
 
                 String patron = getStringOr(json, "patron", "");
