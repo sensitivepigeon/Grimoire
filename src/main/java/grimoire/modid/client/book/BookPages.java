@@ -29,6 +29,17 @@ final class BookPages {
         return actives;
     }
 
+    // Lifetime completions!
+    static List<Quest> buildCodex(QuestProgressComponent progress) {
+        List<Quest> completed = new ArrayList<>();
+        for (String id : progress.getLifetimeCompleted()) {
+            Quest quest = ClientQuestCache.byId(id);
+            if (quest != null) {
+                completed.add(quest);   // null = lost bargain, vanishes
+            }
+        }
+        return completed;
+    }
 
     static List<BookPage> buildPages(QuestProgressComponent progress) {
         List<BookPage> pages = new ArrayList<>();

@@ -1,7 +1,6 @@
 package grimoire.modid.client.book;
 
 import grimoire.modid.client.ClientQuestCache;
-import grimoire.modid.client.IndexText;
 import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
 import grimoire.modid.network.ModNetworking;
@@ -18,6 +17,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import static grimoire.modid.client.book.BookLayout.*;
 import grimoire.modid.client.book.BookPages.BookPage;
+import grimoire.modid.client.book.IndexText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +29,12 @@ public class GrimoireScreen extends Screen {
     private int pageIndex = 0;
     private Mode mode = Mode.BOARD;            // single source of truth for mode
     private Quest detailQuest = null;
+    private Mode detailReturn = Mode.BOARD;
     private int stateSnapshot;
 
     private List<BookPage> pages = new ArrayList<>();
     private List<Quest> actives = new ArrayList<>();
+    private List<Quest> codexEntries = new ArrayList<>();
 
     public GrimoireScreen() {
         super(Text.literal("Book of Bargains"));
@@ -55,7 +57,7 @@ public class GrimoireScreen extends Screen {
         switch (mode) {
             case INDEX -> { initIndexMode(); return; }
             case HELP  -> { initHelpMode();  return; }
-            case CODEX -> { initCodexMode(); return; }
+            case CODEX -> { initCodexMode(progress); return; }
             default -> { }   // BOARD or DETAIL continue below
         }
 
@@ -93,13 +95,29 @@ public class GrimoireScreen extends Screen {
         }));
     }
 
-    private void initCodexMode() {
+    private void initCodexMode(QuestProgressComponent progress) {
+        this.codexEntries = BookPages.buildCodex(progress);
+
         this.addDrawableChild(new HitboxButton(
                 bookTopLeft.plus(HELP_BACK),
                 Text.literal("Back"), b -> {
-            this.mode = Mode.INDEX;   // Codex Back returns to the hub
+            this.mode = Mode.INDEX;
             this.clearAndInit();
         }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
+
+        int shown = Math.min(codexEntries.size(), CODEX_ROWS_PER_PAGE);
+        for (int i = 0; i < shown; i++) {
+            final Quest q = codexEntries.get(i);
+            if (q.description().isEmpty()) continue;
+            this.addDrawableChild(new HitboxButton(
+                    codexRow(i),
+                    Text.literal(q.title()), b -> {
+                this.detailQuest = q;
+                this.detailReturn = Mode.CODEX;
+                this.mode = Mode.DETAIL;
+                this.clearAndInit();
+            }));
+        }
     }
 
     private void initHelpMode() {
@@ -133,6 +151,7 @@ public class GrimoireScreen extends Screen {
                         bookTopLeft.plus(OATHS[i].title()),
                         Text.literal("More"), b -> {
                     this.detailQuest = q;
+                    this.detailReturn = Mode.BOARD;
                     this.mode = Mode.DETAIL;
                     this.clearAndInit();
                 }));
@@ -163,7 +182,7 @@ public class GrimoireScreen extends Screen {
         this.addDrawableChild(new HitboxButton(
                 bookTopLeft.plus(DETAIL_BACK),
                 Text.literal("Back"), b -> {
-            this.mode = Mode.BOARD;
+            this.mode = detailReturn;
             this.detailQuest = null;
             this.clearAndInit();
         }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
@@ -172,7 +191,8 @@ public class GrimoireScreen extends Screen {
         boolean sworn = progress.isActive(detailQuest.id());
         boolean atCap = progress.getActiveCount() >= OATHS.length;
 
-        if (!sworn && !done) {
+
+        if (detailReturn != Mode.CODEX && !sworn && !done) {
             final String id = detailQuest.id();
             HitboxButton accept = new HitboxButton(
                     bookTopLeft.plus(DETAIL_ACCEPT),
@@ -204,6 +224,7 @@ public class GrimoireScreen extends Screen {
                             bookTopLeft.plus(OFFERS[i].title()),
                             Text.literal("More"), b -> {
                         this.detailQuest = q;
+                        this.detailReturn = Mode.BOARD;
                         this.mode = Mode.DETAIL;
                         this.clearAndInit();
                     }));
@@ -311,9 +332,12 @@ public class GrimoireScreen extends Screen {
 
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(this.client.player);
 
-       if (mode == Mode.BOARD || mode == Mode.DETAIL) {
-            drawLeftPage(context);
-        }
+       if (mode == Mode.BOARD || (mode == Mode.DETAIL && detailReturn != Mode.CODEX)) {
+           drawLeftPage(context);
+       } else if (mode == Mode.DETAIL) {
+           drawCodexLeft(context);
+       }
+
         drawRightPage(context, progress);
 
         super.render(context, mouseX, mouseY, delta);
@@ -419,17 +443,49 @@ public class GrimoireScreen extends Screen {
                     row.getX(), row.getY(), row.getWidth(), INK_TITLE);
         }
     }
-
-    private void drawCodexPage(DrawContext context) {
+    private void drawCodexLeft(DrawContext context) {
         Point header = bookTopLeft.plus(HELP_HEADER);
         BookText.drawCenteredNoShadow(context, this.textRenderer, "The Codex",
                 header.x(), header.y(), INK_TITLE);
 
         Rect2i left = bookTopLeft.plus(HELP_L);
-        BookText.drawWrappedTextScaledToFit(context, this.textRenderer,
-                "Codex coming soon.",
+        BookText.drawWrappedTextScaledToFit(context, this.textRenderer, CodexText.LEFT,
                 left.getX(), left.getY(), left.getWidth(), left.getHeight(), INK_BODY);
     }
+
+    private void drawCodexPage(DrawContext context) {
+        drawCodexLeft(context);
+        Point header = bookTopLeft.plus(HELP_HEADER);
+        BookText.drawCenteredNoShadow(context, this.textRenderer, "The Codex",
+                header.x(), header.y(), INK_TITLE);
+
+        Rect2i left = bookTopLeft.plus(HELP_L);
+        BookText.drawWrappedTextScaledToFit(context, this.textRenderer, CodexText.LEFT,
+                left.getX(), left.getY(), left.getWidth(), left.getHeight(), INK_BODY);
+
+        if (codexEntries.isEmpty()) {
+            Rect2i right = bookTopLeft.plus(HELP_R);
+            BookText.drawWrappedTextScaledToFit(context, this.textRenderer, CodexText.EMPTY,
+                    right.getX(), right.getY(), right.getWidth(), right.getHeight(), INK_DIM);
+            return;
+        }
+
+        int shown = Math.min(codexEntries.size(), CODEX_ROWS_PER_PAGE);
+        for (int i = 0; i < shown; i++) {
+            Rect2i row = codexRow(i);
+            BookText.drawScaledText(context, this.textRenderer,
+                    "§l" + (i + 1) + ". " + codexEntries.get(i).title(), false,
+                    row.getX(), row.getY(), row.getWidth(), INK_TITLE);
+        }
+    }
+
+
+    private Rect2i codexRow(int i) {
+        Rect2i base = bookTopLeft.plus(CODEX_ROW);
+        return new Rect2i(base.getX(), base.getY() + i * CODEX_ROW_PITCH,
+                base.getWidth(), base.getHeight());
+    }
+
     // detail mode layout
     private void drawDetailPage(DrawContext context, QuestProgressComponent progress) {
         Quest quest = detailQuest;
@@ -485,9 +541,9 @@ public class GrimoireScreen extends Screen {
 
             Identifier tex = switch (mode) {
                 case HELP  -> TEXTURE_HELP;
-                case INDEX -> TEXTURE_HELP;   // borrowing help spread for now
-                case CODEX -> TEXTURE_HELP;   // borrowing help spread for now
-                case DETAIL -> TEXTURE_DETAIL;
+                case INDEX -> TEXTURE_HELP;
+                case CODEX -> TEXTURE_HELP;
+                case DETAIL -> detailReturn == Mode.CODEX ? TEXTURE_HELP : TEXTURE_DETAIL;
                 default -> sealedBoard ? TEXTURE_DETAIL : BOOK_TEXTURE;   // BOARD
             };
 

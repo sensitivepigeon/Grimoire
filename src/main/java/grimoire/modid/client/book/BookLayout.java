@@ -169,6 +169,12 @@ final class BookLayout {
     static final Identifier TEXTURE_HELP =
             new Identifier(Grimoire.MOD_ID, "textures/gui/grimoire_book_help.png");
 
+
+    // codex rows (right page) - placeholders to refine
+    static final Rect2i CODEX_ROW = new Rect2i(241, 56, 140, 10);   // row 0
+    static final int CODEX_ROW_PITCH = 12;
+    static final int CODEX_ROWS_PER_PAGE = 11;
+
     // help page layout, text edits in HelpText java
     static final Point HELP_HEADER = new Point(109, 30);
     static final Rect2i HELP_L = new Rect2i(38, 56, 145, 145);
