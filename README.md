@@ -1,15 +1,15 @@
-# Grimoire (Fabric)
+# Grimoire 1.1 (Fabric)
 
 <img width="1540" height="894" alt="java_l8psx0djsm-png" src="https://github.com/user-attachments/assets/b61bd48b-463a-4777-96fb-3f3166204fa1" />
 
 ## Features
 *Release version 1.1.0 for Minecraft 1.20.1.*
 
-**Hello, You.** Full Changelog for 1.1 Update HERE. (Wiki Link added on release)
+**Hello, You.** Full Changelog for 1.1 Update [HERE](https://github.com/sensitivepigeon/QuestTome/wiki/Changelogs-(Updated-1.1))
 
 
 
-Grimoire adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
+**Grimoire** adds the **Book of Bargains**, an item players use to view available Bargains (bounty-style quests) for the taking. Accepting an offered bargain will put you in progress to earn its reward and additional glory! Higher tiers of bargains unlock over time and offer increasingly rare rewards, making consistent daily bounty completion a draw for active players looking to acquire difficult resources.
 
 It works well together with other progression mods, acting as a bridge over difficult grinds by offering interesting and alternative methods of acquiring items.
 
