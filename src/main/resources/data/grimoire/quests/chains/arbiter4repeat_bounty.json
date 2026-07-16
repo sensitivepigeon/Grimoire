@@ -1,0 +1,17 @@
+{
+  "title": "[!] Research: Tier IV",
+  "lore": "The research continues.",
+  "description": "Should you require more copies, payment is required up front. \n  §n The Arbiter \n [!] §oThis is part of a quest chain that unlocks across tiers.",
+  "patron": "arbiter",
+  "format": 1,
+  "tier": 4,
+  "required_item": "minecraft:diamond",
+  "required_count": 25,
+  "rewards": [
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:protection\",lvl:4s}]}" },
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\",lvl:4s}]}" }
+  ],
+  "requires_quest": ["chains/arbiter_bounty", "chains/arbiter4_bounty"]
+}

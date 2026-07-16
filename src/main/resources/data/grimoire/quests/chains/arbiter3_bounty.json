@@ -1,0 +1,18 @@
+{
+  "title": "[!] Research: Tier III",
+  "lore": "The research succeeds.",
+  "description": "Significant progress has been made for fascinating results. Provide us materials, and we will grant you a copy. \n  §n The Arbiter \n [!] §oThis is part of a quest chain that unlocks across tiers.",
+  "patron": "arbiter",
+  "format": 1,
+  "tier": 3,
+  "required_item": "minecraft:iron_ingot",
+  "required_count": 35,
+  "rewards": [
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:protection\",lvl:3s}]}" },
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\",lvl:3s}]}" }
+  ],
+  "requires_quest": ["chains/arbiter_bounty", "chains/arbiter2_bounty"],
+  "repeatable": false
+}

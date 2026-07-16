@@ -1,0 +1,18 @@
+{
+  "title": "[!] Research: Tier V",
+  "lore": "The research succeeds.",
+  "description": "We have achieved the pinnacle of what is possible in your realm. Provide us materials, and we will grant you a copy. \n  §n The Arbiter \n [!] §oThis is part of a quest chain that unlocks across tiers.",
+  "patron": "arbiter",
+  "format": 1,
+  "tier": 5,
+  "required_item": "minecraft:diamond",
+  "required_count": 30,
+  "rewards": [
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:protection\",lvl:5s}]}" },
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\",lvl:5s}]}" }
+  ],
+  "requires_quest": ["chains/arbiter_bounty", "chains/arbiter4_bounty"],
+  "repeatable": false
+}

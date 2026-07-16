@@ -1,0 +1,18 @@
+{
+  "title": "[!] Research: Tier I",
+  "lore": "The research succeeds.",
+  "description": "Significant progress has been made, at a cost. Elements of enchantment have coalesced in the runes. Here, a copy if you provide materials. \n  §n The Arbiter \n [!] §oThis is part of a quest chain that unlocks across tiers.",
+  "patron": "arbiter",
+  "format": 1,
+  "tier": 1,
+  "required_item": "minecraft:iron_sword",
+  "required_count": 1,
+  "rewards": [
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:protection\",lvl:1s}]}" },
+    { "item": "minecraft:enchanted_book", "count": 1,
+      "nbt": "{StoredEnchantments:[{id:\"minecraft:sharpness\",lvl:1s}]}" }
+  ],
+  "requires_quest": "chains/arbiter_bounty",
+  "repeatable": false
+}
