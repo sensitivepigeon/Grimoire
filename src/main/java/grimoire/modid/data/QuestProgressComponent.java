@@ -105,6 +105,10 @@ public class QuestProgressComponent implements ComponentV3, AutoSyncedComponent 
 
     // this is for lifetime completions for quests
 
+    public List<String> getLifetimeCompleted() {
+        return Collections.unmodifiableList(lifetimeCompletedQuests);
+    }
+
     public boolean recordLifetimeCompletion(String questId) {
         if (lifetimeCompletedQuests.contains(questId)) {
             return false;
