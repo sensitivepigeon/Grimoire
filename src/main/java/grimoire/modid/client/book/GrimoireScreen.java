@@ -355,10 +355,22 @@ public class GrimoireScreen extends Screen {
                 bookTopLeft.plus(offer.desc()), bodyColor);
 
         String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-                + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
+                + " → " + rewardText(quest);
         BookText.drawScaledText(context, this.textRenderer, req, false,
                 bookTopLeft.plus(offer.info()), bodyColor);
     }
+    private static String rewardText(Quest quest) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < quest.rewards().size(); i++) {
+            if (i > 0) sb.append(", ");
+            var r = quest.rewards().get(i);
+            sb.append(r.count()).append(" × ").append(r.item().getName().getString());
+        }
+        return sb.toString();
+    }
+
+
+
     // render - background, left page, right page (mode-branched)
 
    @Override
@@ -543,14 +555,13 @@ public class GrimoireScreen extends Screen {
         context.drawItem(required, x, tradeY);
         context.drawItemInSlot(this.textRenderer, required, x, tradeY);
 
-        //show full soon
-        String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
-                + " → " + quest.rewards().get(0).count() + " × " + quest.rewards().get(0).item().getName().getString();
-        BookText.drawScaledText(context, this.textRenderer, req, false,
-                x + 22, tradeY + 4, textWidth - 22, INK_BODY);
 
+        String req = quest.requiredCount() + " × " + quest.requiredItem().getName().getString()
+                + " → " + rewardText(quest);
+        int afterTrade = BookText.drawWrappedText(context, this.textRenderer, req,
+                x + 22, tradeY + 4, textWidth - 22, INK_BODY);
         BookText.drawWrappedText(context, this.textRenderer, quest.description(),
-                x, tradeY + 26, textWidth, INK_BODY);
+                x, Math.max(afterTrade, tradeY + 26), textWidth, INK_BODY);
     }
 
 
