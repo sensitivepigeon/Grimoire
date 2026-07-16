@@ -44,8 +44,6 @@ public class HitboxButton extends ButtonWidget {
             context.drawText(tr, this.getMessage(),
                     getX() + (width - tw) / 2, getY() + (height - 8) / 2, labelColor, false);
         }
-        if (this.isHovered() && this.active) {
-            context.fill(getX(), getY(), getX() + width, getY() + height, 0x30FFFFFF);
-        }
+
     }
 }

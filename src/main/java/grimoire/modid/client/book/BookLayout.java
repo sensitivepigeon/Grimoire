@@ -30,7 +30,7 @@ final class BookLayout {
     }
 
     // turn-in arrows now use arrow sprite but i misnamed it sorry
-    record Oath(Rect2i title, Rect2i info, Point icon, Rect2i chevron) {
+    record Oath(Rect2i title, Rect2i info, Point icon, Rect2i chevron, Rect2i cancel) {
         private static final Size  TEXT_SIZE      = new Size(108, 10);
 
         private static final Point INFO_OFFSET    = new Point(0, 14);
@@ -40,15 +40,21 @@ final class BookLayout {
         private static final Point CHEVRON_OFFSET = new Point(66, 25);
         private static final Size  CHEVRON_SIZE   = new Size(44, 12);
 
+        private static final Point CANCEL_OFFSET  = new Point(-40, -5);   // PLACEHOLDER — you'll tune
+        private static final Size  CANCEL_SIZE    = new Size(16, 16);     // must match icon_x.png
+
+
         static Oath at(Point title) {
             Point info = title.plus(INFO_OFFSET);
             Point icon = title.plus(ICON_OFFSET);
             Point chevron = title.plus(CHEVRON_OFFSET);
+            Point cancel = title.plus(CANCEL_OFFSET);
             return new Oath(
                     title.rect(TEXT_SIZE),
                     info.rect(TEXT_SIZE),
                     icon,
-                    chevron.rect(CHEVRON_SIZE));
+                    chevron.rect(CHEVRON_SIZE),
+                    cancel.rect(CANCEL_SIZE));
         }
     }
 
@@ -153,6 +159,8 @@ final class BookLayout {
             new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/nav_right.png");
     static final Identifier SPRITE_BACK =
             new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/back_arrow.png");
+    static final Identifier SPRITE_CANCEL =
+            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/icon_x.png");
 
     // mode backgrounds
     static final Identifier TEXTURE_DETAIL =

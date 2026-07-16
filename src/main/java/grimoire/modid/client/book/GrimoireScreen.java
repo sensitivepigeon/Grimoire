@@ -108,6 +108,16 @@ public class GrimoireScreen extends Screen {
                 buf.writeString(id);
                 ClientPlayNetworking.send(ModNetworking.TURN_IN_QUEST, buf);
             }).withSprite(SPRITE_TURNIN).withLabel(0xFF2F3D1A));
+
+
+            final String cancelId = actives.get(i).id();
+            this.addDrawableChild(new HitboxButton(
+                    bookTopLeft.plus(OATHS[i].cancel()),
+                    Text.literal("Cancel"), b -> {
+                PacketByteBuf buf = PacketByteBufs.create();
+                buf.writeString(cancelId);
+                ClientPlayNetworking.send(ModNetworking.CANCEL_QUEST, buf);
+            }).withSprite(SPRITE_CANCEL));
         }
     }
 
