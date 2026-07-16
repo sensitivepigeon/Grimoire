@@ -53,7 +53,7 @@ public class ClientQuestCache {
                 for (int r = 0; r < rewardNumber; r++) {
                     Item rewardItem = Registries.ITEM.get(new Identifier(buf.readString()));
                     int rewardCount = buf.readInt();
-                    rewards.add(new RewardEntry(rewardItem, rewardCount));
+                    rewards.add(new RewardEntry(rewardItem, rewardCount, ""));
                 }
 
                 boolean repeatable = buf.readBoolean();

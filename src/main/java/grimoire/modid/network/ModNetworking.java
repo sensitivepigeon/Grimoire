@@ -17,6 +17,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.StringNbtReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import static grimoire.modid.quest.BountyBoard.allPrerequisitesMet;
 
@@ -167,7 +170,24 @@ public class ModNetworking {
                             player.playerScreenHandler.getCraftingInput()
                     );
                     for (RewardEntry reward : quest.rewards()) {
-                        player.giveItemStack(new ItemStack(reward.item(), reward.count()));
+                        NbtCompound tag = null;
+                        if (!reward.nbt().isEmpty()) {
+                            try {
+                                tag = StringNbtReader.parse(reward.nbt());
+                            } catch (CommandSyntaxException e) {
+                                Grimoire.LOGGER.warn("Reward NBT could not be parsed, granting plain item instead: {}", reward.nbt(), e);
+                            }
+                        }
+
+                        if (tag == null) {
+                            player.giveItemStack(new ItemStack(reward.item(), reward.count()));
+                        } else {
+                            for (int n = 0; n < reward.count(); n++) {
+                                ItemStack stack = new ItemStack(reward.item());
+                                stack.setNbt(tag.copy());
+                                player.giveItemStack(stack);
+                            }
+                        }
                     }
 
                     progress.removeActive(questId);

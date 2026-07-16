@@ -132,7 +132,8 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
                     continue;
                 }
 
-                rewards.add(new RewardEntry(rewardItem, rewardCount));
+                String nbt = rewardJson.has("nbt") ? rewardJson.get("nbt").getAsString() : "";
+                rewards.add(new RewardEntry(rewardItem, rewardCount, nbt));
             }
 
             return rewards;
@@ -142,7 +143,7 @@ public class QuestManager implements SimpleSynchronousResourceReloadListener {
         Integer rewardCount = requirePositiveInt(json, "reward_count", fileName);
 
         if (rewardItem != null && rewardCount != null) {
-            rewards.add(new RewardEntry(rewardItem, rewardCount));
+            rewards.add(new RewardEntry(rewardItem, rewardCount, ""));
         }
 
         return rewards;
