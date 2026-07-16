@@ -1,6 +1,7 @@
 package grimoire.modid.client.book;
 
 import grimoire.modid.client.ClientQuestCache;
+import grimoire.modid.client.IndexText;
 import grimoire.modid.data.ModComponents;
 import grimoire.modid.data.QuestProgressComponent;
 import grimoire.modid.network.ModNetworking;
@@ -23,11 +24,11 @@ import java.util.List;
 
 public class GrimoireScreen extends Screen {
 
-
+    private enum Mode { BOARD, DETAIL, HELP, INDEX, CODEX }
     private Point bookTopLeft;
     private int pageIndex = 0;
-    private Quest detailQuest = null;          // non-null = detail mode
-    private boolean showHelp = false;          // true = help mode (beats detail)
+    private Mode mode = Mode.BOARD;            // single source of truth for mode
+    private Quest detailQuest = null;
     private int stateSnapshot;
 
     private List<BookPage> pages = new ArrayList<>();
@@ -51,26 +52,62 @@ public class GrimoireScreen extends Screen {
         if (pageIndex >= pages.size()) pageIndex = pages.size() - 1;
         if (pageIndex < 0) pageIndex = 0;
 
-        if (showHelp) {
-            initHelpMode();
-            return;
+        switch (mode) {
+            case INDEX -> { initIndexMode(); return; }
+            case HELP  -> { initHelpMode();  return; }
+            case CODEX -> { initCodexMode(); return; }
+            default -> { }   // BOARD or DETAIL continue below
         }
 
         initHelpButton();
         initOathHitboxes();
 
-        if (detailQuest != null) {
-            initDetailMode(progress);
-        } else {
-            initBoardMode(progress);
+        switch (mode) {
+            case DETAIL -> initDetailMode(progress);
+            default     -> initBoardMode(progress);   // BOARD
         }
+    }
+
+    private void initIndexMode() {
+        this.addDrawableChild(new HitboxButton(
+                bookTopLeft.plus(HELP_BACK),
+                Text.literal("Back"), b -> {
+            this.mode = Mode.BOARD;
+            this.clearAndInit();
+        }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
+
+        // row 0 -> Help
+        this.addDrawableChild(new HitboxButton(
+                bookTopLeft.plus(INDEX_ROWS[0]),
+                Text.literal("Help"), b -> {
+            this.mode = Mode.HELP;
+            this.clearAndInit();
+        }));
+
+        // row 1 -> Codex
+        this.addDrawableChild(new HitboxButton(
+                bookTopLeft.plus(INDEX_ROWS[1]),
+                Text.literal("The Codex: Bargains"), b -> {
+            this.mode = Mode.CODEX;
+            this.clearAndInit();
+        }));
+    }
+
+    private void initCodexMode() {
+        this.addDrawableChild(new HitboxButton(
+                bookTopLeft.plus(HELP_BACK),
+                Text.literal("Back"), b -> {
+            this.mode = Mode.INDEX;   // Codex Back returns to the hub
+            this.clearAndInit();
+        }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
     }
 
     private void initHelpMode() {
         this.addDrawableChild(new HitboxButton(
                 bookTopLeft.plus(HELP_BACK),
                 Text.literal("Back"), b -> {
-            this.showHelp = false;
+            this.mode = Mode.INDEX;   // was Mode.BOARD — Help is reached via Index now
+            this.detailQuest = null;
             this.clearAndInit();
         }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
     }
@@ -79,7 +116,7 @@ public class GrimoireScreen extends Screen {
         this.addDrawableChild(new HitboxButton(
                 bookTopLeft.plus(HELP),
                 Text.literal("?"), b -> {
-            this.showHelp = true;
+            this.mode = Mode.INDEX;   // was Mode.HELP
             this.detailQuest = null;
             this.clearAndInit();
         }));
@@ -96,6 +133,7 @@ public class GrimoireScreen extends Screen {
                         bookTopLeft.plus(OATHS[i].title()),
                         Text.literal("More"), b -> {
                     this.detailQuest = q;
+                    this.mode = Mode.DETAIL;
                     this.clearAndInit();
                 }));
             }
@@ -125,6 +163,7 @@ public class GrimoireScreen extends Screen {
         this.addDrawableChild(new HitboxButton(
                 bookTopLeft.plus(DETAIL_BACK),
                 Text.literal("Back"), b -> {
+            this.mode = Mode.BOARD;
             this.detailQuest = null;
             this.clearAndInit();
         }).withSprite(SPRITE_BACK).withLabel(0xFF2F3D1A));
@@ -165,6 +204,7 @@ public class GrimoireScreen extends Screen {
                             bookTopLeft.plus(OFFERS[i].title()),
                             Text.literal("More"), b -> {
                         this.detailQuest = q;
+                        this.mode = Mode.DETAIL;
                         this.clearAndInit();
                     }));
                 }
@@ -264,15 +304,15 @@ public class GrimoireScreen extends Screen {
     }
     // render - background, left page, right page (mode-branched)
 
-    @Override
+   @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderBackground(context);
         drawBookBackground(context);
 
         QuestProgressComponent progress = ModComponents.QUEST_PROGRESS.get(this.client.player);
 
-        if (!showHelp) {
-            drawLeftPage(context);   // help mode owns the whole spread
+       if (mode == Mode.BOARD || mode == Mode.DETAIL) {
+            drawLeftPage(context);
         }
         drawRightPage(context, progress);
 
@@ -306,13 +346,12 @@ public class GrimoireScreen extends Screen {
 
     // right page mode switching
     private void drawRightPage(DrawContext context, QuestProgressComponent progress) {
-        if (showHelp) {
-            drawHelpPage(context);
-            return;
-        }
-        if (detailQuest != null) {
-            drawDetailPage(context, progress);
-            return;
+        switch (mode) {
+            case HELP  -> { drawHelpPage(context); return; }
+            case DETAIL -> { drawDetailPage(context, progress); return; }
+            case INDEX -> { drawIndexPage(context); return; }
+            case CODEX -> { drawCodexPage(context); return; }
+            default -> { }   // BOARD falls through
         }
 
         BookPage page = pages.get(pageIndex);
@@ -362,7 +401,35 @@ public class GrimoireScreen extends Screen {
 
         }
     }
+    private void drawIndexPage(DrawContext context) {
+        Point header = bookTopLeft.plus(HELP_HEADER);
+        BookText.drawCenteredNoShadow(context, this.textRenderer, "The Book of Bargains",
+                header.x(), header.y(), INK_TITLE);
 
+        Rect2i left = bookTopLeft.plus(HELP_L);
+        BookText.drawWrappedTextScaledToFit(context, this.textRenderer, IndexText.LEFT,
+                left.getX(), left.getY(), left.getWidth(), left.getHeight(), INK_BODY);
+
+        // numbered bold list, right page
+        String[] rows = { "Help", "The Codex: Bargains" };
+        for (int i = 0; i < rows.length; i++) {
+            Rect2i row = bookTopLeft.plus(INDEX_ROWS[i]);
+            BookText.drawScaledText(context, this.textRenderer,
+                    "§l" + (i + 1) + ". " + rows[i], false,
+                    row.getX(), row.getY(), row.getWidth(), INK_TITLE);
+        }
+    }
+
+    private void drawCodexPage(DrawContext context) {
+        Point header = bookTopLeft.plus(HELP_HEADER);
+        BookText.drawCenteredNoShadow(context, this.textRenderer, "The Codex",
+                header.x(), header.y(), INK_TITLE);
+
+        Rect2i left = bookTopLeft.plus(HELP_L);
+        BookText.drawWrappedTextScaledToFit(context, this.textRenderer,
+                "Codex coming soon.",
+                left.getX(), left.getY(), left.getWidth(), left.getHeight(), INK_BODY);
+    }
     // detail mode layout
     private void drawDetailPage(DrawContext context, QuestProgressComponent progress) {
         Quest quest = detailQuest;
@@ -413,12 +480,17 @@ public class GrimoireScreen extends Screen {
 
     private void drawBookBackground(DrawContext context) {
         if (USE_TEXTURE) {
-            boolean sealedBoard = !showHelp && detailQuest == null
+            boolean sealedBoard = mode == Mode.BOARD
                     && !pages.isEmpty() && pages.get(pageIndex).locked();
 
-            Identifier tex = showHelp ? TEXTURE_HELP
-                    : (detailQuest != null || sealedBoard) ? TEXTURE_DETAIL
-                      : BOOK_TEXTURE;
+            Identifier tex = switch (mode) {
+                case HELP  -> TEXTURE_HELP;
+                case INDEX -> TEXTURE_HELP;   // borrowing help spread for now
+                case CODEX -> TEXTURE_HELP;   // borrowing help spread for now
+                case DETAIL -> TEXTURE_DETAIL;
+                default -> sealedBoard ? TEXTURE_DETAIL : BOOK_TEXTURE;   // BOARD
+            };
+
             context.drawTexture(tex, bookTopLeft.x(), bookTopLeft.y(), 0, 0,
                     BOOK_WIDTH, BOOK_HEIGHT, BOOK_WIDTH, BOOK_HEIGHT);
             return;

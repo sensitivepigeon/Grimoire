@@ -7,7 +7,8 @@ import net.minecraft.util.Identifier;
 
 final class BookLayout {
 
-    private BookLayout() {}
+    private BookLayout() {
+    }
 
 
     // shared layout types
@@ -31,17 +32,17 @@ final class BookLayout {
 
     // turn-in arrows now use arrow sprite but i misnamed it sorry
     record Oath(Rect2i title, Rect2i info, Point icon, Rect2i chevron, Rect2i cancel) {
-        private static final Size  TEXT_SIZE      = new Size(108, 10);
+        private static final Size TEXT_SIZE = new Size(108, 10);
 
-        private static final Point INFO_OFFSET    = new Point(0, 14);
+        private static final Point INFO_OFFSET = new Point(0, 14);
 
-        private static final Point ICON_OFFSET    = new Point(-18, 16);
+        private static final Point ICON_OFFSET = new Point(-18, 16);
 
         private static final Point CHEVRON_OFFSET = new Point(66, 25);
-        private static final Size  CHEVRON_SIZE   = new Size(44, 12);
+        private static final Size CHEVRON_SIZE = new Size(44, 12);
 
-        private static final Point CANCEL_OFFSET  = new Point(-40, -5);   // PLACEHOLDER — you'll tune
-        private static final Size  CANCEL_SIZE    = new Size(16, 16);     // must match icon_x.png
+        private static final Point CANCEL_OFFSET = new Point(-40, -5);   // PLACEHOLDER — you'll tune
+        private static final Size CANCEL_SIZE = new Size(16, 16);     // must match icon_x.png
 
 
         static Oath at(Point title) {
@@ -59,21 +60,21 @@ final class BookLayout {
     }
 
     record Offer(Rect2i title, Rect2i desc, Point icon, Rect2i accept, Rect2i tag, Rect2i info) {
-        private static final Size  TITLE_SIZE   = new Size(82, 10);
+        private static final Size TITLE_SIZE = new Size(82, 10);
 
-        private static final Point DESC_OFFSET  = new Point(0, 12);
-        private static final Size  DESC_SIZE    = new Size(125, 10);
+        private static final Point DESC_OFFSET = new Point(0, 12);
+        private static final Size DESC_SIZE = new Size(125, 10);
 
-        private static final Point ICON_OFFSET  = new Point(-14, 12);
+        private static final Point ICON_OFFSET = new Point(-14, 12);
 
         private static final Point ACCEPT_OFFSET = new Point(83, 28);
-        private static final Size  ACCEPT_SIZE   = new Size(45, 12);
+        private static final Size ACCEPT_SIZE = new Size(45, 12);
 
-        private static final Point TAG_OFFSET   = new Point(86, 0);
-        private static final Size  TAG_SIZE     = new Size(38, 10);
+        private static final Point TAG_OFFSET = new Point(86, 0);
+        private static final Size TAG_SIZE = new Size(38, 10);
 
-        private static final Point INFO_OFFSET  = new Point(-26, 33);
-        private static final Size  INFO_SIZE    = new Size(106, 10);   // trade line
+        private static final Point INFO_OFFSET = new Point(-26, 33);
+        private static final Size INFO_SIZE = new Size(106, 10);   // trade line
 
         static Offer at(Point title) {
             Point desc = title.plus(DESC_OFFSET);
@@ -172,4 +173,11 @@ final class BookLayout {
     static final Point HELP_HEADER = new Point(109, 30);
     static final Rect2i HELP_L = new Rect2i(38, 56, 145, 145);
     static final Rect2i HELP_R = new Rect2i(241, 33, 145, 210);
+
+    static final int INDEX_ROW_W = 140;
+    static final int INDEX_ROW_H = 10;   // clickable height per row
+    static final Rect2i[] INDEX_ROWS = {
+            new Rect2i(241, 60, INDEX_ROW_W, INDEX_ROW_H),
+            new Rect2i(241, 80, INDEX_ROW_W, INDEX_ROW_H),
+    };
 }
