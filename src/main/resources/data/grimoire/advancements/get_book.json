@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": { "item": "grimoire:grimoire_tome" },
+    "title": { "translate": "advancement.grimoire.get_book" },
+    "description": { "translate": "advancement.grimoire.get_book.desc" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+  },
+  "criteria": {
+    "got_book": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          { "items": ["grimoire:grimoire_tome"] }
+        ]
+      }
+    }
+  }
+}

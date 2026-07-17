@@ -1,0 +1,16 @@
+{
+  "parent": "grimoire:get_book",
+  "display": {
+    "icon": { "item": "grimoire:grimoire_tome" },
+    "title": { "translate": "advancement.grimoire.first_bargain" },
+    "description": { "translate": "advancement.grimoire.first_bargain.desc" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "completed_a_bargain": {
+      "trigger": "grimoire:bargain_completed"
+    }
+  }
+}

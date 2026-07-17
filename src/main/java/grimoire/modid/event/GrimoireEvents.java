@@ -14,7 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 // wired to modnetworking and bountyboard
 // tier unlocks added later
 
-public class QuestTomeEvents {
+public class GrimoireEvents {
 
     @FunctionalInterface
     public interface BargainAccepted {
