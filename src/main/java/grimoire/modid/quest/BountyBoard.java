@@ -96,7 +96,7 @@ public class BountyBoard {
             QuestTomeEvents.ROTATION_ROLLED.invoker().onRolled(player);
 
             if (player.getInventory().count(ModItems.GRIMOIRE_TOME) > 0) {
-                player.sendMessage(Text.literal("[QuestTome] The Book is updated with new bargains for the day."), false);
+                player.sendMessage(Text.literal("[Grimoire] The Book is updated with new bargains for the day."), false);
             }
         }
     }
@@ -117,7 +117,7 @@ public class BountyBoard {
         long day = currentDay(player);
 
         if (!progress.canManualReroll(day)) {
-            player.sendMessage(Text.literal("[QuestTome] The pages refuse to shuffle again today."), false);
+            player.sendMessage(Text.literal("[Grimoire] The pages refuse to shuffle again today."), false);
             return;
         }
 
@@ -125,7 +125,7 @@ public class BountyBoard {
         rollOffers(progress);
         ModComponents.QUEST_PROGRESS.sync(player);
         QuestTomeEvents.BARGAIN_REROLLED.invoker().onRerolled(player);
-        player.sendMessage(Text.literal("[QuestTome] The Book's pages flutter and rearrange..."), false);
+        player.sendMessage(Text.literal("[Grimoire] The Book's pages flutter and rearrange..."), false);
     }
     // this one was super easy but i almost broke everything here lol. this is a public front door for player quest sweeps
     public static void sweepOrphansFor(ServerPlayerEntity player) {
