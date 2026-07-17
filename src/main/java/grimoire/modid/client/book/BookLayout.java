@@ -104,15 +104,15 @@ final class BookLayout {
 
     // left page - bargain cards, still called oath in code. habits hard to break
     static final Oath[] OATHS = {   // x=66..174
-            Oath.at(new Point(66, 52)),
-            Oath.at(new Point(66, 106)),
-            Oath.at(new Point(66, 161)),
+            Oath.at(new Point(68, 54)),
+            Oath.at(new Point(68, 108)),
+            Oath.at(new Point(68, 163)),
     };
 
     // right page - header
     static final int RIGHT_CX = 314;                       // header/title center
-    static final int RIGHT_TITLE_Y = 22;
-    static final int RIGHT_SUB_Y = 30;
+    static final int RIGHT_TITLE_Y = 24;
+    static final int RIGHT_SUB_Y = 32;
     static final int RIGHT_HEADER_W = 120;                 // safe 251..380
 
     // right page - offer cards
@@ -124,7 +124,7 @@ final class BookLayout {
 
     // controls for buttons
     static final Rect2i DICE = new Rect2i(299, 201, 18, 16);      // reroll
-    static final Rect2i HELP = new Rect2i(164, 17, 18, 26);       // "?" glyph (center 173,30)
+    static final Rect2i HELP = new Rect2i(158, 10, 43, 43);       // "?" glyph (center 173,30)
     static final Rect2i NAV_L = new Rect2i(239, 22, 11, 16);
     static final Rect2i NAV_R = new Rect2i(381, 22, 11, 16);
 
@@ -162,6 +162,8 @@ final class BookLayout {
             new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/back_arrow.png");
     static final Identifier SPRITE_CANCEL =
             new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/icon_x.png");
+    static final Identifier SPRITE_HELP =
+            new Identifier(Grimoire.MOD_ID, "textures/gui/sprites/sigil_help.png");
 
     // mode backgrounds
     static final Identifier TEXTURE_DETAIL =

@@ -173,7 +173,8 @@ public class GrimoireScreen extends Screen {
             this.mode = Mode.INDEX;   // was Mode.HELP
             this.detailQuest = null;
             this.clearAndInit();
-        }));
+        }).withSprite(SPRITE_HELP));
+
     }
 
     // left page turn in hitboxes
@@ -398,13 +399,6 @@ public class GrimoireScreen extends Screen {
                 Text.literal(actives.size() + " of " + OATHS.length + " accepted"),
                 bannerCount.x(), bannerCount.y(), BANNER_INK);
 
-        Rect2i help = bookTopLeft.plus(HELP);
-        context.drawText(this.textRenderer,
-                Text.literal("?"),
-                help.getX() + 6,
-                help.getY() + 8,
-                INK_TITLE,
-                false);
 
         for (int i = 0; i < OATHS.length; i++) {
             if (i < actives.size()) {
