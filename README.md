@@ -1,6 +1,7 @@
 # Grimoire 1.1 (Fabric)
 
-<img width="1540" height="894" alt="java_l8psx0djsm-png" src="https://github.com/user-attachments/assets/b61bd48b-463a-4777-96fb-3f3166204fa1" />
+<img width="1535" height="867" alt="image" src="https://github.com/user-attachments/assets/957b9913-57a0-4613-b29c-1cba6e414ca7" />
+
 
 ## Features
 *Release version 1.1.0 for Minecraft 1.20.1.*
